@@ -1,0 +1,285 @@
+<div class="grid-container" *ngIf="mainMovie">
+  <div class="main-video">
+    <button class="nav-btn left"><img src="assets/1.png" alt="prev"></button>
+    <button class="nav-btn right"><img src="assets/left.png" alt="next"></button>
+
+    <div class="video-thumbnail">
+      <img [src]="getImage(mainMovie.backdrop_path)" [alt]="mainMovie.title" class="thumbnail" />
+    </div>
+
+    <div class="video-info">
+      <div class="video-mini-card">
+        <img [src]="getImage(mainMovie.poster_path)" class="mini-poster" />
+        <div class="mini-overlay" (click)="openTrailer(mainMovie.id)">+</div>
+        <button class="btn" (click)="openTrailer(mainMovie.id)">
+          <img src="assets/play-icon.png" alt="play" class="btn-icon" /> Trailer
+        </button>
+      </div>
+
+      <div class="video-details">
+        <div class="play-and-title">
+          <div class="title-text">
+            <h2>{{ mainMovie.title }}</h2>
+            <p>{{ mainMovie.overview }}</p>
+          </div>
+        </div>
+        <div class="stats">
+          <span>⭐ {{ mainMovie.vote_average }}</span>
+          <span>❤️ {{ mainMovie.vote_count }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="up-next">
+    <h3>Up next</h3>
+    <div class="next-item" *ngFor="let item of upNext">
+      <div class="thumb-container">
+        <img [src]="getImage(item.poster_path)" class="thumbnail" />
+      </div>
+      <div class="next-info">
+        <div class="time-row">
+         <img src="/assets/fi-rs-play.svg" alt="play" class="play-icon" />
+         <p class="time">Trailer</p>
+          <p class="title">{{ item.title }}</p>
+        </div>
+        <p class="stats">
+      <img src="/assets/5.png" class="icon-small" /> {{ item.vote_average }}
+      <img src="assets/heart.png" class="icon-small" /> {{ item.vote_count }}
+    </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ⭐ Featured -->
+<div class="Featured-container">
+  <h1>Featured today</h1>
+  <div class="Features-list">
+    <div class="Features-item" *ngFor="let item of trendingMovies.slice(4,10)">
+      <img [src]="getImage(item.poster_path)" />
+      <p>{{ item.title }}</p>
+    </div>
+  </div>
+</div>
+
+<!-- 👨‍🎤 Celebrities -->
+<div class="Popular-container">
+  <h1>Most Popular Celebrities</h1>
+  <div class="Popular-list">
+    <div class="Popular-item" *ngFor="let person of popularPeople">
+      <img [src]="getImage(person.profile_path)" width="250" height="250" />
+      <p>{{ person.name }}</p>
+    </div>
+  </div>
+</div>
+ <div class="cards-movies">
+    <div class="card">
+      <img src="THE FANTASTIC FOUR_ FIRST STEPS (2025).jpg" alt="Movie 1">
+      <div class="card-info">
+        <p class="rating">⭐ 7.0</p>
+        <h3>The Fantastic Four: First Steps</h3>
+         <button class="btn">+ Watchlist</button>   
+        <button class="btn">
+       <img src="fi-rs-play.svg" alt="play" class="btn-icon">
+       Trailer
+      </button>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="Superman Poster!.jpg" alt="Movie 2">
+      <div class="card-info">
+        <p class="rating">⭐ 7.1</p>
+        <h3>Superman</h3>
+         <button class="btn">+ Watchlist</button>
+         <button class="btn">
+       <img src="fi-rs-play.svg" alt="play" class="btn-icon">
+        Trailer
+       </button>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="Let’s ride_ New poster for F1 The Movie, in cinemas June 25_.jpg" alt="Movie 3">
+      <div class="card-info">
+        <p class="rating">⭐ 7.7</p>
+        <h3>F1: The Movie</h3>
+         <button class="btn">+ Watchlist</button>
+         <button class="btn">
+         <img src="fi-rs-play.svg" alt="play" class="btn-icon">
+         Trailer
+    </button>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="Sinners (2025).jpg" alt="Movie 4">
+      <div class="card-info">
+        <p class="rating">⭐ 7.6</p>
+        <h3>Sinners</h3>
+         <button class="btn">+ Watchlist</button>
+         <button class="btn">
+        <img src="fi-rs-play.svg" alt="play" class="btn-icon">
+        Trailer
+       </button>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="“Shawshank Redemption” - Movie Poster 3.jpg" alt="Movie 5">
+      <div class="card-info">
+        <p class="rating">⭐ 9.3</p>
+        <h3>The Shawshank Redemption</h3>
+         <button class="btn">+ Watchlist</button>
+         <button class="btn">
+         <img src="fi-rs-play.svg" alt="play" class="btn-icon">
+         Trailer
+        </button>
+      </div>
+    </div>
+  </div>
+<div class="what-content">
+  <h2>From your Watchlist</h2>
+
+  <div class="what-inner">
+    <h3>Sign in to access your Watchlist</h3>
+    <h4>Save shows and movies to keep track of what you want to watch.</h4>
+    <button type="button">Sign in to IMDb</button>
+  </div>
+</div>
+<section class="popular-section">
+  <div class="section-header">
+    <h2><span class="highlight">Most popular movies this week</span> <span class="arrow">›</span></h2>
+  </div>
+   <div class="popular-grid">
+    <!-- แถวบน (3 การ์ดใหญ่) -->
+    <div class="card large">
+      <img src="1.jpg" alt="A House of Dynamite">
+      <div class="info">
+        <span class="rank">#1</span>
+        <h3>A House of Dynamite</h3>
+        <p class="meta">2025 • 1h 52m • R</p>
+        <p class="rating">⭐ 6.5 (62K) <span class="rate">☆ Rate</span></p>
+        <p class="watched">👁 Mark as watched</p>
+        <p class="desc">When a single, unattributed missile is launched at the United States, a race begins to determine who is responsible and how to respond.</p>
+      </div>
+    </div>
+
+    <div class="card large">
+      <img src="2.jpg" alt="Weapons">
+      <div class="info">
+        <span class="rank">#2</span>
+        <h3>Weapons</h3>
+        <p class="meta">2025 • 2h 8m • R</p>
+        <p class="rating">⭐ 7.5 (224K) <span class="rate">☆ Rate</span></p>
+        <p class="watched">👁 Mark as watched</p>
+        <p class="desc">When all but one child from the same class mysteriously vanish on the same night at exactly the same time...</p>
+      </div>
+    </div>
+
+    <div class="card large">
+      <img src="3.jpg" alt="Bugonia">
+      <div class="info">
+        <span class="rank">#3</span>
+        <h3>Bugonia</h3>
+        <p class="meta">2025 • 1h 58m • R</p>
+        <p class="rating">⭐ 7.7 (13K) <span class="rate">☆ Rate</span></p>
+        <p class="watched">👁 Mark as watched</p>
+        <p class="desc">Two conspiracy-obsessed young men kidnap the high-powered CEO of a major company...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- แถวล่าง (การ์ดเล็ก 7 ใบ) -->
+  <div class="small-grid">
+    <div class="card small">
+      <span class="rank">#4</span>
+      <img src="4.jpg" alt="One Battle After Another">
+      <h4>One Battle After Another</h4>
+    </div>
+
+    <div class="card small">
+      <span class="rank">#5</span>
+      <img src="5.jpg" alt="Ballad of a Small Player">
+      <h4>Ballad of a Small Player</h4>
+    </div>
+
+    <div class="card small">
+      <span class="rank">#6</span>
+      <img src="6.jpg" alt="Frankenstein">
+      <h4>Frankenstein</h4>
+    </div>
+
+    <div class="card small">
+      <span class="rank">#7</span>
+      <img src="7.jpg" alt="The Long Walk">
+      <h4>The Long Walk</h4>
+    </div>
+
+    <div class="card small">
+      <span class="rank">#8</span>
+      <img src="8.jpg" alt="Regretting You">
+      <h4>Regretting You</h4>
+    </div>
+
+    <div class="card small">
+      <span class="rank">#9</span>
+      <img src="9.jpg" alt="Jurassic World: Rebirth">
+      <h4>Jurassic World: Rebirth</h4>
+    </div>
+
+    <div class="card small">
+      <span class="rank">#10</span>
+      <img src="10.jpg" alt="The Woman in Cabin 10">
+      <h4>The Woman in Cabin 10</h4>
+    </div>
+  </div>
+  <section class="popular-section">
+      <div class="section-header">
+        <span class="section-indicator"></span>
+        <h2>Popular interests</h2>
+        <span class="arrow">›</span>
+      </div>
+
+      <div class="card-container">
+        <div class="card">
+          <img src="1.jpg" alt="Drama" />
+          <div class="card-overlay">
+            <button class="plus-btn">+</button>
+            <p>Drama</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <img src="2.jpg" alt="Horror" />
+          <div class="card-overlay">
+            <button class="plus-btn">+</button>
+            <p>Horror</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <img src="3.jpg" alt="Thriller" />
+          <div class="card-overlay">
+            <button class="plus-btn">+</button>
+            <p>Thriller</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <img src="4.jpg" alt="Comedy" />
+          <div class="card-overlay">
+            <button class="plus-btn">+</button>
+            <p>Comedy</p>
+          </div>
+        </div>
+      </div>
+    </section>
+</section>
+
+
+
+
+
+
