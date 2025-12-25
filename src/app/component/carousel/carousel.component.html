@@ -1,0 +1,15 @@
+<section class="section-block">
+  <h2 class="section-title">{{ title }}</h2>
+
+  <div class="carousel-wrapper">
+
+    <button class="arrow left" (click)="scrollLeft()">‹</button>
+
+    <div class="carousel-items" #scrollBox>
+      <ng-content></ng-content>
+    </div>
+
+    <button class="arrow right" (click)="scrollRight()">›</button>
+
+  </div>
+</section>

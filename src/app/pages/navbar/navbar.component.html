@@ -1,37 +1,79 @@
 <header class="navbar">
-  <div class="container">
+  <div class="navbar-container">
+    <!-- LEFT -->
     <div class="nav-left">
-      <img src="MovieCollective-Photoroom 2.png" alt="Logo" class="logo-img">
-      <button class="menu-btn">
-        <img src="menu.png" alt="menu" class="menu-icon">
-      </button>
+      <a routerLink="/home" class="logo-wrap">
+        <img src="img/logo.png" alt="MovieCollective" class="logo-img" />
+        <span class="logo-text">MovieCollective</span>
+      </a>
+
+      <!-- Desktop search (optional / minimal) -->
       <div class="search-bar">
-        <select class="search-filter">
-        <option>All</option>
-        <option value="2">Titles</option>
-        <option value="3">TV episodes</option>
-        <option value="4">Celebs</option>
-        <option value="5">Companies</option>
-        <option value="6">Keywords</option>
-        <option value="7">Advanced search</option>
-        </select>
-        <input type="text" placeholder="Search IMDb" />
-        <button class="search-btn">
-          <img src="icons8-search-50.png" alt="search">
-        </button>
+        <input type="text" placeholder="Search movies..." />
       </div>
     </div>
 
-    <div class="nav-right">
-      <a href="#" class="link">IMDbPro</a>
-      <a href="#" class="link">Watchlist</a>
-      <a href="#" class="link">Sign in</a>
-      <div class="lang-dropdown">
-        <select>
-          <option>EN</option>
-          <option>TH</option>
-        </select>
+    <!-- RIGHT – Desktop Links -->
+    <nav class="nav-right">
+      <a routerLink="/home" routerLinkActive="active" class="link">Home</a>
+      <a routerLink="/playlist" routerLinkActive="active" class="link">Playlist</a>
+      <a routerLink="/chat" routerLinkActive="active" class="link">Chat</a>
+      <a routerLink="/schedule" routerLinkActive="active" class="link">Schedule</a>
+      <a routerLink="/cost-calculator" routerLinkActive="active" class="link">Cost</a>
+      <a routerLink="/community" routerLinkActive="active" class="link">Community</a>
+
+      <!-- ถ้ายังไม่ login -->
+      <ng-container *ngIf="!user; else loggedIn">
+        <a routerLink="/sign-in" class="btn-gradient login-btn">Login</a>
+        <a routerLink="/create-account" class="btn-gradient signup-btn">Sign Up</a>
+      </ng-container>
+
+      <!-- ถ้า login แล้ว -->
+      <ng-template #loggedIn>
+        <div class="user-box">
+          <span class="user-name">
+            {{ user?.displayName || user?.email }}
+          </span>
+
+          <button class="logout-btn" (click)="logout()">
+            Logout
+          </button>
+        </div>
+      </ng-template>
+
+
+
+      <button class="theme-btn" (click)="toggleTheme?.()">🌓</button>
+    </nav>
+
+
+    <!-- Hamburger (Mobile / Tablet) -->
+    <button class="hamburger" (click)="toggleMenu()">
+      <span [class.open]="isMenuOpen"></span>
+      <span [class.open]="isMenuOpen"></span>
+      <span [class.open]="isMenuOpen"></span>
+    </button>
+  </div>
+
+  <!-- Side Menu Overlay -->
+  <div class="side-overlay" [class.open]="isMenuOpen" (click)="closeMenu()">
+    <nav class="side-menu" (click)="$event.stopPropagation()" [class.open]="isMenuOpen">
+      <div class="side-header">
+        <span>Menu</span>
+        <button class="close-btn" (click)="closeMenu()">✕</button>
       </div>
-    </div>
+
+      <a routerLink="/home" routerLinkActive="active" (click)="closeMenu()" class="side-link">Home</a>
+      <a routerLink="/playlist" routerLinkActive="active" (click)="closeMenu()" class="side-link">Playlist</a>
+      <a routerLink="/chat" routerLinkActive="active" (click)="closeMenu()" class="side-link">Chat</a>
+      <a routerLink="/schedule" routerLinkActive="active" (click)="closeMenu()" class="side-link">Schedule</a>
+      <a routerLink="/cost-calculator" routerLinkActive="active" (click)="closeMenu()" class="side-link">Cost
+        Calculator</a>
+      <a routerLink="/community" routerLinkActive="active" (click)="closeMenu()" class="side-link">Community</a>
+      <a routerLink="/sign-in" (click)="closeMenu()" class="side-link login-btn-mobile">Login</a>
+
+      <a routerLink="/create-account" (click)="closeMenu()" class="side-link signup-btn-mobile">Sign Up</a>
+
+    </nav>
   </div>
 </header>

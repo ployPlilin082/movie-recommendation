@@ -1,0 +1,32 @@
+<div class="hero-wrapper" *ngIf="movies.length">
+
+  <div
+    class="hero-slide"
+    *ngFor="let m of movies; let i = index"
+    [class.active]="i === currentIndex"
+  >
+   <img class="hero-backdrop" [src]="getBackdrop(m.backdrop_path)" />
+
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+      <img class="hero-poster" [src]="getPoster(m.poster_path)" />
+
+      <div class="hero-text">
+        <h1>{{ m.title }}</h1>
+        <p>{{ m.overview }}</p>
+
+        <div class="hero-stats">
+          ⭐ {{ m.vote_average }}  
+          ❤️ {{ m.vote_count }}
+        </div>
+
+        <button class="hero-btn">▶ Watch Trailer</button>
+      </div>
+    </div>
+  </div>
+
+  <button class="hero-arrow left" (click)="prev()">‹</button>
+  <button class="hero-arrow right" (click)="next()">›</button>
+
+</div>

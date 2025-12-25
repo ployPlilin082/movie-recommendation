@@ -1,0 +1,152 @@
+/* =============================
+   FOOTER — Dark Cinematic Theme
+============================= */
+
+.footer {
+  background: #0d0d0d;
+  padding: 70px 0 35px;
+  color: #e6e6e6;
+  font-family: "Inter", sans-serif;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ------ Main Grid ------ */
+.footer-container {
+  width: 88%;
+  max-width: 1300px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1.8fr 1fr 1fr;
+  gap: 60px;
+}
+
+/* ------ Column Titles ------ */
+.footer-col h4 {
+  font-size: 20px;
+  margin-bottom: 18px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
+
+/* ------ Brand Section ------ */
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.footer-brand h2 {
+  font-size: 24px;
+  margin: 0;
+  color: #ffffff;
+}
+
+/* Logo */
+.footer-logo {
+  width: 65px;
+
+  transition: 0.25s ease;
+}
+
+.footer-logo:hover {
+  transform: scale(1.07);
+}
+
+/* Description */
+.footer-desc {
+  max-width: 320px;
+  opacity: 0.8;
+  margin: 14px 0 20px;
+  line-height: 1.7;
+  font-size: 15px;
+}
+
+/* ------ List ------ */
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-col li {
+  margin-bottom: 12px;
+  opacity: 0.7;
+  cursor: pointer;
+  transition: 0.25s ease;
+  font-size: 15px;
+}
+
+.footer-col li:hover {
+  opacity: 1;
+  color: #b08cff; /* purple accent */
+  transform: translateX(5px);
+}
+
+/* ------ Contact Info ------ */
+.footer-location,
+.footer-contact,
+.footer-phone {
+  opacity: 0.78;
+  margin-bottom: 10px;
+  font-size: 15px;
+}
+
+/* ------ Icons ------ */
+.footer-social {
+  display: flex;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.footer-social img {
+  width: 30px;
+  opacity: 0.78;
+  transition: 0.3s ease;
+  filter: brightness(0) invert(1);
+}
+
+.footer-social img:hover {
+  opacity: 1;
+  transform: scale(1.15) rotate(3deg);
+}
+
+/* ------ Bottom ------ */
+.footer-bottom {
+  margin-top: 55px;
+  text-align: center;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  opacity: 0.7;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* -----------------------------
+   RESPONSIVE DESIGN 
+------------------------------ */
+
+@media (max-width: 992px) {
+  .footer-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+}
+
+@media (max-width: 600px) {
+  .footer-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .footer-brand {
+    justify-content: center;
+  }
+
+  .footer-desc {
+    margin: 12px auto 18px;
+  }
+
+  .footer-social {
+    justify-content: center;
+  }
+}

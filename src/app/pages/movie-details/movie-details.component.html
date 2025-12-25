@@ -1,0 +1,50 @@
+<div class="detail-wrapper" *ngIf="movie">
+
+    <!-- LEFT POSTER -->
+    <div class="left-side">
+        <img class="poster" [src]="getImage(movie.poster_path)" />
+    </div>
+
+    <!-- RIGHT INFO -->
+    <div class="right-side">
+
+        <h1 class="title">{{ movie.title }}</h1>
+
+        <div class="meta">
+            <span>📅 {{ movie.release_date }}</span>
+            <span>🎭 {{ genreText }}</span>
+            <span>⏱ {{ movie.runtime }} นาที</span>
+        </div>
+       <div class="social-buttons">
+    <button class="icon-btn">❤️</button>
+    <button class="icon-btn">🔁</button>
+</div>
+
+<!-- คะแนน IMDb + Rotten Tomatoes -->
+<div class="score-box">
+    <div class="score imdb">
+        <span>IMDb</span>
+        <p>{{ movie.vote_average }}</p>
+    </div>
+
+    <div class="score rt">
+        <span>🍅 RT</span>
+        <p>--</p>
+    </div>
+</div>
+
+
+        <p class="overview">{{ movie.overview }}</p>
+
+        <h2 class="actor-title">นักแสดง</h2>
+
+        <div class="actors">
+            <div class="actor" *ngFor="let a of movie.credits.cast.slice(0, 10)">
+                <img [src]="getImage(a.profile_path)" />
+                <p>{{ a.name }}</p>
+            </div>
+        </div>
+
+    </div>
+
+</div>

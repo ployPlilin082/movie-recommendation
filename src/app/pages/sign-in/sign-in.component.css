@@ -1,0 +1,299 @@
+/* MAIN LAYOUT */
+.sign-in-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: linear-gradient(135deg, #8c75ff 0%, #a000a0 100%);
+  color: #fff;
+}
+.content-wrapper {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 430px;
+  gap: 80px;
+
+  width: 1100px;
+  max-width: 100%;
+  padding: 0 24px;
+}
+
+
+
+/* LEFT SIDE */
+.info-side {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+    font-size: 17px;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: -0.5px;
+  text-align: justify;
+  font-family: monospace;
+  text-transform: none;
+  text-decoration: none;
+
+  text-align: left;
+}
+
+.logo {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 28px;
+}
+
+.info-side h1 {
+  font-size: 64px;
+  line-height: 1.08;   
+  margin-bottom: 24px;
+  letter-spacing: -0.02em;
+}
+
+.info-side p {
+  max-width: 420px;
+  font-size: 16px;
+  line-height: 1.6;   
+  opacity: 0.85;
+  margin-bottom: 32px;
+}
+
+
+.learn-more-btn {
+  padding: 12px 28px;
+  background: linear-gradient(90deg, #ff6b6b, #ee5253);
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  color: #fff;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+.learn-more-btn:hover {
+  opacity: 0.85;
+}
+
+/* RIGHT SIDE CARD */
+.sign-in-card {
+  width: 100%;
+  padding: 50px 100px;
+  border-radius: 14px;
+
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
+}
+
+
+.sign-in-card h2 {
+  font-size: 30px;
+  margin-bottom: 40px;
+  font-weight: 600;
+}
+
+.create-link {
+  font-size: 14px;
+  margin-bottom: 20px;
+  text-align: right;
+}
+.create-link a {
+  color: #ffd6ff;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* INPUT FIELDS */
+.sign-in-card input {
+  width: 100%;
+  padding: 15px 20px;
+  margin-bottom: 20px;
+
+  border-radius: 6px;
+  border: none;
+
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+  font-size: 16px;
+
+  transition: 0.3s;
+}
+.sign-in-card input:focus {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+/* PASSWORD ICON */
+.password-wrapper {
+  position: relative;
+}
+.password-wrapper input {
+  width: 100%;
+  padding: 15px 20px;
+  margin-bottom: 20px;
+
+  border-radius: 6px;
+  border: none;
+}
+.password-wrapper i {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.7);
+  transition: 0.25s;
+}
+.password-wrapper i:hover {
+  color: #fff;
+  transform: translateY(-50%) scale(1.15);
+}
+
+/* FORGOT PASSWORD */
+.forgot-link {
+  text-align: right;
+  margin-top: -10px;
+  margin-bottom: 20px;
+}
+.forgot-link a {
+  font-size: 14px;
+  color: #ffe2ff;
+}
+
+/* SIGN-IN BUTTON */
+.submit-btn-gradient {
+  width: 100%;
+  padding: 16px;
+  border-radius: 8px;
+
+  background: linear-gradient(90deg, #ff6b6b, #ee5253);
+  color: white;
+  border: none;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.submit-btn-gradient:hover {
+  opacity: 0.85;
+}
+
+/* DIVIDER */
+.divider {
+  margin: 30px 0 18px;
+  color: rgba(255, 255, 255, 0.75);
+  position: relative;
+  text-align: center;
+}
+.divider::before,
+.divider::after {
+  content: "";
+  width: 35%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.25);
+  position: absolute;
+  top: 50%;
+}
+.divider::before {
+  left: 0;
+}
+.divider::after {
+  right: 0;
+}
+
+/* SOCIAL ICONS */
+.social-icons {
+  display: flex;
+  gap: 22px;
+  justify-content: center;
+}
+
+.social-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1.4px solid rgba(255, 255, 255, 0.25);
+
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(6px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.social-circle i {
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.social-circle:hover {
+  transform: scale(1.15);
+  background: rgba(255, 255, 255, 0.25);
+}
+.social-circle.fb:hover {
+  background: #1877f2;
+}
+.social-circle.gg:hover {
+  background: #db4437;
+}
+.social-circle.ig:hover {
+  background: linear-gradient(45deg, #fd1d1d, #f56040, #fcaf45, #e1306c);
+}
+.social-circle.ap:hover {
+  background: #000;
+}
+/* FIX เบี้ยว 100% */
+
+.social-circle img {
+  width: 20px;
+  height: 20px;
+}
+
+@media (max-width: 900px) {
+
+  .sign-in-container {
+    padding: 40px 17px 50px;
+  }
+
+  .content-wrapper {
+    display: flex;
+    margin: 50px 0;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 32px;
+  }
+
+  .sign-in-card {
+    width: 100%;              /* 🔥 เต็มพื้นที่ */
+    max-width: 100%;          /* 🔥 ยกเลิกการบีบ */
+    padding: 32px 24px;       /* เพิ่มพื้นที่หายใจ */
+    border-radius: 16px;
+  }
+
+  .sign-in-card input,
+  .sign-in-card button {
+    width: 85%;
+  }
+}
+
+@media (max-width: 480px) {
+  .content-wrapper {
+    margin-top: 12px;
+  }
+
+  .info-side h1 {
+    font-size: 34px;
+  }
+
+  .sign-in-card {
+    max-width: 100%;
+    border-radius: 12px;
+  }
+}
+
+

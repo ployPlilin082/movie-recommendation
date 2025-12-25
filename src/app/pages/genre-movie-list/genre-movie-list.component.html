@@ -1,0 +1,23 @@
+<div class="list-wrapper">
+
+  <h1 class="page-title">{{ genreName }}</h1>
+  <p class="page-subtitle">Popular {{ genreName }} Movies</p>
+
+  <div *ngIf="loading" class="loading">
+    Loading movies...
+  </div>
+
+  <div class="movie-grid" *ngIf="!loading">
+    <div
+      class="movie-card"
+      *ngFor="let movie of movies"
+      (click)="openMovie(movie.id)"
+    >
+      <img [src]="getImage(movie.poster_path)" />
+      <h3>{{ movie.title }}</h3>
+      <p>⭐ {{ movie.vote_average | number:'1.1-1' }}</p>
+    </div>
+  </div>
+
+</div>
+

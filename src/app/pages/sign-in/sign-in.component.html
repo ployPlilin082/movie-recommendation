@@ -1,0 +1,109 @@
+<div class="sign-in-container">
+  <div class="content-wrapper">
+
+    <!-- LEFT INFO -->
+    <div class="info-side">
+      <div class="logo">🍿MovieCollective</div>
+      <h1>Welcome Back!</h1>
+      <p>
+        Discover, save, and track your favorite movies in one place.
+      </p>
+      <button class="learn-more-btn" type="button">
+        Explore Movies
+      </button>
+    </div>
+
+    <!-- RIGHT CARD -->
+    <div class="sign-in-card">
+      <h2>Sign in to your account</h2>
+
+      <!-- 🔴 Backend / Auth Error -->
+      <div class="auth-error" *ngIf="authError">
+        {{ authError }}
+      </div>
+
+      <form [formGroup]="signInForm" (ngSubmit)="onSubmit()" novalidate>
+
+        <!-- EMAIL -->
+        <input
+          type="email"
+          placeholder="Email"
+          formControlName="username"
+          autocomplete="email"
+        />
+
+        <div class="error"
+          *ngIf="signInForm.get('username')?.touched &&
+                 signInForm.get('username')?.invalid">
+
+          <span *ngIf="signInForm.get('username')?.errors?.['required']">
+            Email is required
+          </span>
+
+          <span *ngIf="signInForm.get('username')?.errors?.['email']">
+            Invalid email format
+          </span>
+        </div>
+
+        <!-- PASSWORD -->
+        <div class="password-wrapper">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            placeholder="Password"
+            formControlName="password"
+            autocomplete="current-password"
+          />
+
+          <i class="fa"
+             [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"
+             (click)="togglePassword()">
+          </i>
+        </div>
+
+        <div class="error"
+          *ngIf="signInForm.get('password')?.touched &&
+                 signInForm.get('password')?.invalid">
+
+          <span *ngIf="signInForm.get('password')?.errors?.['required']">
+            Password is required
+          </span>
+
+          <span *ngIf="signInForm.get('password')?.errors?.['minlength']">
+            Password must be at least 6 characters
+          </span>
+        </div>
+
+        <!-- FORGOT PASSWORD -->
+        <div class="forgot-link">
+          <a routerLink="/forgot-password">
+            Forgot password?
+          </a>
+        </div>
+
+        <!-- SUBMIT -->
+        <button
+          type="submit"
+          class="submit-btn-gradient"
+          [disabled]="signInForm.invalid || loading">
+
+          {{ loading ? 'Signing in...' : 'SIGN IN NOW' }}
+        </button>
+
+      </form>
+
+      <div class="divider">or continue with</div>
+
+      <!-- SOCIAL -->
+      <div class="social-icons">
+        <div class="social-circle fb" title="Continue with Facebook">
+          <img src="img/facebook-brands-solid.svg" alt="Facebook">
+        </div>
+
+        <div class="social-circle gg" title="Continue with Google">
+          <img src="img/google-brands-solid.svg" alt="Google">
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

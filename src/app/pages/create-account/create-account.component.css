@@ -1,0 +1,359 @@
+/* ===== Layout ===== */
+.container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #201a24;
+  color: #fff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 30px;
+  box-sizing: border-box;
+}
+
+/* ===== Left Panel ===== */
+.visual-panel {
+  width: 45%;
+  padding: 30px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.bg-image {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.25),
+    rgba(0,0,0,0.6)
+  );
+  z-index: 1;
+}
+
+.logo,
+.back-link,
+.caption {
+  position: relative;
+  z-index: 2;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.back-link {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  padding: 8px 15px;
+  border-radius: 50px;
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+  text-decoration: none;
+}
+
+.caption {
+  font-size: 28px;
+  max-width: 80%;
+  margin-bottom: 50px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,.5);
+}
+
+/* ===== Right Panel ===== */
+.form-panel {
+  width: 55%;
+  max-width: 600px;
+  margin: auto 0;
+  padding: 50px 80px;
+}
+
+/* ===== Form spacing system (สำคัญ) ===== */
+.form-field {
+  margin-bottom: 22px;
+  
+}
+
+
+/* ===== Inputs ===== */
+.form-panel input:not([type="checkbox"]) {
+  width: 100%;
+  padding: 15px 20px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background-color: #312b36;
+  color: #fff;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.form-panel input:focus {
+  border-color: #8c75ff;
+  box-shadow: 0 0 0 1px #8c75ff;
+}
+
+/* ===== Name group ===== */
+.name-group {
+  display: flex;
+  gap: 20px;
+}
+
+.name-group input {
+  width: 100%;
+}
+
+/* ===== Password ===== */
+.password-group {
+  position: relative;
+
+}
+.password-group input::before,
+.password-group input::after {
+  display: none !important;
+  content: none !important;
+  padding-right: 52px;
+}
+
+
+.password-toggle {
+  position: absolute;
+  right: 16px;
+  top: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.password-toggle img {
+  width: 20px;
+  height: 20px;
+  opacity: 0.65;
+}
+
+.password-toggle:hover img {
+  opacity: 1;
+}
+
+/* ===== Terms ===== */
+.terms-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: #ccc;
+}
+
+.terms-group input {
+  margin-right: 10px;
+}
+
+/* ===== Button ===== */
+.submit-btn:disabled {
+  opacity: 0.5;
+}
+
+
+/* ปุ่มหลัก Create account */
+.submit-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #8c75ff; /* สีม่วงหลัก */
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, opacity 0.3s;
+}
+
+.submit-btn:hover:not([disabled]) {
+    background-color: #725be8;
+}
+
+.submit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+.error-text {
+  margin-top: 12px;
+  color: #ff6b6b;
+  font-size: 14px;
+}
+
+/* 5. Social Login Section */
+.separator {
+    text-align: center;
+    margin: 40px 0 20px;
+    color: #888;
+    position: relative;
+    font-size: 14px;
+}
+
+.separator::before,
+.separator::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 38%; /* ปรับความยาวของเส้น */
+    height: 1px;
+    background-color: #444;
+}
+
+.separator::before {
+    left: 0;
+}
+
+.separator::after {
+    right: 0;
+}
+
+.social-login {
+    display: flex;
+    gap: 20px;
+}
+
+.social-btn {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #444;
+    border-radius: 8px;
+    background-color: transparent;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+.social-btn img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.social-btn:hover {
+    background-color: #312b36;
+    border-color: #555;
+}
+
+/* 6. Responsive Design (สำหรับ Tablet และ Mobile) */
+@media (max-width: 1024px) {
+    .form-panel {
+        padding: 50px 50px;
+    }
+}
+
+/* ================= Mobile / Tablet ================= */
+@media (max-width: 768px) {
+
+  /* ===== Container ===== */
+ .container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100vh;
+    padding: 0 !important;   /* กัน parent padding มาทับ */
+  }
+
+  /* ===== Visual Panel ===== */
+   .visual-panel {
+    width: 100%;
+    height: 180px;
+    padding: 16px;
+  }
+
+  .logo {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    font-size: 18px;
+  }
+
+  .back-link {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+  .name-group {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .caption {
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 6px;
+  }
+
+  /* ===== Form Panel ===== */
+  .form-panel {
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+    padding: 28px 20px;
+  }
+
+  .form-panel h2 {
+    font-size: 22px;
+    margin-bottom: 6px;
+  }
+
+  .form-panel p {
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+
+  /* ===== Inputs ===== */
+  .form-panel input:not([type="checkbox"]) {
+    font-size: 15px;
+    padding: 14px 16px;
+  }
+
+  .form-field {
+    margin-bottom: 16px;
+  }
+
+  .name-group {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* ===== Button ===== */
+  .submit-btn {
+    font-size: 16px;
+    padding: 14px;
+  }
+
+  /* ===== Social Login ===== */
+  .social-login {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .social-btn {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .separator::before,
+  .separator::after {
+    width: 28%;
+  }
+}

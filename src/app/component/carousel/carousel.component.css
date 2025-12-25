@@ -1,0 +1,35 @@
+.carousel-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.carousel-items {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 12px 0;
+}
+
+.carousel-items::-webkit-scrollbar {
+  display: none;
+}
+
+.arrow {
+  position: absolute;
+  top: 40%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.4);
+  color: #fff;
+  border: none;
+  font-size: 24px;
+  border-radius: 6px;
+  padding: 4px 10px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.arrow.left { left: -8px; }
+.arrow.right { right: -8px; }

@@ -1,0 +1,54 @@
+<div class="playlist-wrapper">
+
+  <!-- HEADER -->
+  <div class="playlist-header">
+    <h2>MY LIST · {{ count }}</h2>
+  </div>
+
+  <!-- LIST -->
+  <div class="movie-list" *ngIf="myList.length > 0; else emptyState">
+
+    <div class="movie-row"
+         *ngFor="let m of myList"
+         [class.removing]="removingIds.has(m.id)">
+
+      <!-- LEFT : POSTER -->
+      <img class="poster"
+           [src]="getImage(m.poster_path)"
+           (click)="openDetail(m.id)" />
+
+      <!-- CENTER : INFO -->
+     <div class="info">
+  <h3 (click)="openDetail(m.id)">
+    {{ m.title || 'Untitled' }}
+  </h3>
+
+  <div class="meta">
+    <span>⭐ {{ m.vote_average ?? '—' }}</span>
+    <span>• {{ m.release_date?.slice(0,4) ?? '—' }}</span>
+  </div>
+
+  <p class="overview">
+    {{ m.overview || 'No description available.' }}
+  </p>
+</div>
+
+
+      <!-- RIGHT : ACTION -->
+      <button class="heart-btn active"
+              (click)="toggle(m)">
+        ❤️
+      </button>
+    </div>
+
+  </div>
+
+  <!-- EMPTY -->
+  <ng-template #emptyState>
+    <div class="empty">
+      Your list is empty<br />
+      Add movies by clicking ❤️
+    </div>
+  </ng-template>
+
+</div>
