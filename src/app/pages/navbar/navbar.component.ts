@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { Auth, User } from '@angular/fire/auth';
+import { Router, RouterModule } from '@angular/router';
+import { User } from '@angular/fire/auth';
 import { AuthService } from '../../services/auth/auth.service';
+import { FormsModule } from '@angular/forms';
+import { MovieService } from '../../services/movie.service';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
 })
@@ -15,44 +17,128 @@ export class NavbarComponent implements OnInit {
 
   isDark = true;
   isMenuOpen = false;
+  isSearchOpen = false;
+
   user: User | null = null;
+  avatarBlobUrl: string | null = null;
 
-  constructor(private authService: AuthService) {
-  }
- 
-  toggleTheme() {
-    this.isDark = !this.isDark;
+  searchText = '';
+  results: any[] = [];
 
-    if (this.isDark) {
-      document.body.classList.add('dark-theme');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.body.classList.remove('dark-theme');
-      localStorage.setItem('theme', 'light');
-    }
-  }
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private movieService: MovieService
+  ) {}
 
   ngOnInit() {
     const theme = localStorage.getItem('theme');
-    this.authService.user$.subscribe(user =>{
-    this.user = user;
-    });
     this.isDark = theme === 'dark';
+    document.body.classList.toggle('dark-theme', this.isDark);
 
-    if (this.isDark) {
-      document.body.classList.add('dark-theme');
-    } else {
-      document.body.classList.remove('dark-theme');
-    }
+    this.authService.user$.subscribe(async user => {
+      this.user = user;
+
+      if (!user) {
+        this.avatarBlobUrl = null;
+        return;
+      }
+
+      const token = await user.getIdToken();
+      this.authService.getMyPhoto(token).subscribe({
+        next: (blob: Blob) => {
+          this.avatarBlobUrl = URL.createObjectURL(blob);
+        },
+        error: () => {
+          this.avatarBlobUrl = null;
+        }
+      });
+    });
+
+    this.authService.avatarRefresh$.subscribe(async () => {
+      if (!this.user) return;
+
+      const token = await this.user.getIdToken();
+      this.authService.getMyPhoto(token).subscribe({
+        next: (blob: Blob) => {
+          if (this.avatarBlobUrl) {
+            URL.revokeObjectURL(this.avatarBlobUrl);
+          }
+          this.avatarBlobUrl = URL.createObjectURL(blob);
+        },
+        error: () => {
+          this.avatarBlobUrl = null;
+        }
+      });
+    });
   }
+  toggleSearch() {
+  this.isSearchOpen = !this.isSearchOpen;
+
+  if (!this.isSearchOpen) {
+    this.searchText = '';
+    this.results = [];
+  }
+
+  // ปิดเมนูข้างถ้าเปิดอยู่
+  this.isMenuOpen = false;
+}
+
+
+  
+  // 🍔 Menu
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
   }
   closeMenu() {
     this.isMenuOpen = false;
   }
+  openSearch() {
+  this.isSearchOpen = true;
+  // (optional) ปิดเมนูถ้าเปิดอยู่
+  this.isMenuOpen = false;
+}
+
+closeSearch() {
+  this.isSearchOpen = false;
+  this.searchText = '';
+  this.results = [];
+}
+
+  // 🔐 Auth
   logout() {
     this.authService.signOut();
   }
-  
+
+  goProfile() {
+    this.router.navigate(['/profile']);
+  }
+
+  // 🔍 Search (Dropdown)
+  onSearchInput() {
+    const q = this.searchText.trim();
+
+    if (q.length < 2) {
+      this.results = [];
+      return;
+    }
+
+    this.movieService.searchMovies(q).subscribe(res => {
+      this.results = res.slice(0, 6);
+    });
+  }
+
+  openMovie(id: number) {
+    this.results = [];
+    this.searchText = '';
+      this.isSearchOpen = false; 
+    this.router.navigate(['/movie', id]);
+  }
+
+  // 🖼️ Image helper
+  getImage(path?: string) {
+    return path
+      ? 'https://image.tmdb.org/t/p/w200' + path
+      : 'assets/no-image.png';
+  }
 }

@@ -37,7 +37,6 @@ export class SignInComponent implements OnInit {
 
   async onSubmit(): Promise<void> {
     if (this.signInForm.invalid) {
-      this.signInForm.markAllAsTouched();
       return;
     }
 
@@ -48,10 +47,14 @@ export class SignInComponent implements OnInit {
 
     try {
       await this.authService.signIn(username, password);
+      this.authService.syncUserToDb();
       this.router.navigate(['/home']);
+      await this.authService.debugToken();
+
+
     } catch (err: any) {
 
-   
+
       switch (err.code) {
         case 'auth/user-not-found':
           this.authError = 'Account not found';
@@ -61,8 +64,9 @@ export class SignInComponent implements OnInit {
           this.authError = 'Invalid email or password';
           break;
 
-        case 'auth/invalid-email':
-          this.authError = 'Invalid email format';
+        case 'auth/email-not-verified':
+          this.authError =
+            'Your email is not verified. We’ve sent a verification email again. Please check your inbox or spam.';
           break;
 
         default:
@@ -74,9 +78,26 @@ export class SignInComponent implements OnInit {
     }
   }
   googleSignIn(): void {
-    this.authService.signInWithGoogle().then(() => {
+  this.authService.signInWithGoogle()
+    .then(async () => {
+      await this.authService.syncUserToDb();
       this.router.navigate(['/home']);
+    })
+    .catch(() => {
+      this.authError = 'Google login failed';
     });
-  }
-  
+}
+
+//   facebookSignIn(): void {
+//   this.authService.signInWithFacebook()
+//     .then(async () => {
+//       await this.authService.syncUserToDb();
+//       this.router.navigate(['/home']);
+//     })
+//     .catch(() => {
+//       this.authError = 'Facebook login failed';
+//     });
+// }
+
+
 }

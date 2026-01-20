@@ -1,0 +1,15 @@
+<div class="ranking-card" *ngFor="let m of topMovies; let i = index">
+
+  <div class="rank-badge">{{ i + 1 }}</div>
+
+  <div class="info">
+    <div class="title">{{ m.title }}</div>
+    <div class="score">⭐ {{ m.score | number:'1.1-1' }}</div>
+  </div>
+
+</div>
+
+<div class="state" *ngIf="topMovies.length === 0">
+  ยังไม่มีอันดับ
+</div>
+

@@ -3,7 +3,10 @@
   <!-- ============================= -->
   <!-- 🎥 HERO SLIDER (FEATURED MOVIES) -->
   <!-- ============================= -->
-  <app-hero-slider [movies]="featuredMovies"></app-hero-slider>
+  <app-hero-slider [movies]="featuredMovies">
+  </app-hero-slider>
+
+
 
   <!-- ============================= -->
   <!-- 🎬 TRENDING MOVIES -->
@@ -60,16 +63,12 @@
   <!-- 🎭 POPULAR INTERESTS -->
   <!-- ============================= -->
   <section class="section-block">
-  <app-carousel title="Popular Interests">
-    <div
-      class="genre-card"
-      *ngFor="let g of genres"
-      (click)="openGenre(g.id)"
-    >
-      <p>{{ g.name }}</p>
-    </div>
-  </app-carousel>
-</section>
+    <app-carousel title="Popular Interests">
+      <div class="genre-card" *ngFor="let g of genres" (click)="openGenre(g.id)">
+        <p>{{ g.name }}</p>
+      </div>
+    </app-carousel>
+  </section>
 
 
   <!-- ============================= -->
@@ -85,5 +84,18 @@
       </div>
     </app-carousel>
   </section>
+  <!-- 🤖 AI RECOMMENDED -->
+  <section class="section-block" *ngIf="recommendedMovies.length > 0">
+    <app-carousel title="Recommended for You 🤖">
+      <div class="top-pick-card ai-card" *ngFor="let m of recommendedMovies" (click)="openMovie(m.tmdbMovieId)">
+        <img [src]="getImage(m.posterPath)" />
+        <h3 class="movie-title">{{ m.title }}</h3>
+      </div>
+
+    </app-carousel>
+  </section>
+
+
+
 
 </div>

@@ -1,122 +1,81 @@
 <div class="community-page">
   <div class="community-container">
 
-    <!-- HEADER -->
     <div class="community-header">
       <h2>👥 Community</h2>
       <p>Connect with movie lovers and share your thoughts</p>
-      <button class="create-post-btn" disabled>
-        ✏️ Create Post
-      </button>
+      <button class="create-post-btn" (click)="openCreate()">✏️ Create Post</button>
     </div>
 
-    <!-- CONTENT -->
     <div class="community-content">
 
-      <!-- STATS -->
-      <div class="stats-section">
-        <div class="stat-card">
-          <div class="stat-number">1,234</div>
-          <div class="stat-label">Active Members</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">856</div>
-          <div class="stat-label">Reviews</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">342</div>
-          <div class="stat-label">Discussions</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">4.8</div>
-          <div class="stat-label">Avg Rating</div>
-        </div>
+      <!-- TABS -->
+      <div class="section-tabs">
+        <button class="tab" [class.active]="activeTab==='reviews'" (click)="setTab('reviews')">📝 Reviews</button>
+        <button class="tab" [class.active]="activeTab==='discussions'" (click)="setTab('discussions')">💬
+          Discussions</button>
+        <button class="tab" [class.active]="activeTab==='rankings'" (click)="setTab('rankings')">🏆 Rankings</button>
+        <button class="tab" [class.active]="activeTab==='events'" (click)="setTab('events')">🎯 Events</button>
       </div>
 
-      <!-- MAIN -->
-      <div class="community-sections">
+      <!-- TAB CONTENT -->
+      <app-reviews-tab *ngIf="activeTab === 'reviews'" [posts]="posts" [comments]="comments"
+        [commentDraft]="commentDraft" [openCommentId]="openCommentId" (like)="like($event)" (share)="openShare($event)"
+        (toggleComment)="toggleComment($event)" (sendComment)="sendComment($event)">
+      </app-reviews-tab>
 
-        <!-- FEED -->
-        <div class="feed-area">
+      <app-discussions-tab *ngIf="activeTab==='discussions'" [discussions]="discussions">
+      </app-discussions-tab>
 
-          <div class="section-tabs">
-            <button class="tab active" disabled>📝 Reviews</button>
-            <button class="tab" disabled>💬 Discussions</button>
-            <button class="tab" disabled>🏆 Rankings</button>
-            <button class="tab" disabled>🎯 Events</button>
-          </div>
+      <app-rankings-tab *ngIf="activeTab==='rankings'" [topMovies]="topMovies">
+      </app-rankings-tab>
 
-          <div class="feed-preview">
+      <app-events-tab *ngIf="activeTab==='events'" [events]="events">
+      </app-events-tab>
 
-            <!-- POST 1 -->
-            <div class="post-card">
-              <div class="post-header">
-                <div class="user-avatar">🎭</div>
-                <div>
-                  <div class="username">MovieLover123</div>
-                  <div class="post-time">2 hours ago</div>
-                </div>
-              </div>
+    </div>
+    <!-- CREATE REVIEW MODAL -->
+    <div class="modal-backdrop" *ngIf="ifCreated" (click)="closeCreate()">
+      <div class="modal" (click)="$event.stopPropagation()">
 
-              <div class="post-content">
-                Just watched "The Dark Knight" again… still the best superhero movie 🔥
-                <div class="movie-tag">#TheDarkKnight</div>
-              </div>
+        <div class="modal-head">
+          <h3>Write a review</h3>
+          <button class="x" (click)="closeCreate()">✕</button>
+        </div>
 
-              <div class="post-actions">
-                <button disabled>👍 Like</button>
-                <button disabled>💬 Comment</button>
-                <button disabled>📤 Share</button>
-              </div>
-            </div>
+        <input class="movie-search" type="text" [value]="searchText" (input)="onSearchChange($any($event.target).value)"
+          placeholder="Search movie name..." />
 
-            <!-- POST 2 -->
-            <div class="post-card">
-              <div class="post-header">
-                <div class="user-avatar">🎬</div>
-                <div>
-                  <div class="username">CinemaBuff</div>
-                  <div class="post-time">5 hours ago</div>
-                </div>
-              </div>
+        <div class="search-list" *ngIf="searchResults.length">
+          <button class="search-item" *ngFor="let m of searchResults" (click)="selectMovie(m)">
+            <img *ngIf="m.posterPath" [src]="'https://image.tmdb.org/t/p/w92' + m.posterPath" />
+            <span>{{ m.title }}</span>
+          </button>
+        </div>
 
-              <div class="post-content">
-                Movie recommendations anyone? Something like "Inception" 🤯
-              </div>
-
-              <div class="post-actions">
-                <button disabled>👍 Like</button>
-                <button disabled>💬 Comment</button>
-                <button disabled>📤 Share</button>
-              </div>
-            </div>
-
+        <div class="selected-movie" *ngIf="selectedMovie">
+          <img *ngIf="selectedMovie.posterPath" [src]="'https://image.tmdb.org/t/p/w92' + selectedMovie.posterPath" />
+          <div>
+            <div class="title">{{ selectedMovie.title }}</div>
+            <div class="sub">TMDB: {{ selectedMovie.tmdbMovieId }}</div>
           </div>
         </div>
 
-        <!-- SIDEBAR -->
-        <aside class="sidebar">
+        <form [formGroup]="form" (ngSubmit)="submit()" class="create-form">
+          <input type="hidden" formControlName="movieId" />
 
-          <div class="sidebar-section">
-            <h4>🏆 Top Movies</h4>
-            <div class="movie-item"><span>1</span>The Shawshank Redemption <b>9.3</b></div>
-            <div class="movie-item"><span>2</span>The Godfather <b>9.2</b></div>
-            <div class="movie-item"><span>3</span>The Dark Knight <b>9.0</b></div>
-          </div>
+          <input type="number" formControlName="rating" min="1" max="10" placeholder="Rating (1-10)" />
 
-          <div class="sidebar-section">
-            <h4>📈 Trending</h4>
-            <div class="topic-tags">
-              <span>#Marvel</span>
-              <span>#Oscar</span>
-              <span>#MovieNight</span>
-              <span>#Indie</span>
-            </div>
-          </div>
+          <textarea formControlName="comment" placeholder="Share your thoughts..."></textarea>
 
-        </aside>
+          <button type="submit" [disabled]="form.invalid || !selectedMovie">
+            Post
+          </button>
+        </form>
 
       </div>
     </div>
+
+
   </div>
 </div>

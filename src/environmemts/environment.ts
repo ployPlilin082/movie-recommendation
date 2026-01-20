@@ -1,5 +1,6 @@
 export const environment = {
     production: false,
+    apiBaseUrl: 'https://movierec-api-2026-bzhbarf8g8gmguej.japaneast-01.azurewebsites.net',
     firebase: {
         apiKey: "AIzaSyAFt3s_ae8Uv_R3w_RY1mzy3PjQ9YMM-ho",
         authDomain: "movierec-project.firebaseapp.com",

@@ -1,5 +1,10 @@
 {
   "projects": {
-    "default": "moviecollective-demo-2025"
-  }
+    "default": "moviecollective-demo-2025",
+    "moviecollective": "moviecollective-app",
+    "moviecollective-app": "moviecollective-app",
+    "moviecollective-demo-2025": "moviecollective-demo-2025"
+  },
+  "targets": {},
+  "etags": {}
 }

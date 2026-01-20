@@ -1,0 +1,34 @@
+<div class="discussion-wrap">
+
+  <h3>💬 พูดคุยแลกเปลี่ยน</h3>
+  <p class="subtitle">แชร์ความคิดเห็น ถาม-ตอบเรื่องหนัง</p>
+
+  <!-- CREATE -->
+  <div class="create-box">
+    <textarea
+      [(ngModel)]="newText"
+      placeholder="คุณคิดอย่างไรกับหนังช่วงนี้?"
+    ></textarea>
+    <button (click)="create()">➕ ตั้งกระทู้</button>
+  </div>
+
+  <!-- LIST -->
+  <div class="discussion-card" *ngFor="let d of discussions">
+    <div class="discussion-header">
+      <div class="avatar">👤</div>
+      <div>
+        <div class="username">{{ d.userName || 'User' }}</div>
+        <div class="time">{{ d.createdAt | date:'short' }}</div>
+      </div>
+    </div>
+
+    <div class="discussion-content">
+      {{ d.text }}
+    </div>
+  </div>
+
+  <div class="state" *ngIf="discussions.length === 0">
+    ยังไม่มีการสนทนา
+  </div>
+
+</div>

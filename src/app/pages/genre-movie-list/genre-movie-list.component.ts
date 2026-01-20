@@ -15,7 +15,12 @@ export class GenreMovieListComponent implements OnInit {
   genreId!: number;
   genreName = '';
   movies: any[] = [];
-  loading = true;
+  loading = false;
+
+  skeletons = Array(8).fill(0);
+
+  page = 1;
+  hasMore = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -27,14 +32,44 @@ export class GenreMovieListComponent implements OnInit {
     this.genreId = Number(this.route.snapshot.paramMap.get('id'));
 
     this.movieService.getGenres().subscribe(res => {
-      const g = res.genres.find((x: any) => x.id === this.genreId);
+      const g = res.find((x: any) => x.id === this.genreId);
       this.genreName = g?.name || 'Movies';
     });
 
-    this.movieService.getMoviesByGenre(this.genreId).subscribe(res => {
-      this.movies = res.results;
-      this.loading = false;
+    this.loadMovies();
+  }
+
+  loadMovies() {
+    if (this.loading || !this.hasMore) return;
+
+    this.loading = true;
+
+    this.movieService.getMoviesByGenre(this.genreId, this.page).subscribe({
+      next: res => {
+        const results = res.results || [];
+
+        this.movies = [...this.movies, ...results];
+
+        if (results.length < 20) {
+          this.hasMore = false; 
+        }
+
+        this.page++;
+        this.loading = false;
+      },
+      error: err => {
+        console.error(err);
+        this.loading = false;
+      }
     });
+  }
+
+  
+  onScroll(e: Event) {
+    const el = e.target as HTMLElement;
+    if (el.scrollTop + el.clientHeight >= el.scrollHeight - 200) {
+      this.loadMovies();
+    }
   }
 
   openMovie(id: number) {
@@ -42,6 +77,9 @@ export class GenreMovieListComponent implements OnInit {
   }
 
   getImage(path: string) {
-    return 'https://image.tmdb.org/t/p/w500' + path;
+    return path
+      ? 'https://image.tmdb.org/t/p/w500' + path
+      : '/placeholder.jpg';
   }
 }
+

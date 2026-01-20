@@ -7,152 +7,93 @@
         <div class="badge">💳</div>
         <div>
           <h2>Subscription Cost Calculator</h2>
-          <p>Compare monthly subscription costs across platforms</p>
+          <p>ใส่ราคาที่คุณจ่ายจริง แล้วดูภาพรวม</p>
         </div>
-      </div>
-
-      <div class="cycle-toggle">
-        <button class="cycle-btn active">Monthly</button>
-        <button class="cycle-btn">Yearly</button>
       </div>
     </div>
 
     <div class="layout">
 
-      <!-- LEFT : PLATFORMS -->
+      <!-- LEFT -->
       <section class="left">
-
         <h3>📦 Platforms</h3>
 
-        <!-- Netflix -->
-        <div class="platform-card">
-          <div class="platform-top">
-            <div class="platform-name">
-              <span class="icon">🎬</span>
-              <div>
-                <div class="name">Netflix</div>
-                <div class="hint">Premium Plan</div>
+        <div class="platform-card" *ngFor="let p of platforms" [class.active]="p.selected" (click)="togglePlatform(p)">
+
+          <div class="platform-row">
+
+            <!-- LOGO -->
+            <div class="logo-box">
+              <img class="platform-icon" [src]="p.iconUrl" />
+            </div>
+
+            <!-- NAME -->
+            <div class="platform-main">
+              <div class="platform-title">{{ p.name }}</div>
+
+              <!-- CONTROLS -->
+              <div class="controls" *ngIf="p.selected">
+                <input type="number" placeholder="THB / month" [(ngModel)]="p.price"
+                  (click)="$event.stopPropagation()" />
+
+                <select [(ngModel)]="p.planId" (click)="$event.stopPropagation()">
+                  <option [ngValue]="undefined">เลือกแพ็กเกจ</option>
+                  <option *ngFor="let plan of plans" [ngValue]="plan.id">
+                    {{ plan.name }}
+                  </option>
+                </select>
+
+                <button class="save-btn" (click)="savePlatform(p); $event.stopPropagation()"
+                  [disabled]="!p.price || !p.planId">
+                  💾 Save
+                </button>
+                <button class="delete-btn" (click)="deletePlatform(p); $event.stopPropagation()">
+                  🗑 Delete
+                </button>
+
               </div>
             </div>
-            <span class="price">$15 / month</span>
           </div>
         </div>
-
-        <!-- Spotify -->
-        <div class="platform-card">
-          <div class="platform-top">
-            <div class="platform-name">
-              <span class="icon">🎵</span>
-              <div>
-                <div class="name">Spotify</div>
-                <div class="hint">Family Plan</div>
-              </div>
-            </div>
-            <span class="price">$14 / month</span>
-          </div>
-        </div>
-
-        <!-- YouTube -->
-        <div class="platform-card">
-          <div class="platform-top">
-            <div class="platform-name">
-              <span class="icon">📺</span>
-              <div>
-                <div class="name">YouTube Premium</div>
-                <div class="hint">Individual</div>
-              </div>
-            </div>
-            <span class="price">$12 / month</span>
-          </div>
-        </div>
-
-        <!-- iCloud -->
-        <div class="platform-card">
-          <div class="platform-top">
-            <div class="platform-name">
-              <span class="icon">☁️</span>
-              <div>
-                <div class="name">iCloud+</div>
-                <div class="hint">200GB</div>
-              </div>
-            </div>
-            <span class="price">$3 / month</span>
-          </div>
-        </div>
-
       </section>
 
-      <!-- RIGHT : SUMMARY -->
+      <!-- RIGHT -->
       <aside class="right">
 
+        <!-- SUMMARY -->
         <div class="summary">
-          <h3>🧾 Monthly Summary</h3>
+          <h3>🧾 Selected Platforms</h3>
 
-          <div class="row">
-            <span>Netflix</span>
-            <span>$15</span>
+          <div class="row" *ngFor="let p of selectedPlatforms">
+            <span>{{ p.name }}</span>
+            <strong>{{ p.price || 0 }}</strong>
           </div>
 
-          <div class="row">
-            <span>Spotify</span>
-            <span>$14</span>
+          <div *ngIf="!selectedPlatforms.length">
+            ยังไม่ได้เลือกแพลตฟอร์ม
           </div>
 
-          <div class="row">
-            <span>YouTube</span>
-            <span>$12</span>
-          </div>
-
-          <div class="row">
-            <span>iCloud+</span>
-            <span>$3</span>
-          </div>
-
-          <div class="divider"></div>
+          <hr />
 
           <div class="total">
-            <span>Total / Month</span>
-            <strong>$44</strong>
+            Total: <strong>{{ totalPrice }}</strong>
           </div>
-
-          <div class="highlight">
-            🔥 Most expensive: <b>Netflix ($15)</b>
-          </div>
-
-          <button class="cta">
-            Proceed to Payment
-          </button>
         </div>
 
         <!-- CHART -->
         <div class="chart">
           <h3>📊 Cost Comparison</h3>
-
-          <div class="bars">
-            <div class="bar-item">
-              <div class="bar" style="height: 90%"></div>
-              <span>Netflix</span>
-            </div>
-
-            <div class="bar-item">
-              <div class="bar" style="height: 85%"></div>
-              <span>Spotify</span>
-            </div>
-
-            <div class="bar-item">
-              <div class="bar" style="height: 70%"></div>
-              <span>YouTube</span>
-            </div>
-
-            <div class="bar-item">
-              <div class="bar small" style="height: 30%"></div>
-              <span>iCloud</span>
-            </div>
+          <div class="chare-wrapper">
+            <canvas id="costChart"></canvas>
+          </div>
+          <div *ngIf="!history.length" class="hint">
+            ยังไม่มีข้อมูลสำหรับแสดงกราฟ
           </div>
         </div>
 
-      </aside>
 
+
+      </aside>
     </div>
   </div>
 </div>

@@ -1,10 +1,11 @@
 import { Component, Input, ViewChild, ElementRef } from '@angular/core';
+import {TrailerButtonComponent} from '../../component/trailer-button/trailer-button.component';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-hero-slider',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TrailerButtonComponent],
   templateUrl: './hero-slider.component.html',
   styleUrls: ['./hero-slider.component.css'],
 })
@@ -20,9 +21,13 @@ export class HeroSliderComponent {
     this.currentIndex =
       (this.currentIndex - 1 + this.movies.length) % this.movies.length;
   }
-  getBackdrop(path: string) {
-    return 'https://image.tmdb.org/t/p/original' + path;
-  }
+ getBackdrop(path?: string | null) {
+  return path
+    ? 'https://image.tmdb.org/t/p/original' + path
+    : ''; // หรือใส่ fallback image ก็ได้
+}
+
+
   getPoster(path: string) {
     return 'https://image.tmdb.org/t/p/w500' + path;
   }

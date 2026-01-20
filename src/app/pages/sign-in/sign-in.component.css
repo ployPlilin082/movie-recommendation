@@ -77,6 +77,8 @@
 /* RIGHT SIDE CARD */
 .sign-in-card {
   width: 100%;
+  position: relative;
+  z-index: 1;
   padding: 50px 100px;
   border-radius: 14px;
 
@@ -85,6 +87,12 @@
   border: 1px solid rgba(255, 255, 255, 0.22);
   box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
 }
+
+  .sign-in-card input,
+  .sign-in-card button {
+      box-sizing: border-box;
+  }
+
 
 
 .sign-in-card h2 {
@@ -154,10 +162,13 @@
   text-align: right;
   margin-top: -10px;
   margin-bottom: 20px;
+  position: relative;
+  z-index: 999;
 }
 .forgot-link a {
   font-size: 14px;
   color: #ffe2ff;
+  pointer-events: auto;
 }
 
 /* SIGN-IN BUTTON */
@@ -277,8 +288,10 @@
 
   .sign-in-card input,
   .sign-in-card button {
-    width: 85%;
+      box-sizing: border-box;
   }
+
+
 }
 
 @media (max-width: 480px) {

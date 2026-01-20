@@ -234,6 +234,132 @@
   color: #6bc1ff !important;
   font-weight: 700;
 }
+/* ============================= */
+/* 🤖 AI RECOMMENDATION SECTION */
+/* ============================= */
+
+.section-block {
+  margin: 3rem 0;
+}
+
+/* หัวข้อ carousel (ถ้าใช้ title ด้านนอก) */
+.ai-title {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #e5e7eb;
+}
+
+.ai-title span {
+  font-size: 1rem;
+  opacity: .8;
+}
+/* ===== AI CARD ONLY ===== */
+.ai-card {
+  width: 160px;
+  flex: 0 0 auto;
+  position: relative;
+  cursor: pointer;
+  transition: transform .2s ease;
+}
+
+.ai-card::before {
+  content: "AI";
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  padding: 2px 8px;
+  font-size: .65rem;
+  font-weight: 600;
+  color: #0f172a;
+  background: linear-gradient(135deg, #a5b4fc, #60a5fa);
+  border-radius: 999px;
+  z-index: 2;
+}
+@media (max-width: 600px) {
+   .home-wrapper {
+    padding: 12px;
+  }
+  .featured-main {
+    height: 300px;
+    margin-bottom: 24px;
+  }
+
+  .main-content {
+    left: 16px;
+    bottom: 16px;
+    gap: 12px;
+  }
+
+  .main-poster {
+    width: 90px;
+    height: 135px;
+  }
+
+  .main-text h1 {
+    font-size: 20px;
+  }
+
+  .main-overview {
+    font-size: 13px;
+    max-width: 100%;
+  }
+  .section-title {
+    font-size: 18px;
+  }
+
+  .section-block {
+    margin-bottom: 36px;
+  }
+    .scroll-x {
+    gap: 14px;
+    padding-bottom: 6px;
+  }
+   .movie-card,
+  .top-pick-card,
+  .ai-card {
+    width: 130px;
+  }
+
+  .movie-card img,
+  .top-pick-card img,
+  .ai-card img {
+    width: 130px;
+    height: 190px;
+  }
+  .actor-card {
+    width: 110px;
+  }
+
+  .actor-card img {
+    width: 110px;
+    height: 110px;
+  }
+  .popular-grid {
+    flex-direction: column;
+  }
+
+  .popular-big-card {
+    padding: 12px;
+  }
+  .genre-card {
+    font-size: 13px;
+    padding: 10px;
+  }
+   .main-btn,
+  .top-pick-card button {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+  
+}
+
+
+
+
+
 
 
 

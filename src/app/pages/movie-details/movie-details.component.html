@@ -1,9 +1,17 @@
 <div class="detail-wrapper" *ngIf="movie">
 
+
     <!-- LEFT POSTER -->
-    <div class="left-side">
+    <div class="left-side poster-wrapper">
         <img class="poster" [src]="getImage(movie.poster_path)" />
+
+        <!-- TRAILER BUTTON ON POSTER -->
+        <div class="trailer-button-wrapper">
+            <app-trailer-button [tmdbId]="movie.id" [mediaType]="movie.media_type ?? 'movie'">
+            </app-trailer-button>
+        </div>
     </div>
+
 
     <!-- RIGHT INFO -->
     <div class="right-side">
@@ -11,32 +19,45 @@
         <h1 class="title">{{ movie.title }}</h1>
 
         <div class="meta">
+            <span>🎬 {{ movie.media_type === 'tv' ? 'Series' : 'Movie' }}</span>
             <span>📅 {{ movie.release_date }}</span>
             <span>🎭 {{ genreText }}</span>
             <span>⏱ {{ movie.runtime }} นาที</span>
         </div>
-       <div class="social-buttons">
-    <button class="icon-btn">❤️</button>
-    <button class="icon-btn">🔁</button>
-</div>
+        <div class="action-bar">
 
-<!-- คะแนน IMDb + Rotten Tomatoes -->
-<div class="score-box">
-    <div class="score imdb">
-        <span>IMDb</span>
-        <p>{{ movie.vote_average }}</p>
-    </div>
+            <button class="icon-btn" (click)="likeMovie()">
+                ❤️ <span *ngIf="movie.likeCount">{{ movie.likeCount }}</span>
+            </button>
 
-    <div class="score rt">
-        <span>🍅 RT</span>
-        <p>--</p>
-    </div>
-</div>
+            <button class="icon-btn" (click)="shareMovie()">
+                🔁 <span *ngIf="movie.shareCount">{{ movie.shareCount }}</span>
+            </button>
+
+            <div class="score imdb">
+                ⭐ IMDb {{ movie.vote_average }}
+            </div>
+
+            <div class="score rt">
+                🍅 RT --
+            </div>
+
+        </div>
+        <div class="action-row">
+
+            <div class="mylist-wrapper">
+                <button class="mylist-btn" (click)="addToMyList()">
+                    ➕ My List
+                </button>
+            </div>
+
+
+        </div>
 
 
         <p class="overview">{{ movie.overview }}</p>
 
-        <h2 class="actor-title">นักแสดง</h2>
+        <h2 class="actor-title">Actors</h2>
 
         <div class="actors">
             <div class="actor" *ngFor="let a of movie.credits.cast.slice(0, 10)">

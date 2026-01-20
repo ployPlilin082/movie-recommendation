@@ -10,37 +10,36 @@
 
     <div class="movie-row"
          *ngFor="let m of myList"
-         [class.removing]="removingIds.has(m.id)">
+         [class.removing]="removingIds.has(m.movieId)">
 
       <!-- LEFT : POSTER -->
       <img class="poster"
-           [src]="getImage(m.poster_path)"
-           (click)="openDetail(m.id)" />
+           [src]="getImage(m.posterPath)"
+           (click)="openDetail(m.movieId)" />
 
-      <!-- CENTER : INFO -->
-     <div class="info">
-  <h3 (click)="openDetail(m.id)">
-    {{ m.title || 'Untitled' }}
-  </h3>
+      <!-- CENTER -->
+      <div class="info">
+        <h3 (click)="openDetail(m.movieId)">
+          {{ m.title }}
+        </h3>
 
-  <div class="meta">
-    <span>⭐ {{ m.vote_average ?? '—' }}</span>
-    <span>• {{ m.release_date?.slice(0,4) ?? '—' }}</span>
-  </div>
+        <div class="meta">
+          <span>⭐ {{ m.voteAverage ?? '—' }}</span>
+          <span>• {{ m.releaseDate?.slice(0,4) ?? '—' }}</span>
+        </div>
 
-  <p class="overview">
-    {{ m.overview || 'No description available.' }}
-  </p>
-</div>
-
+        <p class="overview">
+          {{ m.overview || 'No description available.' }}
+        </p>
+      </div>
 
       <!-- RIGHT : ACTION -->
       <button class="heart-btn active"
-              (click)="toggle(m)">
+              (click)="remove(m.movieId)">
         ❤️
       </button>
-    </div>
 
+    </div>
   </div>
 
   <!-- EMPTY -->

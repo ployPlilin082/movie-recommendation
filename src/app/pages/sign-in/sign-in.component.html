@@ -25,15 +25,9 @@
       <form [formGroup]="signInForm" (ngSubmit)="onSubmit()" novalidate>
 
         <!-- EMAIL -->
-        <input
-          type="email"
-          placeholder="Email"
-          formControlName="username"
-          autocomplete="email"
-        />
+        <input type="email" placeholder="Email" formControlName="username" autocomplete="email" />
 
-        <div class="error"
-          *ngIf="signInForm.get('username')?.touched &&
+        <div class="error" *ngIf="signInForm.get('username')?.touched &&
                  signInForm.get('username')?.invalid">
 
           <span *ngIf="signInForm.get('username')?.errors?.['required']">
@@ -47,21 +41,14 @@
 
         <!-- PASSWORD -->
         <div class="password-wrapper">
-          <input
-            [type]="showPassword ? 'text' : 'password'"
-            placeholder="Password"
-            formControlName="password"
-            autocomplete="current-password"
-          />
+          <input [type]="showPassword ? 'text' : 'password'" placeholder="Password" formControlName="password"
+            autocomplete="current-password" />
 
-          <i class="fa"
-             [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"
-             (click)="togglePassword()">
+          <i class="fa" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'" (click)="togglePassword()">
           </i>
         </div>
 
-        <div class="error"
-          *ngIf="signInForm.get('password')?.touched &&
+        <div class="error" *ngIf="signInForm.get('password')?.touched &&
                  signInForm.get('password')?.invalid">
 
           <span *ngIf="signInForm.get('password')?.errors?.['required']">
@@ -75,16 +62,14 @@
 
         <!-- FORGOT PASSWORD -->
         <div class="forgot-link">
-          <a routerLink="/forgot-password">
+          <a class="forgot-link" href="/forgot-password">
             Forgot password?
           </a>
+
         </div>
 
         <!-- SUBMIT -->
-        <button
-          type="submit"
-          class="submit-btn-gradient"
-          [disabled]="signInForm.invalid || loading">
+        <button type="submit" class="submit-btn-gradient" [disabled]="signInForm.invalid || loading">
 
           {{ loading ? 'Signing in...' : 'SIGN IN NOW' }}
         </button>
@@ -95,11 +80,12 @@
 
       <!-- SOCIAL -->
       <div class="social-icons">
-        <div class="social-circle fb" title="Continue with Facebook">
-          <img src="img/facebook-brands-solid.svg" alt="Facebook">
-        </div>
+        <!-- <div class="social-circle fb" title="Continue with Facebook" (click)="facebookSignIn()">
 
-        <div class="social-circle gg" title="Continue with Google">
+          <img src="img/facebook-brands-solid.svg" alt="Facebook">
+        </div> -->
+
+        <div class="social-circle gg" title="Continue with Google" (click)="googleSignIn()">
           <img src="img/google-brands-solid.svg" alt="Google">
         </div>
       </div>

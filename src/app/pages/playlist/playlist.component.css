@@ -1,4 +1,8 @@
 /* HEADER */
+.playlist-wrapper{
+    padding-top: calc(var(--navbar-height) + 16px);
+
+}
 .playlist-header h2 {
   font-size: 28px;
   font-weight: 700;
@@ -13,6 +17,24 @@
   flex-direction: column;
   gap: 16px;
 }
+.actions{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.badge{
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  background: #2a2a2a;
+  color: #fff;
+}
+
+
 
 /* ROW */
 .movie-row {
@@ -84,3 +106,69 @@
   min-height: 100vh;
   background-color: #121212;
 }
+
+@media (max-width: 600px) {
+  .playlist-wrapper {
+    padding-top: calc(var(--nav-h) + 24px);
+  }
+
+  .playlist-wrapper {
+    padding: 20px;
+  }
+
+  .playlist-header h2 {
+    font-size: 22px;
+    margin-bottom: 16px;
+  }
+
+  /* แถวหนัง → กลายเป็น card แนวตั้ง */
+  .movie-row {
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  /* poster ใหญ่ขึ้น อ่านง่าย */
+  .poster {
+    width: 100%;
+    height: 200px;
+    border-radius: 10px;
+  }
+
+  /* info */
+  .info h3 {
+    font-size: 16px;
+  }
+
+  .meta {
+    font-size: 12px;
+  }
+
+  /* overview → จำกัดบรรทัด */
+  .overview {
+    font-size: 13px;
+    line-height: 1.5;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 3;   /* ⭐ แสดงแค่ 3 บรรทัด */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* ปุ่มหัวใจ */
+  .actions {
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 4px;
+  }
+
+  .heart-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+
+}
+

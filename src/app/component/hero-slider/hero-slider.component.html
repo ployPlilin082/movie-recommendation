@@ -1,11 +1,8 @@
-<div class="hero-wrapper" *ngIf="movies.length">
+<div class="hero-wrapper" *ngIf="movies && movies.length > 0">
 
-  <div
-    class="hero-slide"
-    *ngFor="let m of movies; let i = index"
-    [class.active]="i === currentIndex"
-  >
-   <img class="hero-backdrop" [src]="getBackdrop(m.backdrop_path)" />
+
+  <div class="hero-slide" *ngFor="let m of movies; let i = index" [class.active]="i === currentIndex">
+    <img class="hero-backdrop" [src]="getBackdrop(m.backdrop_path)" />
 
     <div class="hero-overlay"></div>
 
@@ -17,11 +14,12 @@
         <p>{{ m.overview }}</p>
 
         <div class="hero-stats">
-          ⭐ {{ m.vote_average }}  
+          ⭐ {{ m.vote_average }}
           ❤️ {{ m.vote_count }}
         </div>
 
-        <button class="hero-btn">▶ Watch Trailer</button>
+        <app-trailer-button [tmdbId]="m.id" [mediaType]="m.media_type"></app-trailer-button>
+
       </div>
     </div>
   </div>

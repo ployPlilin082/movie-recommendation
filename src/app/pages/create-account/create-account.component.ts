@@ -57,7 +57,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
 
  loadBackdrops(): void {
   this.movieService.getTrendingMovies().subscribe(res => {
-    this.movies = res.results
+    this.movies = res
       .filter((m: any) => m.backdrop_path)
       .map((m: any) => ({
         backdrop: this.imageBaseUrl + m.backdrop_path,
@@ -95,42 +95,47 @@ togglePassword(): void {
 
 
 
-   async onSubmit() {
-    if (this.accountForm.invalid) return;
+ async onSubmit() {
+  if (this.accountForm.invalid) return;
 
-    this.isLoading = true;
-    this.errorMessage = null;
+  this.isLoading = true;
+  this.errorMessage = null;
 
-    const { email, password } = this.accountForm.value;
+  const { email, password } = this.accountForm.value;
 
-    try {
-      await this.authService.signUp(email, password);
-      this.router.navigate(['/sign-in']); 
-    } catch (error: any) {
-      this.errorMessage = error.code === 'auth/email-already-in-use'
+  try {
+    await this.authService.signUp(email, password); 
+    this.router.navigate(['/sign-in']);             
+  } catch (error: any) {
+    this.errorMessage =
+      error.code === 'auth/email-already-in-use'
         ? 'This email is already in use.'
         : 'Signup failed';
-    } finally {
-      this.isLoading = false;
-    }
+  } finally {
+    this.isLoading = false;
   }
+}
+
+
 async singInwithGoogle(): Promise<void> {
     try {
       await this.authService.signInWithGoogle();
       console.log("User signed in with Google successfully");
+      await this.authService.syncUserToDb();
       this.router.navigate(['/sign-in']); 
     } catch (error) {
       console.error("Error signing in with Google:", error);
     }
   }
-  async signInwithFacebook(): Promise<void> {
-    try {
-      await this.authService.signInWithFacebook();
-      console.log("User signed in with Facebook successfully");
-      this.router.navigate(['/sign-in']); 
-    }
-    catch (error) {
-      console.error("Error signing in with Facebook:", error);
-    }   
-  }
+// async signInwithFacebook(): Promise<void> {
+//   try {
+//     await this.authService.signInWithFacebook();
+//     await this.authService.syncUserToDb();
+
+//     // สมัครเสร็จ → ไปหน้า login
+//     this.router.navigate(['/sign-in']);
+//   } catch (error) {
+//     this.errorMessage = 'Facebook signup failed';
+//   }
+// }
 }

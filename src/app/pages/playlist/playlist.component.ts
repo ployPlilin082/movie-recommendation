@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MovieService, MyListMovie } from '../../services/movie.service';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+
+import { PlaylistService } from '../../services/playlist.service';
 
 @Component({
   selector: 'app-playlist',
@@ -11,49 +11,43 @@ import { Subscription } from 'rxjs';
   templateUrl: './playlist.component.html',
   styleUrls: ['./playlist.component.css']
 })
-export class PlaylistComponent implements OnInit, OnDestroy {
+export class PlaylistComponent implements OnInit {
 
-  myList: MyListMovie[] = [];
+  myList: any[] = [];
   removingIds = new Set<number>();
-  sub!: Subscription;
 
   constructor(
-    private movieService: MovieService,
+    private playlistService: PlaylistService,
     private router: Router
   ) {}
 
-  ngOnInit(): void {
-    this.sub = this.movieService.myList$.subscribe((list: MyListMovie[]) => {
-      console.log('Updated myList:', list);
-      this.myList = list;
-    });
-  }
+ ngOnInit(): void {
+  this.playlistService.getMyItems().subscribe({
+    next: res => this.myList = res.items ?? [],
+    error: err => console.error(err)
+  });
+}
 
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
-  }
+get count(): number {
+  return this.myList?.length ?? 0;
+}
 
-  get count(): number {
-    return this.myList.length;
-  }
-
-  toggle(movie: MyListMovie) {
-    // animation ก่อนลบ
-    this.removingIds.add(movie.id);
-
-    setTimeout(() => {
-      this.movieService.toggleMyList(movie);
-      this.removingIds.delete(movie.id);
-    }, 200);
-  }
-
-  getImage(path?: string) {
-    return path
-      ? `https://image.tmdb.org/t/p/w500${path}`
-      : 'assets/noimage.jpg';
-  }
-
+ remove(movieId: number) {
+  this.playlistService.removeMyItem(movieId).subscribe({
+    next: () => {
+      this.myList = this.myList.filter(x => x.movieId !== movieId);
+    },
+    error: err => console.error(err)
+  });
+}
   openDetail(id: number) {
     this.router.navigate(['/movie', id]);
   }
+
+  getImage(path?: string) {
+  return path
+    ? 'https://image.tmdb.org/t/p/w500' + path
+    : 'assets/no-image.png'; // รูป fallback
+}
+
 }

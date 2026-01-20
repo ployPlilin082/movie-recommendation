@@ -9,24 +9,54 @@
     </div>
 
     <div class="chat-area">
-      <div class="chat-placeholder">
+
+      <div *ngIf="messages.length === 0" class="chat-placeholder">
         <div class="icon">💬</div>
         <h3>Chat Feature</h3>
-        <p>Interactive chat with AI and community members</p>
+        <p>Start chatting about this movie</p>
+      </div>
 
-        <div class="features">
-          <div class="feature">• Real-time messaging</div>
-          <div class="feature">• AI assistant integration</div>
-          <div class="feature">• File sharing support</div>
-          <div class="feature">• Emoji reactions</div>
+      <div *ngFor="let m of messages" class="chat-message" [ngClass]="{
+    'from-user': m.sender === 'user',
+    'from-bot': m.sender === 'bot'
+  }">
+
+        <div class="sender">{{ m.displayName }}</div>
+
+
+        <!-- TEXT MESSAGE (แสดงเสมอ ถ้ามี message) -->
+        <div *ngIf="m.message" class="text">
+          {{ m.message }}
         </div>
+
+        <!-- MOVIE CARDS -->
+        <div *ngIf="m.messageType === 'movies'" class="movie-cards">
+          <div class="movie-card" *ngFor="let movie of m.movies" (click)="goMovie(movie.tmdbId)">
+            <img class="poster" [src]="movie.posterUrl" [alt]="movie.title" />
+
+            <div class="info">
+              <div class="title">
+                {{ movie.title }}
+                <span class="year">({{ movie.year }})</span>
+              </div>
+
+              <div class="overview">
+                {{ movie.overview }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+
       </div>
     </div>
 
+
+
     <div class="chat-input">
       <div class="input-container">
-        <input type="text" placeholder="Type your message..." disabled />
-        <button class="send-btn" disabled>
+        <input type="text" placeholder="Type your message..." [(ngModel)]="input" />
+        <button class="send-btn" (click)="send()">
           <span>📤</span>
         </button>
       </div>

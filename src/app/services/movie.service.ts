@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import {  Observable } from 'rxjs';
+import { environment } from '../../environmemts/environment';
+
 
 
 export interface MyListMovie {
@@ -10,82 +12,100 @@ export interface MyListMovie {
   overview?: string;
   vote_average?: number;
   release_date?: string;
+   media_type?: 'movie' | 'tv';
 }
-@Injectable({
-  providedIn: 'root'
-})
+export interface MovieItem {
+  tmdbMovieId: number;
+  title: string;
+  posterPath?: string;
+  platform?: string;
+}
+
+export interface ListResponse<T> {
+  results: T[];
+}
+
+@Injectable({ providedIn: 'root' })
 export class MovieService {
-getMovieDetail(id: string | null): Observable<any> {
-  return this.http.get(
-    `${this.baseUrl}/movie/${id}?api_key=${this.apiKey}&append_to_response=credits`
-  );
-}
 
+ private apiBase = environment.apiBaseUrl +'/api';
 
-  private apiKey = 'a8033b63db6be15159a6c64b85d013b4';
-  private baseUrl = 'https://api.themoviedb.org/3';
 
   constructor(private http: HttpClient) {}
 
-  //  Trending - ใช้สำหรับ main movie + featured
-  getTrendingMovies(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/trending/movie/week?api_key=${this.apiKey}`);
+  // =========================
+  // เรียกผ่าน Backend (มันจะไป TMDB แล้ว cache ลง Mongo)
+  // =========================
+
+  getTrendingMovies(page: number = 1): Observable<MyListMovie[]> {
+    return this.http.get<MyListMovie[]>(`${this.apiBase}/movies/trending?page=${page}`);
+  }
+  
+
+  getMovieDetail(id: string | null): Observable<any> {
+    if (!id) throw new Error('tmdbId is required');
+    return this.http.get<any>(`${this.apiBase}/movies/${id}`);
   }
 
-  //  Up next  
-  getUpNextMovies(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/movie/now_playing?api_key=${this.apiKey}`);
+  getUpNextMovies(page: number = 1): Observable<MyListMovie[]> {
+    return this.http.get<MyListMovie[]>(`${this.apiBase}/movies/now-playing?page=${page}`);
   }
+getPopularPeople(page: number = 1) {
+  return this.http.get<any>(`${this.apiBase}/movies/people/popular?page=${page}`);
+}
 
-  //  Celebrities  
-  getPopularPeople(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/person/popular?api_key=${this.apiKey}`);
+  getPopularMoviesThisWeek(page: number = 1): Observable<MyListMovie[]> {
+    return this.http.get<MyListMovie[]>(`${this.apiBase}/movies/trending?page=${page}`);
   }
-
-  //  Popular movies this week (ใช้ 10 อันดับ)
-  getPopularMoviesThisWeek(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/trending/movie/week?api_key=${this.apiKey}`);
-  }
-
-  //  Popular interests - Genres
-  getGenres(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/genre/movie/list?api_key=${this.apiKey}`);
-  }
-
-  //  What to watch (Top picks) = ใช้ popular movies
-  getTopPicks(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/movie/popular?api_key=${this.apiKey}`);
-  }
-getMoviesByGenre(genreId: number, page: number = 1) {
-  return this.http.get<any>(
-    `${this.baseUrl}/discover/movie?api_key=${this.apiKey}&with_genres=${genreId}&page=${page}`
+  getCachedMovies(): Observable<MovieItem[]> {
+  return this.http.get<MovieItem[]>(
+    `${this.apiBase}/movies/cached`
   );
 }
-private myListSubject = new BehaviorSubject<any[]>(this.loadFromStorage());
-  myList$ = this.myListSubject.asObservable();
 
-  private loadFromStorage(): any[] {
-    const saved = localStorage.getItem('myList');
-    return saved ? JSON.parse(saved) : [];
-  }
 
-  private save(list: any[]) {
-    localStorage.setItem('myList', JSON.stringify(list));
-    this.myListSubject.next(list);
-  }
+  getGenres() {
+  return this.http.get<any>(`${this.apiBase}/movies/genres`);
+}
 
-  toggleMyList(movie: any) {
-    const exists = this.myListSubject.value.some(m => m.id === movie.id);
-    const updated = exists
-      ? this.myListSubject.value.filter(m => m.id !== movie.id)
-      : [...this.myListSubject.value, movie];
+ getTopPicks(page: number = 1) {
+  return this.http.get<MyListMovie[]>(`${this.apiBase}/movies/top-picks?page=${page}`);
+}
 
-    this.save(updated);
-  }
+getMoviesByGenre(genreId: number, page: number = 1) {
+  return this.http.get<any>(
+    `${this.apiBase}/movies/by-genre/${genreId}?page=${page}`
+  );
+}
+getVideos(id: number, mediaType: string = 'movie') {
+  return this.http.get<any>(`${this.apiBase}/movies/${id}/videos?mediaType=${mediaType}`);
+}
+getFeatured(page = 1): Observable<ListResponse<MyListMovie>> {
+  return this.http.get<ListResponse<MyListMovie>>(
+    `${this.apiBase}/movies/featured?page=${page}`
+  );
+}
+likeMovie(tmdbId: number) {
+  return this.http.post<any>(
+    `${this.apiBase}/movies/${tmdbId}/like`,
+    {}
+  );
+}
+
+shareMovie(tmdbId: number) {
+  return this.http.post(
+    `${this.apiBase}/movies/${tmdbId}/share`,
+    {}
+  );
+}
+searchMovies(query: string) {
+  return this.http.get<any[]>(
+    `${this.apiBase}/movies/search?q=${encodeURIComponent(query)}`
+  );
 }
 
 
- 
 
 
 
+}

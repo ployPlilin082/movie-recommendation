@@ -9,9 +9,21 @@
 
       <!-- Desktop search (optional / minimal) -->
       <div class="search-bar">
-        <input type="text" placeholder="Search movies..." />
+        <input [(ngModel)]="searchText" (input)="onSearchInput()" placeholder="Search movies..." />
+
+        <!-- DROPDOWN -->
+        <div class="search-dropdown" *ngIf="results.length">
+          <div class="search-item" *ngFor="let m of results" (click)="openMovie(m.id)">
+            <img [src]="getImage(m.poster_path)" />
+            <div class="meta">
+              <div class="title">{{ m.title }}</div>
+              <div class="rating">⭐ {{ m.vote_average }}</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+
 
     <!-- RIGHT – Desktop Links -->
     <nav class="nav-right">
@@ -31,49 +43,102 @@
       <!-- ถ้า login แล้ว -->
       <ng-template #loggedIn>
         <div class="user-box">
-          <span class="user-name">
-            {{ user?.displayName || user?.email }}
-          </span>
+          <a routerLink="/profile" class="profile-link">
+            <div class="avatar-wrap">
+              <img *ngIf="avatarBlobUrl; else defaultAvatar" [src]="avatarBlobUrl" alt="profile" />
 
-          <button class="logout-btn" (click)="logout()">
-            Logout
-          </button>
+              <ng-template #defaultAvatar>
+                <span class="avatar-fallback">
+                  {{ (user?.displayName || user?.email)?.charAt(0) | uppercase }}
+                </span>
+              </ng-template>
+            </div>
+
+            <div class="user-meta">
+              <span class="user-name">
+                {{ user?.displayName || user?.email }}
+              </span>
+              <span class="user-role">Member</span>
+            </div>
+          </a>
+
+          <button class="logout-btn" (click)="logout()">Logout</button>
         </div>
       </ng-template>
 
 
-
-      <button class="theme-btn" (click)="toggleTheme?.()">🌓</button>
     </nav>
 
+ <div class="nav-actions">
+  <button class="search-btn-mobile" (click)="toggleSearch()">
+    {{ isSearchOpen ? '✕' : '🔍' }}
+  </button>
 
-    <!-- Hamburger (Mobile / Tablet) -->
-    <button class="hamburger" (click)="toggleMenu()">
-      <span [class.open]="isMenuOpen"></span>
-      <span [class.open]="isMenuOpen"></span>
-      <span [class.open]="isMenuOpen"></span>
-    </button>
+  <button class="hamburger" [class.hide]="isMenuOpen" (click)="toggleMenu()">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+</div>
   </div>
 
   <!-- Side Menu Overlay -->
   <div class="side-overlay" [class.open]="isMenuOpen" (click)="closeMenu()">
-    <nav class="side-menu" (click)="$event.stopPropagation()" [class.open]="isMenuOpen">
+
+    <nav class="side-menu" [class.open]="isMenuOpen" (click)="$event.stopPropagation()">
+
       <div class="side-header">
         <span>Menu</span>
         <button class="close-btn" (click)="closeMenu()">✕</button>
       </div>
 
-      <a routerLink="/home" routerLinkActive="active" (click)="closeMenu()" class="side-link">Home</a>
-      <a routerLink="/playlist" routerLinkActive="active" (click)="closeMenu()" class="side-link">Playlist</a>
-      <a routerLink="/chat" routerLinkActive="active" (click)="closeMenu()" class="side-link">Chat</a>
-      <a routerLink="/schedule" routerLinkActive="active" (click)="closeMenu()" class="side-link">Schedule</a>
-      <a routerLink="/cost-calculator" routerLinkActive="active" (click)="closeMenu()" class="side-link">Cost
-        Calculator</a>
-      <a routerLink="/community" routerLinkActive="active" (click)="closeMenu()" class="side-link">Community</a>
-      <a routerLink="/sign-in" (click)="closeMenu()" class="side-link login-btn-mobile">Login</a>
 
-      <a routerLink="/create-account" (click)="closeMenu()" class="side-link signup-btn-mobile">Sign Up</a>
+      <a routerLink="/home" class="side-link" (click)="closeMenu()">Home</a>
+      <a routerLink="/playlist" class="side-link" (click)="closeMenu()">Playlist</a>
+      <a routerLink="/chat" class="side-link" (click)="closeMenu()">Chat</a>
+      <a routerLink="/schedule" class="side-link" (click)="closeMenu()">Schedule</a>
+      <a routerLink="/cost-calculator" class="side-link" (click)="closeMenu()">Cost Calculator</a>
+      <a routerLink="/community" class="side-link" (click)="closeMenu()">Community</a>
+      <a routerLink="/profile" class="side-link" (click)="closeMenu()">Profile</a>
+
+      <button class="side-logout" (click)="logout(); closeMenu()">
+        Logout
+      </button>
 
     </nav>
   </div>
+  <div class="search-overlay" *ngIf="isSearchOpen" (click)="closeSearch()">
+  <div class="search-panel" (click)="$event.stopPropagation()">
+
+    <input
+      [(ngModel)]="searchText"
+      (input)="onSearchInput()"
+      placeholder="Search movies..."
+      style="
+        width: 100%;
+        padding: 12px;
+        border-radius: 999px;
+        border: none;
+        outline: none;
+        background: rgba(255,255,255,0.08);
+        color: #fff;
+        font-size: 14px;
+      "
+    />
+
+   <div class="search-dropdown mobile-search" *ngIf="results.length">
+      <div class="search-item" *ngFor="let m of results" (click)="openMovie(m.id); closeSearch()">
+        <img [src]="getImage(m.poster_path)" />
+        <div class="meta">
+          <div class="title">{{ m.title }}</div>
+          <div class="rating">⭐ {{ m.vote_average }}</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
 </header>

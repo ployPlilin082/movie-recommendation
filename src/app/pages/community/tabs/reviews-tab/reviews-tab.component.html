@@ -1,0 +1,87 @@
+<div class="post-card" *ngFor="let p of posts; trackBy: trackById">
+
+  <!-- HEADER -->
+  <div class="post-header">
+    <div class="user-avatar">
+  {{ (p.userName || '?').charAt(0) | uppercase }}
+
+  <ng-template #fallback>
+    {{ (p.userName || '?').charAt(0) | uppercase }}
+  </ng-template>
+</div>
+
+    <div class="meta">
+      <div class="username">{{ p.userName }}</div>
+      <div class="post-time">{{ p.createdAt | date:'short' }}</div>
+
+      <div class="movie-title" *ngIf="p.movieTitle">
+        🎬 {{ p.movieTitle }}
+      </div>
+    </div>
+  </div>
+
+  <!-- MOVIE POSTER -->
+  <div class="movie-thumb" *ngIf="p.posterPath">
+    <img [src]="'https://image.tmdb.org/t/p/w154' + p.posterPath" />
+  </div>
+
+  <!-- CONTENT -->
+  <div class="post-content">
+    {{ p.comment }}
+    <div class="rating">⭐ {{ p.rating }}</div>
+  </div>
+
+  <!-- ACTIONS -->
+ <div class="post-footer">
+
+    <!-- ACTIONS -->
+    <div class="post-actions">
+      <button (click)="like.emit(p)">
+        👍 Like <span *ngIf="p.likeCount">({{ p.likeCount }})</span>
+      </button>
+
+      <button (click)="toggleComment.emit(p.postId)">
+        💬 Comment
+      </button>
+
+      <button (click)="share.emit(p)">
+        📤 Share <span *ngIf="p.shareCount">({{ p.shareCount }})</span>
+      </button>
+    </div>
+
+    <!-- COMMENTS -->
+    <div class="comment-section" *ngIf="openCommentId === p.postId">
+
+      <!-- COMMENT LIST -->
+      <div
+        class="comment-item"
+        *ngFor="let c of comments[p.postId]"
+      >
+        <div class="comment-avatar">
+          {{ (c.userName || '?').charAt(0) | uppercase }}
+        </div>
+
+        <div class="comment-body">
+          <div class="comment-user">{{ c.userName }}</div>
+          <div class="comment-text">{{ c.text }}</div>
+        </div>
+      </div>
+
+      <!-- COMMENT INPUT -->
+      <div class="quick-comment">
+        <div class="comment-avatar me">
+          {{ (p.userName || '?').charAt(0) | uppercase }}
+        </div>
+
+        <input
+          class="comment-input"
+          [(ngModel)]="commentDraft[p.postId]"
+          placeholder="Write a comment…"
+          (keyup.enter)="sendComment.emit(p.postId)"
+        />
+      </div>
+
+    </div>
+  </div>
+</div>
+

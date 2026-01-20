@@ -1,0 +1,375 @@
+.profile-page {
+  width: 100%;
+  max-width: 1200px;        
+  margin: 20px auto 60px;   
+  padding: 24px;           
+  padding-top: calc(var(--navbar-height) + 16px);
+  color: #ffffff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+/* Header */
+.profile-header {
+  display: grid;
+  grid-template-columns: 84px 1fr auto;
+  gap: 18px;
+  align-items: center;
+  padding: 18px 20px;
+  border-radius: 18px;
+  background: radial-gradient(1200px 220px at 20% 0%, rgba(255,0,122,0.18), transparent),
+              linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03));
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.avatar {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255,0,122,0.8);
+  background: rgba(255,255,255,0.06);
+}
+
+.user-info .name {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.user-info .email {
+  margin: 6px 0 10px;
+  opacity: 0.85;
+  font-size: 14px;
+}
+
+.badge {
+  display: inline-flex;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  background: rgba(255,0,122,0.18);
+  border: 1px solid rgba(255,0,122,0.45);
+  color: #ff6aa9;
+}
+
+/* Actions */
+.profile-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.edit-btn,
+.logout-btn,
+.view-btn,
+.btn-cancel,
+.btn-save {
+  border: none;
+  cursor: pointer;
+  border-radius: 999px;
+  padding: 10px 14px;
+  font-weight: 600;
+  transition: transform 0.12s ease, opacity 0.12s ease;
+}
+
+.edit-btn {
+  background: rgba(255,255,255,0.10);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.14);
+}
+
+.logout-btn {
+  background: rgba(255,0,122,0.15);
+  color: #ff6aa9;
+  border: 1px solid rgba(255,0,122,0.45);
+}
+
+.edit-btn:hover,
+.logout-btn:hover,
+.view-btn:hover,
+.btn-cancel:hover,
+.btn-save:hover {
+  transform: translateY(-1px);
+  opacity: 0.95;
+}
+
+/* Stats */
+.stats {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.stat-card {
+  padding: 18px;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.stat-icon {
+  font-size: 22px;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.10);
+}
+
+.stat-meta p {
+  margin: 0;
+  opacity: 0.85;
+  font-size: 13px;
+}
+
+.stat-meta span {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+/* Lists */
+.section {
+  margin-top: 22px;
+}
+
+.section-title {
+  margin: 0 0 12px;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.list-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.list-card {
+  padding: 16px;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+}
+
+.list-card h3 {
+  margin: 0 0 6px;
+  font-size: 15px;
+}
+
+.list-card p {
+  margin: 0 0 12px;
+  opacity: 0.85;
+  font-size: 13px;
+}
+
+.view-btn {
+  width: 100%;
+  background: linear-gradient(90deg, #ff006e, #ff4da6);
+  color: #fff;
+}
+
+/* Modal */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  z-index: 999;
+}
+
+.modal {
+  width: min(520px, 100%);
+  padding: 14px 18px;
+  border-radius: 18px;
+  background: #14151b;
+  border: 1px solid rgba(255,255,255,0.10);
+  box-shadow: 0 16px 50px rgba(0,0,0,0.5);
+  overflow: hidden; /* ✅ ไม่มี scrollbar */
+}
+
+
+
+.modal h2 {
+  margin: 0 0 12px;
+}
+
+.modal label {
+  display: block;
+  margin: 6px 0 4px;
+  opacity: 0.9;
+  font-size: 13px;
+}
+
+.modal input {
+  width: 90%;
+  padding: 10px 12px;
+  border-radius: 13px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.06);
+  color: #fff;
+  outline: none;
+}
+
+.modal-actions {
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.photo-preview img {
+  width: 64px;
+  height: 64px;
+}
+
+
+.btn-cancel {
+  background: rgba(255,255,255,0.10);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.14);
+}
+
+.btn-save {
+  background: linear-gradient(90deg, #ff006e, #ff4da6);
+  color: #fff;
+}
+.poster-row {
+  display: flex;
+  gap: 12px;
+}
+
+.poster {
+  width: 120px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform .2s;
+}
+
+.poster:hover {
+  transform: scale(1.05);
+}
+
+
+/* Responsive */
+@media (max-width: 900px) {
+  .profile-header {
+    grid-template-columns: 72px 1fr;
+    grid-template-rows: auto auto;
+  }
+  .profile-actions {
+    grid-column: 1 / -1;
+    justify-content: flex-end;
+  }
+  .stats {
+    grid-template-columns: 1fr;
+  }
+  .list-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .list-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 600px) {
+
+  /* PAGE */
+   .profile-page {
+    width: calc(100% - 24px);
+      padding-top: calc(var(--navbar-height) + 16px);
+    margin: 12px auto 40px;
+    padding: 14px;
+  }
+  @media (max-width: 600px) {
+  .profile-header,
+  .stat-card,
+  .list-card {
+    border: 1px solid rgba(255,255,255,0.28); 
+    box-shadow:
+      0 6px 18px rgba(0,0,0,0.7),
+      inset 0 0 0 1px rgba(255,255,255,0.08);
+  }
+}
+
+
+  /* HEADER → vertical */
+  .profile-header {
+    border-color: rgba(255,255,255,0.22);
+    box-shadow:
+      0 8px 22px rgba(0,0,0,0.55),
+      inset 0 0 0 1px rgba(255
+      ,255,255,0.08);
+        margin-top: 1rem;
+  }
+
+  .avatar {
+    margin: 0 auto;
+    width: 72px;
+    height: 72px;
+  }
+
+  .user-info .name {
+    font-size: 18px;
+  }
+
+  .user-info .email {
+    font-size: 13px;
+  }
+
+  /* ACTION BUTTONS */
+  .profile-actions {
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .edit-btn,
+  .logout-btn {
+    flex: 1;
+    padding: 10px 0;
+    font-size: 14px;
+  }
+
+  /* STATS → stack */
+  .stats {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .stat-card {
+    padding: 14px;
+  }
+
+  /* MY LIST */
+  .poster-row {
+    overflow-x: auto;
+    padding-bottom: 6px;
+  }
+
+  .poster {
+    width: 110px;
+    flex-shrink: 0;
+  }
+
+  /* LIST GRID */
+  .list-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+}
+

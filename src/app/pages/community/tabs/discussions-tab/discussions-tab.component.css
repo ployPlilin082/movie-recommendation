@@ -1,0 +1,200 @@
+/* ===== COMMON ===== */
+.title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #c7d2fe;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: #94a3b8;
+  margin-bottom: 16px;
+}
+
+.state {
+  text-align: center;
+  color: #64748b;
+  font-size: 14px;
+  margin-top: 2rem;
+}
+/* ===== DISCUSSION WRAP ===== */
+.discussion-wrap {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* ===== CREATE BOX ===== */
+.create-box {
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 16px;
+  padding: 14px;
+  margin-bottom: 20px;
+}
+
+.create-box textarea {
+  width: 100%;
+  min-height: 90px;
+
+  background: transparent;      /* ❗ */
+  border: none;                 /* ❗ */
+
+  padding: 6px 4px;
+  color: #e5e7eb;
+  resize: none;
+  outline: none;
+
+  font-size: 14px;
+  line-height: 1.6;
+}
+.create-box:focus-within {
+  border-color: #818cf8;
+  box-shadow: 0 0 0 1px rgba(129,140,248,.4);
+}
+
+
+.create-box textarea::placeholder {
+  color: #64748b;
+  opacity: 0.8;
+}
+
+
+.create-box button {
+  margin-top: 12px;
+  align-self: flex-start;
+
+  background: linear-gradient(135deg, #6366f1, #9333ea);
+  border: none;
+  border-radius: 999px;     /* pill */
+  padding: 8px 18px;
+
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+
+.create-box button:hover {
+  opacity: 0.9;
+}
+
+/* ===== DISCUSSION CARD ===== */
+.discussion-card {
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 14px;
+}
+
+.discussion-header {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #9333ea);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.username {
+  font-weight: 600;
+  color: #e5e7eb;
+}
+
+.time {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.discussion-content {
+  margin-top: 6px;
+  color: #e5e7eb;
+  line-height: 1.6;
+  font-size: 14px;
+}
+/* ============================= */
+/* 📱 DISCUSSION – MOBILE */
+/* ============================= */
+@media (max-width: 600px) {
+
+  .discussion-wrap {
+    max-width: 100%;
+    padding: 0 12px;
+  }
+
+  /* ---------- CREATE BOX ---------- */
+  .create-box {
+    padding: 16px;
+    border-radius: 18px;
+  }
+
+  .create-box textarea {
+    min-height: 100px;
+    padding: 14px;
+    font-size: 14px;
+    line-height: 1.5;
+    border-radius: 14px;
+  }
+
+  .create-box button {
+    width: 100%;
+    margin-top: 12px;
+    padding: 12px;
+    font-size: 15px;
+    border-radius: 14px;
+  }
+
+  /* ---------- DISCUSSION CARD ---------- */
+  .discussion-card {
+    padding: 16px;
+    border-radius: 18px;
+  }
+
+  .discussion-header {
+    gap: 12px;
+    align-items: center;
+  }
+
+  .avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+
+  .username {
+    font-size: 14px;
+  }
+
+  .time {
+    font-size: 11px;
+  }
+
+  .discussion-content {
+    font-size: 14px;
+    line-height: 1.6;
+    margin-top: 10px;
+  }
+
+  /* ---------- TITLE ---------- */
+  .title {
+    font-size: 16px;
+  }
+
+  .subtitle {
+    font-size: 12px;
+    margin-bottom: 12px;
+  }
+
+}
+
+

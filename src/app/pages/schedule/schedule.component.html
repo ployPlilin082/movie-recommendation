@@ -3,62 +3,90 @@
 
     <!-- HEADER -->
     <div class="schedule-header">
-      <div>
+      <div class="header-text">
         <h2>📅 Movie Schedule</h2>
         <p>Plan what movie you’ll watch each day</p>
       </div>
 
-      <button class="add-btn" disabled>
+      <button class="add-btn" (click)="openModal()">
         ➕ Add Schedule
       </button>
     </div>
 
-    <!-- CONTENT -->
-    <div class="schedule-content">
 
-      <!-- DAY SELECTOR -->
-      <div class="day-tabs">
-        <button class="day active">Today</button>
-        <button class="day">Tomorrow</button>
-        <button class="day">This Week</button>
-      </div>
-
-      <!-- SCHEDULE LIST -->
-      <div class="schedule-list">
-
-        <!-- ITEM -->
-        <div class="schedule-item">
-          <div class="time">19:30</div>
-          <div class="details">
-            <div class="movie-title">🎬 Interstellar</div>
-            <div class="meta">IMAX · SF Cinema</div>
-          </div>
-          <div class="actions">
-            <button disabled>✏️</button>
-            <button disabled>🗑️</button>
-          </div>
-        </div>
-
-        <div class="schedule-item">
-          <div class="time">22:00</div>
-          <div class="details">
-            <div class="movie-title">🎥 The Dark Knight</div>
-            <div class="meta">Netflix · Home</div>
-          </div>
-          <div class="actions">
-            <button disabled>✏️</button>
-            <button disabled>🗑️</button>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- EMPTY STATE -->
-      <div class="empty-state">
-        <div class="icon">🗓️</div>
-        <p>No more movies scheduled</p>
-      </div>
+    <!-- TABS -->
+    <div class="schedule-tabs">
+      <button *ngFor="let r of ranges" [class.active]="activeRange === r" (click)="changeRange(r)">
+        {{ r | titlecase }}
+      </button>
 
     </div>
+
+    <!-- LIST -->
+    <div class="schedule-list" *ngIf="schedules.length; else empty">
+      <div class="schedule-item" *ngFor="let s of schedules">
+        <img *ngIf="s.posterPath" class="poster" [src]="tmdbImageBase + s.posterPath">
+
+        <div class="details">
+          <div class="movie-title">{{ s.movieTitle }}</div>
+          <div class="sub">
+            ⏰ {{ s.dateTimeScheduled | date:'dd MMM HH:mm' }}
+            · 📺 {{ s.platform || 'Unknown' }}
+          </div>
+        </div>
+        <div class="action-buttons">
+          <button class="edit-btn" (click)="editSchedule(s)" title="Edit">
+            ✏️
+          </button>
+          <button class="delete-btn" (click)="deleteSchedule(s.scheduleId)" title="Delete">
+            🗑️
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #empty>
+      <div class="empty-state">
+        <div class="empty-icon">🗓️</div>
+        <h4>No movies scheduled</h4>
+        <p>Start planning your movie night 🎬</p>
+
+        <button class="empty-cta" (click)="openModal()">
+          ➕ Add your first schedule
+        </button>
+      </div>
+    </ng-template>
+
+
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal" *ngIf="showModal">
+  <div class="modal-content">
+
+    <h3>Add Schedule</h3>
+
+    <!-- SEARCH -->
+    <input class="search" type="text" placeholder="Search movie..." [(ngModel)]="searchText">
+
+    <!-- MOVIE PICKER -->
+    <div class="movie-picker">
+      <div class="movie-option" *ngFor="let m of filteredMovies()" (click)="selectMovie(m)"
+        [class.selected]="selectedMovie?.tmdbMovieId === m.tmdbMovieId">
+
+        <img [src]="tmdbImageBase + m.posterPath">
+        <span>{{ m.title }}</span>
+      </div>
+    </div>
+
+    <!-- TIME -->
+    <input type="datetime-local" [(ngModel)]="newDateTime">
+
+    <div class="modal-actions">
+      <button class="save" (click)="saveSchedule()">Save</button>
+      <button class="cancel" (click)="closeModal()">Cancel</button>
+    </div>
+
   </div>
 </div>

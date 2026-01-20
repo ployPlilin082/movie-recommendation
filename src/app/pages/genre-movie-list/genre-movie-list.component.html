@@ -1,13 +1,12 @@
-<div class="list-wrapper">
+<div class="list-wrapper" (scroll)="onScroll($event)">
 
   <h1 class="page-title">{{ genreName }}</h1>
   <p class="page-subtitle">Popular {{ genreName }} Movies</p>
 
-  <div *ngIf="loading" class="loading">
-    Loading movies...
-  </div>
+  <!-- MOVIE GRID -->
+  <div class="movie-grid">
 
-  <div class="movie-grid" *ngIf="!loading">
+    <!-- MOVIES -->
     <div
       class="movie-card"
       *ngFor="let movie of movies"
@@ -17,6 +16,23 @@
       <h3>{{ movie.title }}</h3>
       <p>⭐ {{ movie.vote_average | number:'1.1-1' }}</p>
     </div>
+
+    <!-- SKELETON -->
+    <ng-container *ngIf="loading">
+      <div
+        class="movie-card skeleton"
+        *ngFor="let i of skeletons"
+      >
+        <div class="img"></div>
+        <div class="line"></div>
+        <div class="line short"></div>
+      </div>
+    </ng-container>
+
+  </div>
+
+  <div class="loading-text" *ngIf="loading">
+    Loading more movies...
   </div>
 
 </div>
