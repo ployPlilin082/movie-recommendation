@@ -3,7 +3,9 @@
     "default": "moviecollective-demo-2025",
     "moviecollective": "moviecollective-app",
     "moviecollective-app": "moviecollective-app",
-    "moviecollective-demo-2025": "moviecollective-demo-2025"
+    "moviecollective-demo-2025": "moviecollective-demo-2025",
+    "movierec-project": "movierec-project",
+    "movieCollective": "movierec-project"
   },
   "targets": {},
   "etags": {}

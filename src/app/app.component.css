@@ -1,7 +1,3 @@
-:root{
-  --nav-h: 72px;     
-  --footer-h: 260px; 
-}
 
 /* ทำให้ layout เต็มจอ และ main กินพื้นที่ที่เหลือ */
 :host{

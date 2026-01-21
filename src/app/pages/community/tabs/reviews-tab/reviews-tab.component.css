@@ -204,3 +204,107 @@
 .comment-input::placeholder {
   color: rgba(255,255,255,0.45);
 }
+@media (max-width: 640px) {
+
+  /* ========== POST CARD ========== */
+  .post-card {
+    padding: 14px;
+    border-radius: 14px;
+    margin-bottom: 14px;
+  }
+
+  /* ========== HEADER ========== */
+  .post-header {
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .user-avatar {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+
+  .username {
+    font-size: 14px;
+  }
+
+  .post-time {
+    font-size: 11px;
+  }
+
+  .movie-title {
+    font-size: 12px;
+  }
+
+  /* ========== MOVIE POSTER ========== */
+  .movie-thumb {
+    margin: 12px auto 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .movie-thumb img {
+    width: 100%;
+    max-width: 180px;
+  }
+
+  /* ========== CONTENT ========== */
+  .post-content {
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .rating {
+    font-size: 13px;
+  }
+
+  /* ========== ACTIONS ========== */
+  .post-actions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .post-actions button {
+    justify-content: center;
+    padding: 10px 0;
+    font-size: 13px;
+  }
+
+  /* ========== COMMENTS ========== */
+  .comment-item {
+    gap: 8px;
+  }
+
+  .comment-avatar {
+    width: 28px;
+    height: 28px;
+    font-size: 11px;
+  }
+
+  .comment-body {
+    max-width: 100%;
+    padding: 8px 10px;
+  }
+
+  .comment-user {
+    font-size: 12px;
+  }
+
+  .comment-text {
+    font-size: 13px;
+  }
+
+  /* ========== COMMENT INPUT ========== */
+  .comment-input-wrap {
+    gap: 8px;
+  }
+
+  .comment-input {
+    padding: 9px 12px;
+    font-size: 14px;
+  }
+}

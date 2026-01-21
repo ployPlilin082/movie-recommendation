@@ -1,33 +1,4 @@
 
-:root {
-  --bg-color: #ffffff;
-  --text-color: #000000;
-  --navbar-bg: #ffffff;
-  --card-bg: #ffffff;
-  --search-bg: #eeeeee;
-  --search-filter-bg: #dddddd;
-  --search-input-bg: #ffffff;
-  --border-color: #444444;
-}
-
-/* Dark theme override */
-.dark-theme {
-  --bg-color: #000000;
-  --text-color: #ffffff;
-  --navbar-bg: #121212;
-  --card-bg: #1a1a1a;
-  --search-bg: #333333;
-  --search-filter-bg: #222222;
-  --search-input-bg: #111111;
-  --border-color: #888888;
-}
-
-
-body {
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  margin: 0;
-}
 .movie-title {
   font-size: 16px;
   font-weight: 600;
@@ -57,6 +28,7 @@ html, body {
     --navbar-height: 80px; /* Mobile navbar จริง */
   }
 }
+
 
 
 
