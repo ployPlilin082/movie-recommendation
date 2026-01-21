@@ -24,7 +24,7 @@ export class MovieDetailsComponent implements OnInit {
   movie: any;
   genreText: string = '';
   showToast = false;
-   toastMessage = '';
+  toastMessage = '';
 
 
 
