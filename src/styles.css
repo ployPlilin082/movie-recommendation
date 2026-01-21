@@ -20,7 +20,7 @@ html, body {
   background-color: #040007; /* สีเดียวกับหน้า */
 }
 :root {
-  --navbar-height: 64px;
+  --navbar-height: 70px;
 }
 
 @media (max-width: 768px) {

@@ -1,15 +1,22 @@
 /* ===== Layout ===== */
 .container {
   display: flex;
-  width: 100vw; 
+  width: 100%;
+  min-height: calc(100vh - var(--navbar-height));
   max-width: 100vw;
-  min-height: 100vh;
   background-color: #201a24;
   color: #fff;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  padding: 30px;
+
+  /* ✅ แยก padding ให้ชัด */
+  padding-top: calc(var(--navbar-height) + 40px);
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-bottom: 40px;
+
   box-sizing: border-box;
 }
+
 
 /* ===== Left Panel ===== */
 .visual-panel {
@@ -345,10 +352,18 @@
   }
 
   /* ===== Container ===== */
-  .container {
+ .container {
     flex-direction: column;
     min-height: 100vh;
-    padding: 0;
+
+    
+    padding-top: calc(var(--navbar-height) + 16px);
+
+    
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 24px;
+
     background-color: #201a24;
   }
 

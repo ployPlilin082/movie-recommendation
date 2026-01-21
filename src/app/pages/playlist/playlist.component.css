@@ -1,6 +1,6 @@
 /* HEADER */
 .playlist-wrapper{
-    padding-top: calc(var(--navbar-height) + 16px);
+    min-height: calc(100vh - 70px);
 
 }
 .playlist-header h2 {
