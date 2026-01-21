@@ -72,9 +72,9 @@ async signUp(email: string, password: string) {
     return signInWithPopup(this.auth, new GoogleAuthProvider());
   }
 
-  // signInWithFacebook() {
-  //   return signInWithPopup(this.auth, new FacebookAuthProvider());
-  // }
+  signInWithFacebook() {
+    return signInWithPopup(this.auth, new FacebookAuthProvider());
+  }
 
   getCurrentUser(): User | null {
     return this.auth.currentUser;

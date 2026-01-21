@@ -127,15 +127,15 @@ async singInwithGoogle(): Promise<void> {
       console.error("Error signing in with Google:", error);
     }
   }
-// async signInwithFacebook(): Promise<void> {
-//   try {
-//     await this.authService.signInWithFacebook();
-//     await this.authService.syncUserToDb();
+async signInwithFacebook(): Promise<void> {
+  try {
+    await this.authService.signInWithFacebook();
+    await this.authService.syncUserToDb();
 
-//     // สมัครเสร็จ → ไปหน้า login
-//     this.router.navigate(['/sign-in']);
-//   } catch (error) {
-//     this.errorMessage = 'Facebook signup failed';
-//   }
-// }
+    // สมัครเสร็จ → ไปหน้า login
+    this.router.navigate(['/sign-in']);
+  } catch (error) {
+    this.errorMessage = 'Facebook signup failed';
+  }
+}
 }

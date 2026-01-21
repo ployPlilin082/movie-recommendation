@@ -10,6 +10,7 @@
 }
 .content-wrapper {
   display: grid;
+  position: relative;
   grid-template-columns: minmax(0, 1fr) 430px;
   gap: 80px;
 
@@ -18,6 +19,12 @@
   padding: 0 24px;
 }
 
+.error {
+  margin-top: -10px;
+  margin-bottom: 14px;
+  font-size: 13px;
+  color: #ffd1d1;
+}
 
 
 /* LEFT SIDE */
@@ -139,23 +146,25 @@
   width: 100%;
   padding: 15px 20px;
   margin-bottom: 20px;
-
+  padding-right: 30px;
   border-radius: 6px;
   border: none;
 }
 .password-wrapper i {
   position: absolute;
   top: 50%;
-  right: 15px;
+  right: 8px;
   transform: translateY(-50%);
   cursor: pointer;
+  z-index: 10;
   color: rgba(255, 255, 255, 0.7);
-  transition: 0.25s;
+  transition: color 0.2s, transform 0.2s;
 }
 .password-wrapper i:hover {
   color: #fff;
-  transform: translateY(-50%) scale(1.15);
+  transform: translateY(-50%) scale(1.1);
 }
+
 
 /* FORGOT PASSWORD */
 .forgot-link {
@@ -292,6 +301,8 @@
   }
 
 
+
+
 }
 
 @media (max-width: 480px) {
@@ -307,6 +318,19 @@
     max-width: 100%;
     border-radius: 12px;
   }
+   .error {
+    display: block;
+    margin-bottom: 6px;   /* เว้นจาก forgot */
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  .forgot-link {
+    margin-top: 0;
+    text-align: right;    /* แยกตำแหน่งชัด */
+  }
+  
+ 
 }
 
 

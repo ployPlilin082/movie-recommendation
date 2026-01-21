@@ -8,7 +8,7 @@
       <p>
         Discover, save, and track your favorite movies in one place.
       </p>
-      <button class="learn-more-btn" type="button">
+      <button class="learn-more-btn" type="button" (click)="explore()">
         Explore Movies
       </button>
     </div>
@@ -80,10 +80,10 @@
 
       <!-- SOCIAL -->
       <div class="social-icons">
-        <!-- <div class="social-circle fb" title="Continue with Facebook" (click)="facebookSignIn()">
+        <div class="social-circle fb" title="Continue with Facebook" (click)="facebookSignIn()">
 
           <img src="img/facebook-brands-solid.svg" alt="Facebook">
-        </div> -->
+        </div>
 
         <div class="social-circle gg" title="Continue with Google" (click)="googleSignIn()">
           <img src="img/google-brands-solid.svg" alt="Google">

@@ -23,6 +23,9 @@ export class MovieDetailsComponent implements OnInit {
 
   movie: any;
   genreText: string = '';
+  showToast = false;
+   toastMessage = '';
+
 
 
   constructor(
@@ -96,11 +99,24 @@ shareMovie() {
   }
 addToMyList() {
   this.playlistService.addMyItem(this.movie).subscribe({
-    next: () => alert(`Added "${this.movie.title}" to My List`),
+    next: () => {
+      this.toastMessage = `Added "${this.movie.title}" to My List`;
+      this.showToast = true;
+
+      setTimeout(() => {
+        this.showToast = false;
+      }, 2000);
+    },
     error: err => {
       console.error(err);
-      alert('Failed to add movie to My List');
+      this.toastMessage = 'Failed to add movie to My List';
+      this.showToast = true;
+
+      setTimeout(() => {
+        this.showToast = false;
+      }, 2000);
     }
   });
 }
+
 }

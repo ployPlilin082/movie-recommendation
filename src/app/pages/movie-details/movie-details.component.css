@@ -13,6 +13,37 @@
     transparent 60%
   );
 }
+.toast {
+  position: fixed;
+  z-index: 9999;
+
+  background: rgba(0,0,0,0.85);
+  color: #facc15;
+  padding: 14px 20px;
+  border-radius: 12px;
+
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+
+  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+  backdrop-filter: blur(6px);
+
+  animation: toastUp .25s ease;
+}
+
+
+@keyframes toastUp {
+  from {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 
 .poster-wrapper{
   position: relative;
@@ -340,6 +371,16 @@
 
   .actor p {
     font-size: 12px;
+  }
+   .toast {
+    left: 50%;
+    bottom: 16px;
+    transform: translateX(-50%);
+    width: calc(100% - 32px); /* เว้นขอบ */
+    max-width: 420px;
+    text-align: center;
+    font-size: 13px;
+    padding: 12px 16px;
   }
 
 }

@@ -88,16 +88,21 @@ export class SignInComponent implements OnInit {
     });
 }
 
-//   facebookSignIn(): void {
-//   this.authService.signInWithFacebook()
-//     .then(async () => {
-//       await this.authService.syncUserToDb();
-//       this.router.navigate(['/home']);
-//     })
-//     .catch(() => {
-//       this.authError = 'Facebook login failed';
-//     });
-// }
+  facebookSignIn(): void {
+  this.authService.signInWithFacebook()
+    .then(async () => {
+      await this.authService.syncUserToDb();
+      this.router.navigate(['/home']);
+    })
+    .catch(() => {
+      this.authError = 'Facebook login failed';
+    });
+}
+
+  explore(): void {
+    this.router.navigate(['/home'])
+
+  }
 
 
 }
