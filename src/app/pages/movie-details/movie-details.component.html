@@ -65,7 +65,7 @@
 
         <div class="actors">
             <div class="actor" *ngFor="let a of movie.credits.cast.slice(0, 10)">
-                <img [src]="getImage(a.profile_path)" />
+                <img [src]="getImage(a.profilePath)" />
                 <p>{{ a.name }}</p>
             </div>
         </div>
