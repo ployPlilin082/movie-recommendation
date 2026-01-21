@@ -79,7 +79,7 @@ export class GenreMovieListComponent implements OnInit {
   getImage(path: string) {
     return path
       ? 'https://image.tmdb.org/t/p/w500' + path
-      : '/placeholder.jpg';
+      :  'img/movie.png';
   }
 }
 

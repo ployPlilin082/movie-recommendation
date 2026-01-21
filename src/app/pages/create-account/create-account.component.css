@@ -241,17 +241,89 @@
     justify-content: center;
     transition: background-color 0.2s;
 }
+.terms-group + .error-text {
+  margin-top: 4px;
+}
+
 
 .social-btn img {
     width: 20px;
     height: 20px;
     margin-right: 10px;
 }
+.error-text {
+  color: #ff6b6b;
+  font-size: 13px;
+  margin-top: 6px;
+}
+
 
 .social-btn:hover {
     background-color: #312b36;
     border-color: #555;
 }
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal-box {
+  background: #0f172a;
+  color: #fff;
+  width: 92%;
+  max-width: 520px;
+  max-height: 85vh;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-content {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+  -webkit-overflow-scrolling: touch;
+}
+
+.modal-footer {
+  padding: 12px 16px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+}
+
+.accept-btn {
+  background: #22c55e;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  color: #000;
+  font-weight: 600;
+}
+
+.accept-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+}
+
+
 
 /* 6. Responsive Design (สำหรับ Tablet และ Mobile) */
 @media (max-width: 1024px) {
@@ -381,6 +453,9 @@
   .separator::before,
   .separator::after {
     width: 28%;
+  }
+   .error-text {
+    font-size: 12px;
   }
 }
 

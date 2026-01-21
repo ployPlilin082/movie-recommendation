@@ -21,6 +21,7 @@ export const routes: Routes = [
       .then(m => m.ForgotPasswordComponent)
 },
 
+
   
   {
     path: 'genre/:id',

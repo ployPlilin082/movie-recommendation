@@ -69,15 +69,12 @@ export class MovieDetailsComponent implements OnInit {
     });
   }
 
-  shareMovie() {
-    const url = `${window.location.origin}/movie/${this.movie.id}`;
+  async shareMovie() {
+  const url = `${window.location.origin}/movie/${this.movie.id}`;
 
-    this.movieService.shareMovie(this.movie.id).subscribe(() => {
-      this.movie.shareCount = (this.movie.shareCount ?? 0) + 1;
-    });
-
+  try {
     if (navigator.share) {
-      navigator.share({
+      await navigator.share({
         title: this.movie.title,
         text: 'หนังเรื่องนี้น่าดูมาก 🎬',
         url
@@ -87,15 +84,25 @@ export class MovieDetailsComponent implements OnInit {
         `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
         '_blank'
       );
-      this.userHistoryService.log({
-        movieId: this.movie.id,
-        interactionTypeId: 3 // View
-      });
     }
+
+    // ✅ log หลังจาก share สำเร็จ
+    this.userHistoryService.log({
+      movieId: this.movie.id,
+      interactionTypeId: 3 // Share
+    });
+
+  } catch (err) {
+    // user กดยกเลิก → ไม่ต้อง log
+    console.log('Share cancelled');
   }
+}
+
 
   getImage(path: string) {
-    return 'https://image.tmdb.org/t/p/w500' + path;
+    return path
+    ?  'https://image.tmdb.org/t/p/w500' + path
+    :   'img/movie.png';
   }
  addToMyList() {
   this.playlistService.addMyItem(this.movie).subscribe({

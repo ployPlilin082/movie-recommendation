@@ -17,9 +17,12 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
   accountForm: FormGroup = new FormGroup({});
   currentBackdrop: string | null = null;
   currentMovieTitle: string | null = null;
-  showPassword: boolean = false;  
+  showPassword: boolean = false;
   isLoading: boolean = false;
   errorMessage: string | null = null;
+  showModal = false;
+  modalType: 'privacy' | 'deletion' | null = null;
+
 
 
   private backdrops: string[] = [];
@@ -31,9 +34,9 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private movieService: MovieService,
-     private authService: AuthService,
-     private router: Router
-  ) {}
+    private authService: AuthService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     // form
@@ -48,6 +51,29 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
     // load movie backdrops
     this.loadBackdrops();
   }
+ openPolicy(event: Event) {
+  event.preventDefault();
+  this.modalType = 'privacy';
+  this.showModal = true;
+  
+}
+
+openDeletion(event: Event) {
+  event.preventDefault();
+  this.modalType = 'deletion';
+  this.showModal = true;
+ 
+}
+
+closeModal() {
+  this.showModal = false;
+  this.modalType = null;
+}
+
+acceptPolicy() {
+  this.accountForm.patchValue({ agreeTerms: true });
+  this.showModal = false;
+}
 
   ngOnDestroy(): void {
     if (this.slideInterval) {
@@ -55,87 +81,90 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
     }
   }
 
- loadBackdrops(): void {
-  this.movieService.getTrendingMovies().subscribe(res => {
-    this.movies = res
-      .filter((m: any) => m.backdrop_path)
-      .map((m: any) => ({
-        backdrop: this.imageBaseUrl + m.backdrop_path,
-        title: m.title
-      }));
+  loadBackdrops(): void {
+    this.movieService.getTrendingMovies().subscribe(res => {
+      this.movies = res
+        .filter((m: any) => m.backdrop_path)
+        .map((m: any) => ({
+          backdrop: this.imageBaseUrl + m.backdrop_path,
+          title: m.title
+        }));
 
-    if (this.movies.length) {
-      this.startSlideshow();
-    }
-  });
-}
-startSlideshow(): void {
-  let index = 0;
+      if (this.movies.length) {
+        this.startSlideshow();
+      }
+    });
+  }
+  startSlideshow(): void {
+    let index = 0;
 
-  this.setImage(index);
-
-  this.slideInterval = setInterval(() => {
-    index = (index + 1) % this.movies.length;
     this.setImage(index);
-  }, 5000);
-}
 
-setImage(index: number) {
-  const img = new Image();
-  img.src = this.movies[index].backdrop;
+    this.slideInterval = setInterval(() => {
+      index = (index + 1) % this.movies.length;
+      this.setImage(index);
+    }, 5000);
+  }
 
-  img.onload = () => {
-    this.currentBackdrop = this.movies[index].backdrop;
-    this.currentMovieTitle = this.movies[index].title;
-  };
-}
-togglePassword(): void {
+  setImage(index: number) {
+    const img = new Image();
+    img.src = this.movies[index].backdrop;
+
+    img.onload = () => {
+      this.currentBackdrop = this.movies[index].backdrop;
+      this.currentMovieTitle = this.movies[index].title;
+    };
+  }
+  togglePassword(): void {
     this.showPassword = !this.showPassword;
   }
 
 
 
- async onSubmit() {
-  if (this.accountForm.invalid) return;
-
-  this.isLoading = true;
-  this.errorMessage = null;
-
-  const { email, password } = this.accountForm.value;
-
-  try {
-    await this.authService.signUp(email, password); 
-    this.router.navigate(['/sign-in']);             
-  } catch (error: any) {
-    this.errorMessage =
-      error.code === 'auth/email-already-in-use'
-        ? 'This email is already in use.'
-        : 'Signup failed';
-  } finally {
-    this.isLoading = false;
+  async onSubmit() {
+    if (this.accountForm.invalid) return;
+    if (this.accountForm.invalid) {
+    this.accountForm.markAllAsTouched(); 
+    return;
   }
-}
+    this.isLoading = true;
+    this.errorMessage = null;
+
+    const { email, password } = this.accountForm.value;
+
+    try {
+      await this.authService.signUp(email, password);
+      this.router.navigate(['/sign-in']);
+    } catch (error: any) {
+      this.errorMessage =
+        error.code === 'auth/email-already-in-use'
+          ? 'This email is already in use.'
+          : 'Signup failed';
+    } finally {
+      this.isLoading = false;
+    }
+  }
 
 
-async singInwithGoogle(): Promise<void> {
+  async singInwithGoogle(): Promise<void> {
     try {
       await this.authService.signInWithGoogle();
       console.log("User signed in with Google successfully");
       await this.authService.syncUserToDb();
-      this.router.navigate(['/sign-in']); 
+      this.router.navigate(['/sign-in']);
     } catch (error) {
       console.error("Error signing in with Google:", error);
     }
   }
-async signInwithFacebook(): Promise<void> {
-  try {
-    await this.authService.signInWithFacebook();
-    await this.authService.syncUserToDb();
+  async signInwithFacebook(): Promise<void> {
+    try {
+      await this.authService.signInWithFacebook();
+      await this.authService.syncUserToDb();
 
-    // สมัครเสร็จ → ไปหน้า login
-    this.router.navigate(['/sign-in']);
-  } catch (error) {
-    this.errorMessage = 'Facebook signup failed';
+      // สมัครเสร็จ → ไปหน้า login
+      this.router.navigate(['/sign-in']);
+    } catch (error) {
+      this.errorMessage = 'Facebook signup failed';
+    }
   }
-}
 }

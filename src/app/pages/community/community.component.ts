@@ -140,16 +140,10 @@ loadEvents() {
     }
   });
 }
-
-
-
  share(postId: number) {
   const url = this.getShareUrl(postId);
 
-  // 1. บันทึก share ใน backend
-  this.community.shareReview(postId).subscribe();
-
-  // 2. แชร์ออกนอก
+  // 🔥 เปิด share ก่อน (user gesture 100%)
   if (navigator.share) {
     navigator.share({
       title: 'Movie Review',
@@ -159,17 +153,18 @@ loadEvents() {
   } else {
     this.openShareFallback(url);
   }
+
+  
+  this.community.shareReview(postId).subscribe();
 }
+
 openShareFallback(url: string) {
   const encoded = encodeURIComponent(url);
-
   const fb = `https://www.facebook.com/sharer/sharer.php?u=${encoded}`;
-  const line = `https://social-plugins.line.me/lineit/share?url=${encoded}`;
-  const x = `https://twitter.com/intent/tweet?url=${encoded}`;
 
-  // เปิด popup เลือกเอง หรือทำ modal
   window.open(fb, '_blank', 'width=600,height=500');
 }
+
 openShare(p: CommunityPost) {
   const url = this.getShareUrl(p.postId);
 

@@ -30,21 +30,45 @@
       </div>
 
       <div class="form-field password-group">
-        <input
-          [type]="showPassword ? 'text' : 'password'"
-          placeholder="Enter your password"
-          formControlName="password"
-        />
-        <button type="button" class="password-toggle" (click)="togglePassword()">
+        <input [type]="showPassword ? 'text' : 'password'" placeholder="Enter your password"
+          formControlName="password" />
+        <!-- <button type="button" class="password-toggle" (click)="togglePassword()">
           <img *ngIf="!showPassword" src="img/eye-solid.svg">
           <img *ngIf="showPassword" src="img/eye-off.svg">
-        </button>
+        </button> -->
+        <p class="error-text" *ngIf="
+    accountForm.get('password')?.touched &&
+    accountForm.get('password')?.invalid
+  ">
+          <span *ngIf="accountForm.get('password')?.errors?.['required']">
+            Please enter a password
+          </span>
+
+          <span *ngIf="accountForm.get('password')?.errors?.['minlength']">
+            Password must be at least 8 characters
+          </span>
+        </p>
       </div>
 
       <div class="form-field terms-group">
         <input type="checkbox" formControlName="agreeTerms">
-        <label>I agree to the <a href="#">Terms & Conditions</a></label>
+        <label>
+          ข้าพเจ้ายอมรับ
+          <a href="#" (click)="openPolicy($event)">นโยบายความเป็นส่วนตัว</a>
+          และ
+          <a href="#" (click)="openDeletion($event)">การลบข้อมูลผู้ใช้</a>
+        </label>
       </div>
+      <p class="error-text" *ngIf="
+     accountForm.get('agreeTerms')?.invalid &&
+     accountForm.get('agreeTerms')?.touched
+   ">
+        กรุณาอ่านและยอมรับนโยบายความเป็นส่วนตัวก่อนสมัครสมาชิก
+      </p>
+
+
+
+
 
       <button type="submit" class="submit-btn" [disabled]="accountForm.invalid || isLoading">
         {{ isLoading ? 'Creating...' : 'Create account' }}
@@ -65,4 +89,80 @@
       </button>
     </div>
   </div>
+  <div class="modal-overlay" *ngIf="showModal">
+    <div class="modal-box">
+
+      <button class="close-btn" (click)="closeModal()">✕</button>
+
+      <!-- เนื้อหา scroll -->
+      <div class="modal-content">
+
+
+        <!-- PRIVACY -->
+        <div *ngIf="modalType === 'privacy'">
+          <h2>นโยบายความเป็นส่วนตัว</h2>
+
+          <p>
+            MovieCollective ให้ความสำคัญกับความเป็นส่วนตัวของผู้ใช้งาน
+            ข้อมูลส่วนบุคคลจะถูกใช้งานเท่าที่จำเป็น
+          </p>
+
+          <ul>
+            <li>อีเมล</li>
+            <li>ข้อมูลโปรไฟล์สาธารณะ</li>
+            <li>ประวัติการใช้งานภายในระบบ</li>
+          </ul>
+
+          <p>
+            ระบบจะไม่เปิดเผยข้อมูลแก่บุคคลภายนอก
+            เว้นแต่เป็นไปตามกฎหมาย
+          </p>
+
+          <p>
+            หากมีข้อสงสัยสามารถติดต่อ
+            ployplilin678&#64;gmail.com
+
+          </p>
+        </div>
+
+        <!-- DATA DELETION -->
+        <div *ngIf="modalType === 'deletion'">
+          <h2>การลบข้อมูลผู้ใช้</h2>
+
+          <p>
+            ระบบ MovieCollective ใช้ Firebase Authentication
+            ในการจัดการบัญชีผู้ใช้งาน
+          </p>
+
+          <p>
+            ปัจจุบันยังไม่มีฟังก์ชันลบบัญชีด้วยตนเอง
+            หากต้องการลบข้อมูล กรุณาติดต่อผู้ดูแลระบบ
+          </p>
+
+          <ol>
+            <li>ส่งอีเมลมาที่ <strong>ployplilin678&#64;gmail.com
+              </strong></li>
+            <li>ระบุอีเมลที่ใช้สมัคร</li>
+            <li>หัวข้ออีเมล: ขอลบข้อมูลผู้ใช้</li>
+          </ol>
+
+          <p>
+            ระบบจะดำเนินการลบข้อมูลออกจาก Firebase
+            ภายใน 30 วัน
+          </p>
+        </div>
+
+      </div>
+
+      <!-- footer -->
+      <div class="modal-footer">
+        <button class="accept-btn" (click)="acceptPolicy()">
+          รับทราบ
+        </button>
+      </div>
+
+
+    </div>
+  </div>
+
 </div>
