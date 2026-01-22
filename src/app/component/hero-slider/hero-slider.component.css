@@ -150,9 +150,30 @@
     padding-bottom: 36px;
     padding-top: 110px;
   }
+   .hero-text h1 {
+    font-size: 26px;              
+    line-height: 1.25;
+    max-width: 100%;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;        
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+    .hero-text p {
+    font-size: 14px;
+    line-height: 1.7;
+    max-width: 100%;
+    margin: 0 auto 18px;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 3;       
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 
   .hero-poster {
-    width: 160px;
+    width: 140px;
   }
 
   .hero-text {
