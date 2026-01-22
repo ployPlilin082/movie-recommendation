@@ -198,7 +198,7 @@
   background: #14151b;
   border: 1px solid rgba(255,255,255,0.10);
   box-shadow: 0 16px 50px rgba(0,0,0,0.5);
-  overflow: hidden; /* ✅ ไม่มี scrollbar */
+  overflow: hidden; 
 }
 
 
