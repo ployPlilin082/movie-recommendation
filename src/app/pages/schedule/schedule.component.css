@@ -336,5 +336,84 @@
   border: 1px solid rgba(148,163,184,.3);
   color: #94a3b8;
 }
+@media (max-width: 768px) {
+
+  /* PAGE */
+  .schedule-page {
+    padding: 1.5rem .75rem;
+    padding-top: calc(16px + 64px);
+  }
+
+  /* CONTAINER */
+  .schedule-container {
+    border-radius: 16px;
+  }
+
+  /* HEADER */
+  .schedule-header {
+    padding: 1.2rem 1.2rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .6rem;
+  }
+
+  /* TABS */
+  .schedule-tabs {
+    padding: .8rem 1.2rem;
+    gap: .8rem;
+    overflow-x: auto;
+  }
+
+  .schedule-tabs button {
+    font-size: .9rem;
+    white-space: nowrap;
+  }
+
+  /* LIST */
+  .schedule-list {
+    padding: 1rem 1.2rem;
+  }
+
+  .schedule-item {
+    grid-template-columns: 56px 1fr;
+    grid-template-rows: auto auto;
+    gap: .75rem;
+  }
+
+  .poster {
+    width: 56px;
+  }
+
+  .movie-title {
+    font-size: .95rem;
+  }
+
+  .sub {
+    font-size: .8rem;
+  }
+
+  /* ACTION BUTTONS */
+  .action-buttons {
+    grid-column: 1 / -1;
+    justify-content: flex-end;
+    margin-top: .4rem;
+  }
+
+  .action-buttons button {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+  }
+
+  /* EMPTY STATE */
+  .empty-state {
+    margin: 3rem 0;
+  }
+
+  .empty-icon {
+    font-size: 2.6rem;
+  }
+}
+
 
 
