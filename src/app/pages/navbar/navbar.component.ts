@@ -36,10 +36,7 @@ export class NavbarComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    const theme = localStorage.getItem('theme');
-    this.isDark = theme === 'dark';
-    document.body.classList.toggle('dark-theme', this.isDark);
-
+  
     this.authService.user$.subscribe(async user => {
       this.user = user;
 
@@ -84,9 +81,14 @@ export class NavbarComponent implements OnInit {
     this.results = [];
   }
 
-  // ปิดเมนูข้างถ้าเปิดอยู่
+
   this.isMenuOpen = false;
 }
+closeSearchDropdown() {
+  this.results = [];
+  this.searchText = '';
+}
+
 
 
   

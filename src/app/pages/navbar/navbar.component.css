@@ -8,6 +8,17 @@
   z-index: 2000;
   background-color: #050814;
 }
+.search-overlay-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 998;
+}
+
+.search-dropdown {
+  position: absolute;
+  z-index: 999;
+}
+
 
 /* container = content only */
 .navbar-container {

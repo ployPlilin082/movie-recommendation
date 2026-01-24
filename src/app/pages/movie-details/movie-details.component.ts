@@ -36,26 +36,25 @@ export class MovieDetailsComponent implements OnInit {
 
   ) { }
 
-  ngOnInit() {
+ngOnInit() {
   this.route.paramMap.subscribe(params => {
     const id = params.get('id');
     if (!id) return;
 
-    const mediaType =
-      this.route.snapshot.queryParamMap.get('mediaType') as 'movie' | 'tv'
-      ?? 'movie';
-
-    this.movieService.getMovieDetail(id, mediaType).subscribe(res => {
-      this.movie = res;
-
-      if (this.movie.genres) {
-        this.genreText = this.movie.genres
-          .map((g: Genre) => g.name)
-          .join(', ');
-      }
+    this.route.queryParamMap.subscribe(q => {
+      const mediaType = (q.get('mediaType') as 'movie' | 'tv') || 'movie';
+      this.loadMovie(id, mediaType);
     });
   });
 }
+
+loadMovie(id: string, mediaType: 'movie' | 'tv') {
+  this.movieService.getMovieDetail(id, mediaType).subscribe(res => {
+    this.movie = res;
+    this.genreText = this.movie.genres?.map((g: any) => g.name).join(', ') ?? '';
+  });
+}
+
 
 
 

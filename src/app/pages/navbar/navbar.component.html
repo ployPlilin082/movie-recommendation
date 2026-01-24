@@ -13,7 +13,7 @@
 
         <!-- DROPDOWN -->
         <div class="search-dropdown" *ngIf="results.length">
-          <div class="search-item" *ngFor="let m of results" (click)="openMovie(m.id)">
+          <div class="search-item" *ngFor="let m of results" (click)="openMovie(m.id,m.media_type)">
             <img [src]="getImage(m.poster_path)" />
             <div class="meta">
               <div class="title">{{ m.title }}</div>
@@ -129,15 +129,24 @@
       "
     />
 
-   <div class="search-dropdown mobile-search" *ngIf="results.length">
-      <div class="search-item" *ngFor="let m of results" (click)="openMovie(m.id); closeSearch()">
-        <img [src]="getImage(m.poster_path)" />
-        <div class="meta">
-          <div class="title">{{ m.title }}</div>
-          <div class="rating">⭐ {{ m.vote_average }}</div>
-        </div>
+ <div class="search-overlay-bg"
+     *ngIf="results.length"
+     (click)="closeSearchDropdown()">
+
+  <div class="search-dropdown" (click)="$event.stopPropagation()">
+    <div class="search-item"
+         *ngFor="let m of results"
+         (click)="openMovie(m.id, m.media_type); closeSearchDropdown()">
+      <img [src]="getImage(m.poster_path)" />
+      <div class="meta">
+        <div class="title">{{ m.title }}</div>
+        <div class="rating">⭐ {{ m.vote_average }}</div>
       </div>
     </div>
+  </div>
+
+</div>
+
 
   </div>
 </div>
