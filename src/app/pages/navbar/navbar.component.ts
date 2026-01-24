@@ -5,6 +5,8 @@ import { User } from '@angular/fire/auth';
 import { AuthService } from '../../services/auth/auth.service';
 import { FormsModule } from '@angular/forms';
 import { MovieService } from '../../services/movie.service';
+import { AnalyticsService } from '../../services/analytics.service';
+import { UserHistoryService } from '../../services/๊userhistory.service';
 
 @Component({
   selector: 'app-navbar',
@@ -28,7 +30,9 @@ export class NavbarComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private movieService: MovieService
+    private movieService: MovieService,
+     private analytics: AnalyticsService,
+    private userHistoryService: UserHistoryService
   ) {}
 
   ngOnInit() {
@@ -128,11 +132,28 @@ closeSearch() {
     });
   }
 
-  openMovie(id: number) {
-    this.results = [];
-    this.searchText = '';
-      this.isSearchOpen = false; 
-    this.router.navigate(['/movie', id]);
+openMovie(id: number, mediaType: 'movie' | 'tv' = 'movie') {
+
+    this.analytics.log('open_movie', { movie_id: id, mediaType });
+
+    this.userHistoryService.log({
+      movieId: id,
+      interactionTypeId: 2
+    }).subscribe({
+      next: () => {
+        this.router.navigate(
+          ['/movie', id],
+          { queryParams: { mediaType } } // ✅ ตรงนี้สำคัญ
+        );
+      },
+      error: err => {
+        console.error('log failed', err);
+        this.router.navigate(
+          ['/movie', id],
+          { queryParams: { mediaType } }
+        );
+      }
+    });
   }
 
   // 🖼️ Image helper

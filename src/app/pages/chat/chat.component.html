@@ -31,7 +31,7 @@
 
         <!-- MOVIE CARDS -->
         <div *ngIf="m.messageType === 'movies'" class="movie-cards">
-          <div class="movie-card" *ngFor="let movie of m.movies" (click)="goMovie(movie.tmdbId)">
+          <div class="movie-card" *ngFor="let movie of m.movies" (click)="openMovie(movie.tmdbId)">
             <img class="poster" [src]="movie.posterUrl" [alt]="movie.title" />
 
             <div class="info">

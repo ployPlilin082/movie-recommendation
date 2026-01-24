@@ -115,12 +115,23 @@
   .right-side {
   flex: 1;
   display: flex;
-  flex-direction: column;     /* ❗ บังคับเรียงลง */
-  align-items: flex-start;     /* ❗ จัดชิดซ้าย */
-  padding-top: 0;             /* ป้องกันโดนดันลง */
-  margin-top: 0;              /* ป้องกันเลื่อนเกิน */
+  flex-direction: column;    
+  align-items: flex-start;     
+  padding-top: 0;             
+  margin-top: 0;              
 }
 }
+.platform-badge {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #22d3ee, #3b82f6);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
 
 .title {
   font-size: 38px;

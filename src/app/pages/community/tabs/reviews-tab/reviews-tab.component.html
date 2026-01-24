@@ -3,12 +3,12 @@
   <!-- HEADER -->
   <div class="post-header">
     <div class="user-avatar">
-  {{ (p.userName || '?').charAt(0) | uppercase }}
+      {{ (p.userName || '?').charAt(0) | uppercase }}
 
-  <ng-template #fallback>
-    {{ (p.userName || '?').charAt(0) | uppercase }}
-  </ng-template>
-</div>
+      <ng-template #fallback>
+        {{ (p.userName || '?').charAt(0) | uppercase }}
+      </ng-template>
+    </div>
 
     <div class="meta">
       <div class="username">{{ p.userName }}</div>
@@ -26,13 +26,73 @@
   </div>
 
   <!-- CONTENT -->
-  <div class="post-content">
+<div class="post-content">
+
+  <!-- VIEW MODE -->
+  <ng-container *ngIf="editingPostId !== p.postId; else editMode">
     {{ p.comment }}
     <div class="rating">⭐ {{ p.rating }}</div>
+  </ng-container>
+
+  <!-- EDIT MODE -->
+  <ng-template #editMode>
+  <div class="edit-box">
+    <textarea
+      class="edit-textarea"
+      [(ngModel)]="editDraft!.comment"
+      placeholder="แก้ไขความคิดเห็น..."
+    ></textarea>
+    <!-- CHANGE MOVIE -->
+<div class="edit-movie">
+  <div class="current-movie" *ngIf="editDraft?.movieTitle">
+    🎬 {{ editDraft?.movieTitle }}
   </div>
 
+  <input
+    class="edit-movie-search"
+    type="text"
+    placeholder="เปลี่ยนหนัง…"
+    [(ngModel)]="editMovieSearch"
+    (input)="searchMovieForEdit(editMovieSearch)"
+  />
+
+  <div class="edit-movie-results" *ngIf="editMovieResults.length">
+    <button
+      class="edit-movie-item"
+      *ngFor="let m of editMovieResults"
+      (click)="selectEditMovie(m)"
+    >
+      <img
+        *ngIf="m.posterPath"
+        [src]="'https://image.tmdb.org/t/p/w92' + m.posterPath"
+      />
+      <span>{{ m.title }}</span>
+    </button>
+  </div>
+</div>
+
+
+    <div class="edit-footer">
+      <input
+        class="edit-rating"
+        type="number"
+        min="1"
+        max="10"
+        [(ngModel)]="editDraft!.rating"
+      />
+
+      <div class="edit-actions">
+        <button class="btn-save" (click)="saveEdit(p)">✅ บันทึก</button>
+        <button class="btn-cancel" (click)="cancelEdit()">❌ ยกเลิก</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+
   <!-- ACTIONS -->
- <div class="post-footer">
+  <div class="post-footer">
 
     <!-- ACTIONS -->
     <div class="post-actions">
@@ -48,15 +108,18 @@
         📤 Share <span *ngIf="p.shareCount">({{ p.shareCount }})</span>
       </button>
     </div>
+ <div class="post-owner-actions" *ngIf="p.isMine">
+  <button (click)="startEdit(p)">✏️ แก้ไข</button>
+  <button (click)="delete.emit(p)">🗑 ลบ</button>
+</div>
+
+
 
     <!-- COMMENTS -->
     <div class="comment-section" *ngIf="openCommentId === p.postId">
 
       <!-- COMMENT LIST -->
-      <div
-        class="comment-item"
-        *ngFor="let c of comments[p.postId]"
-      >
+      <div class="comment-item" *ngFor="let c of comments[p.postId]">
         <div class="comment-avatar">
           {{ (c.userName || '?').charAt(0) | uppercase }}
         </div>
@@ -73,15 +136,12 @@
           {{ (p.userName || '?').charAt(0) | uppercase }}
         </div>
 
-        <input
-          class="comment-input"
-          [(ngModel)]="commentDraft[p.postId]"
-          placeholder="Write a comment…"
-          (keyup.enter)="sendComment.emit(p.postId)"
-        />
+        <input class="comment-input" [(ngModel)]="commentDraft[p.postId]" placeholder="Write a comment…"
+          (keyup.enter)="sendComment.emit(p.postId)" />
       </div>
 
     </div>
+
+
   </div>
 </div>
-

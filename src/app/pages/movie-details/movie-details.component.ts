@@ -37,24 +37,27 @@ export class MovieDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.route.paramMap.subscribe(params => {
-      const id = params.get('id');
-      if (!id) return;
+  this.route.paramMap.subscribe(params => {
+    const id = params.get('id');
+    if (!id) return;
 
-      this.movieService.getMovieDetail(id).subscribe(res => {
-        this.movie = {
-          ...res,
-          media_type: 'movie'
-        };
+    const mediaType =
+      this.route.snapshot.queryParamMap.get('mediaType') as 'movie' | 'tv'
+      ?? 'movie';
 
-        if (this.movie.genres) {
-          this.genreText = this.movie.genres
-            .map((g: Genre) => g.name)
-            .join(', ');
-        }
-      });
+    this.movieService.getMovieDetail(id, mediaType).subscribe(res => {
+      this.movie = res;
+
+      if (this.movie.genres) {
+        this.genreText = this.movie.genres
+          .map((g: Genre) => g.name)
+          .join(', ');
+      }
     });
-  }
+  });
+}
+
+
 
   getShareUrl(postId: number) {
     return `${window.location.origin}/community/reviews/${postId}`;

@@ -28,7 +28,13 @@ export class HeroSliderComponent {
 }
 
 
-  getPoster(path: string) {
-    return 'https://image.tmdb.org/t/p/w500' + path;
+  getPoster(path: string | null, poster?: string | null) {
+  if (path) {
+    return 'https://image.tmdb.org/t/p/original' + path;
   }
+  if (poster) {
+    return 'https://image.tmdb.org/t/p/w780' + poster;
+  }
+  return 'assets/hero-fallback.jpg';
+}
 }

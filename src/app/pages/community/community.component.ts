@@ -53,6 +53,9 @@ export class CommunityComponent implements OnInit {
   openCommentId: number | null = null;
   comments: Record<number, any[]> = {};
   commentDraft: Record<number, string> = {};
+  editMovieResults: MoviePick[] = [];
+
+
 
   /* ---------- DISCUSSIONS ---------- */
   discussions: any[] = [];
@@ -70,6 +73,7 @@ export class CommunityComponent implements OnInit {
   selectedMovie: MoviePick | null = null;
   sharePost: CommunityPost | null = null;
 
+
   form!: ReturnType<FormBuilder['group']>;
 
   constructor(
@@ -77,35 +81,35 @@ export class CommunityComponent implements OnInit {
     private community: CommunityService,
     private auth: AuthService
 
-  ) {}
+  ) { }
 
   ngOnInit() {
+    this.loadReviews();
     this.form = this.fb.group({
       movieId: [null as number | null, Validators.required],
       comment: ['', Validators.required],
       rating: [5, [Validators.required, Validators.min(1), Validators.max(10)]],
     });
-
-    this.loadReviews();
   }
 
   /* ---------- LOADERS ---------- */
-loadReviews() {
-  this.loading = true;
+  loadReviews() {
+    this.loading = true;
 
-  this.community.getPosts(20).subscribe(async posts => {
-    const user = await this.auth.getCurrentUser();
+    this.community.getPosts(20).subscribe(async posts => {
+      this.posts = posts;
+      this.posts = posts.map(p => ({
+        ...p,
+        mediaType: p.mediaType
+      }));
 
-    this.posts = posts.map(p => ({
-      ...p,
-    }));
+      this.loading = false;
+    });
+  }
+  getShareUrl(postId: number) {
+    return `${window.location.origin}/community/reviews/${postId}`;
+  }
 
-    this.loading = false;
-  });
-}
-getShareUrl(postId: number) {
-  return `${window.location.origin}/community/reviews/${postId}`;
-}
 
 
 
@@ -119,89 +123,109 @@ getShareUrl(postId: number) {
       .subscribe(r => this.topMovies = r);
   }
 
-  
-loadEvents() {
-  console.log('🔥 loadEvents called');
-  this.community.getEvents(20)
-    .subscribe(r => {
-      console.log('✅ events:', r);
-      this.events = r;
-    });
+
+loadEvents(force: boolean = false) {
+  this.community.getEvents().subscribe(e => {
+    this.events = [...e];
+  });
 }
+
+
   /* ---------- REVIEW ACTIONS ---------- */
- like(p: CommunityPost) {
-  this.community.likeReview(p.postId).subscribe(res => {
-    if (res.liked) {
-      p.likeCount++;
-      p.isLikedByMe = true;
+  like(p: CommunityPost) {
+    this.community.likeReview(p.postId).subscribe(res => {
+      if (res.liked) {
+        p.likeCount++;
+        p.isLikedByMe = true;
+      } else {
+        p.likeCount--;
+        p.isLikedByMe = false;
+      }
+    });
+  }
+  share(postId: number) {
+    const url = this.getShareUrl(postId);
+
+
+    if (navigator.share) {
+      navigator.share({
+        title: 'Movie Review',
+        text: 'มาดูรีวิวหนังเรื่องนี้กัน 🎬',
+        url
+      });
     } else {
-      p.likeCount--;
-      p.isLikedByMe = false;
+      this.openShareFallback(url);
     }
-  });
-}
- share(postId: number) {
-  const url = this.getShareUrl(postId);
 
-  // 🔥 เปิด share ก่อน (user gesture 100%)
-  if (navigator.share) {
-    navigator.share({
-      title: 'Movie Review',
-      text: 'มาดูรีวิวหนังเรื่องนี้กัน 🎬',
-      url
+
+    this.community.shareReview(postId).subscribe();
+  }
+
+  openShareFallback(url: string) {
+    const encoded = encodeURIComponent(url);
+    const fb = `https://www.facebook.com/sharer/sharer.php?u=${encoded}`;
+
+    window.open(fb, '_blank', 'width=600,height=500');
+  }
+
+  openShare(p: CommunityPost) {
+    const url = this.getShareUrl(p.postId);
+
+    // 1️⃣ บันทึก share ใน backend
+    this.community.shareReview(p.postId).subscribe(() => {
+      p.shareCount = (p.shareCount ?? 0) + 1;
     });
-  } else {
-    this.openShareFallback(url);
+
+    if (navigator.share) {
+      navigator.share({
+        title: p.movieTitle ?? 'Movie Review',
+        text: 'มาดูรีวิวหนังเรื่องนี้ 🎬',
+        url
+      });
+    } else {
+      this.openShareFallback(url);
+    }
   }
 
-  
-  this.community.shareReview(postId).subscribe();
-}
 
-openShareFallback(url: string) {
-  const encoded = encodeURIComponent(url);
-  const fb = `https://www.facebook.com/sharer/sharer.php?u=${encoded}`;
+  copyLink() {
+    const url = this.getShareUrl(this.sharePost!.postId);
+    navigator.clipboard.writeText(url);
+    alert('คัดลอกลิงก์แล้ว');
+  }
 
-  window.open(fb, '_blank', 'width=600,height=500');
-}
 
-openShare(p: CommunityPost) {
-  const url = this.getShareUrl(p.postId);
+  toggleComment(id: number) {
+    this.openCommentId = this.openCommentId === id ? null : id;
 
-  // 1️⃣ บันทึก share ใน backend
-  this.community.shareReview(p.postId).subscribe(() => {
-    p.shareCount = (p.shareCount ?? 0) + 1;
-  });
-
-  if (navigator.share) {
-    navigator.share({
-      title: p.movieTitle ?? 'Movie Review',
-      text: 'มาดูรีวิวหนังเรื่องนี้ 🎬',
-      url
+    if (this.openCommentId && !this.comments[id]) {
+      this.community.getReviewComments(id)
+        .subscribe(r => this.comments[id] = r);
+    }
+  }
+  updateReview(e: {
+    postId: number;
+    comment: string;
+    rating: number;
+    movieId: number | null;
+  }) {
+    this.community.updateReview(e.postId, {
+      comment: e.comment,
+      rating: e.rating,
+      movieId: e.movieId
+    }).subscribe(() => {
+      const p = this.posts.find(x => x.postId === e.postId);
+      if (p) {
+        p.comment = e.comment;
+        p.rating = e.rating;
+        p.movieId = e.movieId;
+      }
     });
-  } else {
-    this.openShareFallback(url);
   }
-}
 
 
-copyLink() {
-  const url = this.getShareUrl(this.sharePost!.postId);
-  navigator.clipboard.writeText(url);
-  alert('คัดลอกลิงก์แล้ว');
-}
 
 
- toggleComment(id: number) {
-  this.openCommentId = this.openCommentId === id ? null : id;
-
-  if (this.openCommentId && !this.comments[id]) {
-    this.community.getReviewComments(id)
-      .subscribe(r => this.comments[id] = r);
-  }
-}
-
-  
 
   sendComment(id: number) {
     const text = this.commentDraft[id]?.trim();
@@ -242,9 +266,26 @@ copyLink() {
   submit() {
     if (this.form.invalid || !this.selectedMovie) return;
 
-    this.community.postReview(this.form.getRawValue()).subscribe(() => {
+    this.community.postReview({
+      movieId: this.selectedMovie.tmdbMovieId,
+      mediaType: this.selectedMovie.mediaType, // ⭐ สำคัญมาก
+      comment: this.form.value.comment,
+      rating: this.form.value.rating
+    }).subscribe(() => {
       this.closeCreate();
       this.loadReviews();
     });
   }
+
+  deleteReview(p: CommunityPost) {
+    if (!confirm('ต้องการลบรีวิวนี้หรือไม่?')) return;
+
+    this.community.deleteReview(p.postId).subscribe(() => {
+      this.posts = this.posts.filter(x => x.postId !== p.postId);
+    });
+  }
+
+
+
+
 }

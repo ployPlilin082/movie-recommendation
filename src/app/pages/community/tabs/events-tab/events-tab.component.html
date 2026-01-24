@@ -1,30 +1,81 @@
 <div class="events-wrap">
 
-  <h3>📅 กิจกรรมชุมชน</h3>
+  <h3 class="page-title">📅 กิจกรรมชุมชน</h3>
   <p class="subtitle">อัปเดตกิจกรรมเกี่ยวกับภาพยนตร์</p>
 
   <!-- CREATE EVENT -->
   <div class="create-box">
+
+    <!-- SEARCH MOVIE -->
+    <input class="search-input" placeholder="🔍 ค้นหาหนังเพื่อแนบกิจกรรม" [(ngModel)]="movieKeyword"
+      (ngModelChange)="searchMovie()" />
+
+    <!-- SEARCH RESULT -->
+    <div class="movie-result" *ngIf="movieResults.length">
+      <div class="movie-item" *ngFor="let m of movieResults" (click)="selectMovie(m)">
+        <img [src]="getPoster(m.posterPath)" />
+        <span class="movie-title">{{ m.title }}</span>
+      </div>
+    </div>
+
+    <div class="selected-movie" *ngIf="selectedMovie">
+      <span>🎬 แนบแล้ว: <b>{{ selectedMovie.title }}</b></span>
+      <button type="button" class="mini-btn" (click)="clearMovie()">✕</button>
+    </div>
+
     <input [(ngModel)]="title" placeholder="ชื่อกิจกรรม" />
     <textarea [(ngModel)]="description" placeholder="รายละเอียด"></textarea>
-    <input type="date" [(ngModel)]="startDate" />
-    <input type="date" [(ngModel)]="endDate" />
-    <button (click)="create()">➕ สร้างกิจกรรม</button>
+
+    <div class="date-row">
+      <div class="date-field">
+        <label>📅 วันที่เริ่ม</label>
+        <input type="date" [(ngModel)]="startDate" />
+      </div>
+
+      <div class="date-field">
+        <label>📅 วันที่สิ้นสุด</label>
+        <input type="date" [(ngModel)]="endDate" />
+      </div>
+    </div>
+
+  <button class="primary-btn" (click)="editingEvent ? update() : create()">
+  {{ editingEvent ? '💾 บันทึกการแก้ไข' : '➕ สร้างกิจกรรม' }}
+</button>
+
   </div>
 
   <!-- LIST -->
-  <div class="event-card" *ngFor="let e of events">
-    <div class="event-header">
-      🎯 {{ e.title }}
-    </div>
+  <div class="event-card" *ngFor="let e of events" [style.backgroundImage]="(e.Movie?.BackdropPath || e.movie?.backdropPath)
+      ? 'url(https://image.tmdb.org/t/p/w780' + (e.Movie?.BackdropPath || e.movie?.backdropPath) + ')'
+      : ''">
+    <div class="event-overlay">
+      <!-- ป้องกันเคสตัวใหญ่/ตัวเล็ก -->
+      <ng-container *ngIf="(e.Movie || e.movie) as mv"></ng-container>
 
-    <div class="event-body">
-      <p>{{ e.description }}</p>
+      <div class="event-header">
+        🎯 {{ e.Title || e.title }}
+      </div>
+
+      <p class="event-desc">{{ e.Description || e.description }}</p>
+
       <div class="event-date">
-        📅 {{ e.startDate | date:'mediumDate' }}
-        <span *ngIf="e.endDate">
-          – {{ e.endDate | date:'mediumDate' }}
+        📅 {{ (e.StartDate || e.startDate) | date:'mediumDate' }}
+        <span *ngIf="e.EndDate || e.endDate">
+          – {{ (e.EndDate || e.endDate) | date:'mediumDate' }}
         </span>
+      </div>
+
+      <div class="event-movie" *ngIf="e.Movie || e.movie">
+        🎬 {{ (e.Movie?.Title || e.movie?.title) }}
+      </div>
+
+      <!-- OWNER ACTION -->
+      <div class="event-actions" *ngIf="(e.IsOwner ?? e.isOwner) === true">
+        <button class="edit" type="button" (click)="onEdit(e)">
+          ✏️ แก้ไข
+        </button>
+
+        <button class="delete" type="button" (click)="delete(e.Id ?? e.id)">🗑 ลบ</button>
       </div>
     </div>
   </div>
@@ -34,5 +85,3 @@
   </div>
 
 </div>
-
-

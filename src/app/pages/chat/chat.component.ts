@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+
 import { ChatService, ChatMessage } from '../../services/chat.service';
 import { AuthService } from '../../services/auth/auth.service';
+import { AnalyticsService } from '../../services/analytics.service';
+import { UserHistoryService } from '../../services/๊userhistory.service';
 
 @Component({
   selector: 'app-chat',
@@ -20,23 +24,45 @@ export class ChatComponent implements OnInit {
 
   constructor(
     private auth: AuthService,
-    private chat: ChatService
-  ) { }
+    private chat: ChatService,
+    private router: Router,
+    private analytics: AnalyticsService,
+    private userHistoryService: UserHistoryService
+  ) {}
 
-  // ✅ แก้ Error OnInit
   ngOnInit() {
-  this.chat.getMessages(this.roomId).subscribe(res => {
-    this.messages = res.map(m => ({
-      ...m,
-      movies: m.moviesJson
-        ? JSON.parse(m.moviesJson)
-        : undefined
-    }));
-  });
-}
+    this.chat.getMessages(this.roomId).subscribe(res => {
+      this.messages = res.map(m => ({
+        ...m,
+        movies: m.moviesJson ? JSON.parse(m.moviesJson) : undefined
+      }));
+    });
+  }
 
+  openMovie(id: number, mediaType: 'movie' | 'tv' = 'movie') {
 
-  send() {
+    this.analytics.log('open_movie', { movie_id: id, mediaType });
+
+    this.userHistoryService.log({
+      movieId: id,
+      interactionTypeId: 2
+    }).subscribe({
+      next: () => {
+        this.router.navigate(
+          ['/movie', id],
+          { queryParams: { mediaType } }
+        );
+      },
+      error: (err: any) => {
+        console.error('log failed', err);
+        this.router.navigate(
+          ['/movie', id],
+          { queryParams: { mediaType } }
+        );
+      }
+    });
+  }
+   send() {
   if (!this.input.trim()) return;
 
   this.chat.sendMessage({
@@ -61,12 +87,4 @@ export class ChatComponent implements OnInit {
   this.input = '';
 }
 
-
-  goMovie(tmdbId: number) {
-    window.location.href = `/movie/${tmdbId}`;
-  }
-
 }
-
-
-

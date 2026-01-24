@@ -19,19 +19,21 @@
       </div>
 
       <!-- TAB CONTENT -->
-      <app-reviews-tab *ngIf="activeTab === 'reviews'" [posts]="posts" [comments]="comments"
+      <app-reviews-tab [hidden]="activeTab !== 'reviews'" [posts]="posts" [comments]="comments"
         [commentDraft]="commentDraft" [openCommentId]="openCommentId" (like)="like($event)" (share)="openShare($event)"
-        (toggleComment)="toggleComment($event)" (sendComment)="sendComment($event)">
+        (toggleComment)="toggleComment($event)" (sendComment)="sendComment($event)" (delete)="deleteReview($event)"
+        [editMovieResults]="editMovieResults" (reload)="loadReviews()">
       </app-reviews-tab>
 
-      <app-discussions-tab *ngIf="activeTab==='discussions'" [discussions]="discussions">
+      <app-discussions-tab [hidden]="activeTab !== 'discussions'" [discussions]="discussions">
       </app-discussions-tab>
 
-      <app-rankings-tab *ngIf="activeTab==='rankings'" [topMovies]="topMovies">
+      <app-rankings-tab [hidden]="activeTab !== 'rankings'" [topMovies]="topMovies">
       </app-rankings-tab>
 
-      <app-events-tab *ngIf="activeTab==='events'" [events]="events">
+      <app-events-tab [hidden]="activeTab !== 'events'" [events]="events" (refresh)="loadEvents(true)">
       </app-events-tab>
+
 
     </div>
     <!-- CREATE REVIEW MODAL -->
@@ -39,7 +41,7 @@
       <div class="modal" (click)="$event.stopPropagation()">
 
         <div class="modal-head">
-          <h3>Write a review</h3>
+          <h3 class="title">Write a review</h3>
           <button class="x" (click)="closeCreate()">✕</button>
         </div>
 

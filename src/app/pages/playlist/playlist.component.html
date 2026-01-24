@@ -15,11 +15,11 @@
       <!-- LEFT : POSTER -->
       <img class="poster"
            [src]="getImage(m.posterPath)"
-           (click)="openDetail(m.movieId)" />
+           (click)="openMovie(m.movieId)" />
 
       <!-- CENTER -->
       <div class="info">
-        <h3 (click)="openDetail(m.movieId)">
+        <h3 (click)="openMovie(m.movieId)">
           {{ m.title }}
         </h3>
 

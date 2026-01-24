@@ -2,6 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MovieService } from '../../services/movie.service';
+import { UserHistoryService } from '../../services/๊userhistory.service';
+import { AnalyticsService } from '../../services/analytics.service';
+
+
+
 
 @Component({
   selector: 'app-genre-movie-list',
@@ -25,7 +30,9 @@ export class GenreMovieListComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private movieService: MovieService,
-    private router: Router
+    private router: Router,
+   private userHistoryService: UserHistoryService,
+    private analytics: AnalyticsService,  
   ) {}
 
   ngOnInit() {
@@ -72,9 +79,29 @@ export class GenreMovieListComponent implements OnInit {
     }
   }
 
-  openMovie(id: number) {
-    this.router.navigate(['/movie', id]);
-  }
+ openMovie(id: number, mediaType: 'movie' | 'tv' = 'movie') {
+
+  this.analytics.log('open_movie', { movie_id: id, mediaType });
+
+  this.userHistoryService.log({
+    movieId: id,
+    interactionTypeId: 2
+  }).subscribe({
+    next: () => {
+      this.router.navigate(
+        ['/movie', id],
+        { queryParams: { mediaType } } // ✅ ตรงนี้สำคัญ
+      );
+    },
+    error: err => {
+      console.error('log failed', err);
+      this.router.navigate(
+        ['/movie', id],
+        { queryParams: { mediaType } }
+      );
+    }
+  });
+}
 
   getImage(path: string) {
     return path

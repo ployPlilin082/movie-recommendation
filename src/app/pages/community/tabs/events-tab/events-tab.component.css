@@ -1,15 +1,21 @@
-/* ===== COMMON ===== */
-.title {
+/* ===== BASE TEXT COLOR (กันดำทั้งหน้า) ===== */
+.events-wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  color: #e5e7eb; /* ✅ ใส่สีพื้นฐาน */
+}
+
+.page-title {
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 800;
   color: #c7d2fe;
-  margin-bottom: 4px;
+  margin: 0 0 4px;
 }
 
 .subtitle {
   font-size: 13px;
   color: #94a3b8;
-  margin-bottom: 16px;
+  margin: 0 0 16px;
 }
 
 .state {
@@ -18,77 +24,214 @@
   font-size: 14px;
   margin-top: 2rem;
 }
-/* ===== EVENTS WRAP ===== */
-.events-wrap {
-  max-width: 720px;
-  margin: 0 auto;
-}
 
-/* ===== EVENT CREATE ===== */
-.events-wrap .create-box {
+/* ===== CREATE BOX ===== */
+.create-box {
   background: rgba(15, 23, 42, 0.85);
   border: 1px solid rgba(148, 163, 184, 0.25);
   border-radius: 16px;
   padding: 14px;
   margin-bottom: 20px;
   display: grid;
-  gap: 8px;
+  gap: 10px;
 }
 
 .events-wrap input,
 .events-wrap textarea {
-  background: rgba(2, 6, 23, 0.8);
+  background: rgba(2, 6, 23, 0.85);
   border: 1px solid rgba(148, 163, 184, 0.25);
-  border-radius: 10px;
-  padding: 8px 10px;
+  border-radius: 12px;
+  padding: 10px 12px;
   color: #e5e7eb;
   outline: none;
 }
 
-.events-wrap textarea {
-  resize: none;
-  min-height: 60px;
+.events-wrap input::placeholder,
+.events-wrap textarea::placeholder {
+  color: rgba(148, 163, 184, 0.75); /* ✅ placeholder ชัด */
 }
 
-.events-wrap button {
-  margin-top: 8px;
+.events-wrap textarea {
+  resize: none;
+  min-height: 70px;
+}
+
+.primary-btn {
+  margin-top: 6px;
   background: linear-gradient(135deg, #22c55e, #16a34a);
   border: none;
   border-radius: 12px;
-  padding: 8px 16px;
+  padding: 10px 16px;
   color: #022c22;
-  font-weight: 700;
+  font-weight: 800;
+  cursor: pointer;
+}
+.primary-btn:hover { opacity: 0.92; }
+
+.mini-btn {
+  background: rgba(148, 163, 184, 0.15);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  color: #e5e7eb;
+  border-radius: 10px;
+  padding: 4px 10px;
   cursor: pointer;
 }
 
-.events-wrap button:hover {
-  opacity: 0.9;
+/* ===== DATE ROW ===== */
+.date-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+@media (max-width: 520px) {
+  .date-row { grid-template-columns: 1fr; }
+}
+
+.date-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.date-field label {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.date-field input[type="date"] {
+  background: rgba(2, 6, 23, 0.85);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 12px;
+  padding: 10px 12px;
+  color: #e5e7eb;
+}
+
+/* ===== MOVIE SEARCH LIST ===== */
+.movie-result {
+  background: rgba(2, 6, 23, 0.95);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 12px;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.movie-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  cursor: pointer;
+}
+.movie-item:hover {
+  background: rgba(148, 163, 184, 0.12);
+}
+
+.movie-item img {
+  width: 42px;
+  height: 62px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex: 0 0 auto;
+}
+
+.movie-title {
+  color: #e5e7eb;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+/* scrollbar */
+.movie-result::-webkit-scrollbar { width: 10px; }
+.movie-result::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.25);
+  border-radius: 10px;
+}
+.movie-result::-webkit-scrollbar-track {
+  background: rgba(2, 6, 23, 0.4);
+}
+
+.selected-movie {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: rgba(56, 189, 248, 0.10);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  border-radius: 12px;
+  padding: 10px 12px;
+  color: #e5e7eb;
 }
 
 /* ===== EVENT CARD ===== */
 .event-card {
-  background: rgba(15, 23, 42, 0.85);
-  border: 1px solid rgba(148, 163, 184, 0.25);
-  border-radius: 16px;
+  background-size: cover;
+  background-position: center;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 18px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  background-color: rgba(15, 23, 42, 0.85); /* fallback */
+}
+
+/* overlay ทำให้ “อ่านได้” ไม่ดำกลืน */
+.event-overlay {
+  background: linear-gradient(
+    180deg,
+    rgba(2, 6, 23, 0.72),
+    rgba(2, 6, 23, 0.92)
+  );
   padding: 16px;
-  margin-bottom: 14px;
+  min-height: 110px;
 }
 
 .event-header {
-  font-weight: 700;
+  font-weight: 800;
   font-size: 16px;
   color: #a5b4fc;
   margin-bottom: 8px;
 }
 
-.event-body p {
+.event-desc {
   color: #e5e7eb;
   margin: 0 0 8px;
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 .event-date {
   font-size: 13px;
-  color: #94a3b8;
+  color: #cbd5e1; /* ✅ ให้สว่างขึ้นนิด */
 }
 
+.event-movie {
+  font-size: 13px;
+  color: #93c5fd;
+  margin-top: 6px;
+  font-weight: 600;
+}
+
+/* ===== ACTIONS ===== */
+.event-actions {
+  margin-top: 12px;
+  display: flex;
+  gap: 8px;
+}
+
+.event-actions button {
+  font-size: 12px;
+  border-radius: 10px;
+  padding: 6px 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.event-actions .edit {
+  background: rgba(56, 189, 248, 0.95);
+  color: #022c22;
+}
+
+.event-actions .delete {
+  background: rgba(239, 68, 68, 0.95);
+  color: #fff;
+}

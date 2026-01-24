@@ -4,11 +4,15 @@ import { Observable, map } from 'rxjs';
 import { environment } from '../../environmemts/environment';
 
 
+
+
 /* =======================
    Interfaces
 ======================= */
 
 export interface CommunityPost {
+  firebaseUid: string | undefined;
+  isMine: any;
   postId: number;
 
   movieId: number | null;
@@ -19,6 +23,7 @@ export interface CommunityPost {
 
   comment: string;
   rating: number | null;
+  mediaType?: 'movie' | 'tv'; 
   createdAt: string;
 
   likeCount: number;
@@ -38,7 +43,9 @@ export interface MoviePick {
   tmdbMovieId: number;
   title: string;
   posterPath?: string | null;
+  mediaType: 'movie' | 'tv';
 }
+
 
 export interface ReviewComment {
   id: number;
@@ -60,7 +67,9 @@ export interface CommunityEvent {
   title: string;
   description: string;
   startDate: string;
-  endDate: string;
+  endDate?: string | null;
+  movieId?: number | null;
+  mediaType?: string;
 }
 
 /* =======================
@@ -79,28 +88,37 @@ type TopMovieApi = {
 
 @Injectable({ providedIn: 'root' })
 export class CommunityService {
-  private baseUrl = environment.apiBaseUrl +'/api/community';
+  private baseUrl = environment.apiBaseUrl + '/api/community';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   /* ---------- POSTS ---------- */
 
   getPosts(take = 20): Observable<CommunityPost[]> {
-    return this.http.get<CommunityPost[]>(
-      `${this.baseUrl}/posts?take=${take}`
+  return this.http
+    .get<CommunityPost[]>(`${this.baseUrl}/posts?take=${take}`)
+    .pipe(
+      map(posts =>
+        posts.map(p => ({
+          ...p,
+          mediaType: p.mediaType ?? 'movie' // กันของเก่า
+        }))
+      )
     );
-  }
+}
 
-  postReview(body: {
-    movieId: number;
-    comment: string;
-    rating: number;
-  }): Observable<any> {
-    return this.http.post(
-      `${this.baseUrl}/post-review`,
-      body
-    );
-  }
+
+postReview(body: {
+  movieId: number;
+  mediaType: 'movie' | 'tv';   
+  comment: string;
+  rating: number;
+}): Observable<any> {
+  return this.http.post(
+    `${this.baseUrl}/post-review`,
+    body
+  );
+}
 
   /* ---------- TOP MOVIES ---------- */
 
@@ -144,6 +162,15 @@ export class CommunityService {
       `${this.baseUrl}/reviews/${reviewId}/comment`
     );
   }
+  updateReview(postId: number, payload: any) {
+    return this.http.put(
+      `${this.baseUrl}/reviews/${postId}`,
+      payload
+    );
+  }
+
+
+
 
   shareReview(reviewId: number): Observable<any> {
     return this.http.post(
@@ -169,39 +196,78 @@ export class CommunityService {
 
   /* ---------- EVENTS ---------- */
 
-  createEvent(params: {
-    title: string;
-    description: string;
-    startDate: string;
-    endDate: string;
-  }): Observable<any> {
-    return this.http.post(
-      `${this.baseUrl}/events`,
-      null,
-      { params }
-    );
-  }
-  getEvents(take = 20) {
-  return this.http.get<any[]>(
-    `${this.baseUrl}/events?take=${take}`
+ createEvent(body: {
+  title: string;
+  description: string;
+  startDate: string;
+  endDate?: string | null;
+  movieId?: number | null;
+  mediaType?: string;
+}): Observable<any> {
+  return this.http.post(
+    `${this.baseUrl}/events`,
+    body
+  );
+}
+
+getEvents(take = 20): Observable<any[]> {
+  return this.http.get<any[]>(`${this.baseUrl}/events`, {
+    params: { take }
+  });
+}
+
+
+deleteEvent(id: number) {
+  return this.http.delete(
+    `${this.baseUrl}/events/${id}`
+  );
+}
+updateEvent(id: number, body: {
+  title: string;
+  description: string;
+  startDate: string;
+  endDate?: string | null;
+  movieId?: number | null;
+  mediaType?: string;
+}) {
+  return this.http.put(
+    `${this.baseUrl}/events/${id}`,
+    body
   );
 }
 
 
+
+
+
   /* ---------- MOVIES ---------- */
 
-  searchMovies(
-    q: string,
-    take = 10
-  ): Observable<MoviePick[]> {
-    return this.http.get<MoviePick[]>(
-      `${this.baseUrl}/movies/search?q=${encodeURIComponent(q)}&take=${take}`
-    );
-  }
+ searchMovies(q: string, take = 10): Observable<MoviePick[]> {
+  return this.http.get<any[]>(
+    `${this.baseUrl}/movies/search?q=${encodeURIComponent(q)}&take=${take}`
+  ).pipe(
+    map(rows =>
+      rows.map(m => ({
+        tmdbMovieId: m.tmdbMovieId ?? m.id,
+        title: m.title ?? m.name,
+        posterPath: m.posterPath,
+        mediaType: m.mediaType ?? (m.firstAirDate ? 'tv' : 'movie')
+      }))
+    )
+  );
+}
+
 
   getMovie(tmdbId: number): Observable<MoviePick> {
     return this.http.get<MoviePick>(
       `${this.baseUrl}/movie/${tmdbId}`
     );
   }
+  deleteReview(reviewId: number) {
+    return this.http.delete(
+      `${this.baseUrl}/reviews/${reviewId}`
+    );
+  }
+
+
 }

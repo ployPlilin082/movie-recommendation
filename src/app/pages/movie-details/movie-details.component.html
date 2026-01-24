@@ -23,6 +23,8 @@
             <span>📅 {{ movie.release_date }}</span>
             <span>🎭 {{ genreText }}</span>
             <span>⏱ {{ movie.runtime }} นาที</span>
+            <span *ngIf="movie.platform">📍 {{ movie.platform }}</span>
+
         </div>
         <div class="action-bar">
 
@@ -69,6 +71,8 @@
                 <p>{{ a.name }}</p>
             </div>
         </div>
+
+        
 
 
     </div>

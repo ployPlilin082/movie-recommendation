@@ -42,10 +42,15 @@ export class MovieService {
   }
   
 
-  getMovieDetail(id: string | null): Observable<any> {
-    if (!id) throw new Error('tmdbId is required');
-    return this.http.get<any>(`${this.apiBase}/movies/${id}`);
-  }
+getMovieDetail(
+  id: string,
+  mediaType: 'movie' | 'tv' = 'movie'
+) {
+  return this.http.get(
+    `${this.apiBase}/movies/${id}?mediaType=${mediaType}`
+  );
+}
+
 
   getUpNextMovies(page: number = 1): Observable<MyListMovie[]> {
     return this.http.get<MyListMovie[]>(`${this.apiBase}/movies/now-playing?page=${page}`);

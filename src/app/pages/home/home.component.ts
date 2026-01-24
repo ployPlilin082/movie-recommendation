@@ -25,7 +25,7 @@ import { AnalyticsService } from '../../services/analytics.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  
+
   featuredMovies: any[] = [];
   mainMovie: any;
   trendingMovies: any[] = [];
@@ -35,104 +35,131 @@ export class HomeComponent implements OnInit {
   genres: any[] = [];
   topPicks: any[] = [];
   recommendedMovies: any[] = [];
+  popularSeries: any[] = [];
 
-  constructor(private router: Router, private movieService: MovieService,private playlistService: PlaylistService, private userHistoryService: UserHistoryService, private recommendationService: RecommendationService, private analytics: AnalyticsService) {}
+
+  constructor(private router: Router, private movieService: MovieService, private playlistService: PlaylistService, private userHistoryService: UserHistoryService, private recommendationService: RecommendationService, private analytics: AnalyticsService) { }
 
   ngOnInit() {
     this.analytics.log('page_home');
 
-  // 🔹 Trending
-  this.movieService.getTrendingMovies().subscribe(res => {
-    this.trendingMovies = res;
-    
-  });
-  this.recommendationService.getRecommendations().subscribe({
-  next: res => {
-    this.recommendedMovies = res;
+    // 🔹 Trending
+    this.movieService.getTrendingMovies().subscribe(res => {
+      this.trendingMovies = res;
 
-    if (res.length > 0) {
-      this.analytics.log('view_recommendations', {
-        count: res.length
-      });
-    }
-  },
-  error: err => {
-    console.warn('No recommendations yet', err);
-    this.recommendedMovies = [];
-  }
+    });
+    this.recommendationService.getRecommendations().subscribe({
+      next: res => {
+        this.recommendedMovies = res;
+
+        if (res.length > 0) {
+          this.analytics.log('view_recommendations', {
+            count: res.length
+          });
+        }
+      },
+      error: err => {
+        console.warn('No recommendations yet', err);
+        this.recommendedMovies = [];
+      }
+    });
+
+
+    this.movieService.getPopularMoviesThisWeek().subscribe(res => {
+      this.popularWeekLarge = res.slice(0, 3);
+      this.popularWeekSmall = res.slice(3, 10);
+      this.mainMovie = res[0];
+    });
+    this.movieService.getPopularPeople().subscribe(res => {
+      this.popularPeople = res;
+    });
+
+    // 🔹 Genres 
+    this.movieService.getGenres().subscribe(res => {
+      this.genres = res;
+    });
+
+    // 🔹 Top Picks
+    this.movieService.getTopPicks().subscribe(res => {
+      this.topPicks = res.slice(0, 10);
+  
+    });
+    this.movieService.getFeatured().subscribe(res => {
+  const items = res.results
+    .filter((m: any) => m.media_type === 'movie' || m.media_type === 'tv')
+    .map((m: any) => ({
+      ...m,
+      title: m.title || m.name,
+      overview: m.overview || 'No description available',
+      platform: m.platform ?? 'Cinema'
+    }));
+
+  this.featuredMovies = items;
+
+  // 🔥 แยก Series / Anime
+  this.popularSeries = items.filter(
+    (m: any) => m.media_type === 'tv'
+  );
 });
 
 
-  this.movieService.getPopularMoviesThisWeek().subscribe(res => {
-    this.popularWeekLarge = res.slice(0, 3);
-    this.popularWeekSmall = res.slice(3, 10);
-    this.mainMovie = res[0];
-  });
-   this.movieService.getPopularPeople().subscribe(res => {
-    this.popularPeople = res;
-  });
-
-  // 🔹 Genres 
-  this.movieService.getGenres().subscribe(res => {
-    this.genres = res;         
-  });
-
-  // 🔹 Top Picks
-  this.movieService.getTopPicks().subscribe(res => {
-    this.topPicks = res.slice(0, 10);
-    this.featuredMovies = res;
-  });
-}
+  }
 
 
 
- openMovie(id: number) {
+  openMovie(id: number, mediaType: 'movie' | 'tv' = 'movie') {
 
-   this.analytics.log('open_movie', { movie_id: id });
+  this.analytics.log('open_movie', { movie_id: id, mediaType });
 
   this.userHistoryService.log({
     movieId: id,
-    interactionTypeId: 2 
+    interactionTypeId: 2
   }).subscribe({
     next: () => {
-    
-      this.router.navigate(['/movie', id]);
+      this.router.navigate(
+        ['/movie', id],
+        { queryParams: { mediaType } } // ✅ ตรงนี้สำคัญ
+      );
     },
     error: err => {
       console.error('log failed', err);
-   
-      this.router.navigate(['/movie', id]);
+      this.router.navigate(
+        ['/movie', id],
+        { queryParams: { mediaType } }
+      );
     }
   });
 }
 
-
- getImage(path?: string) {
-  return path
-    ? 'https://image.tmdb.org/t/p/w500' + path
-    : 'assets/no-image.png'; // รูป fallback
-}
-
- addToList(movie: any) {
   
-  this.analytics.log('add_to_playlist', {
-    movie_id: movie.id,
-    title: movie.title
-  });
-
-  this.playlistService.addMyItem(movie).subscribe({
-    next: () => alert('Added to My List'),
-    error: err => {
-      console.error(err);
-      alert('Add failed');
-    }
-  });
-}
 
 
-openGenre(id: number) {
-  this.router.navigate(['/genre', id]);
-}
+  getImage(path?: string) {
+    return path
+      ? 'https://image.tmdb.org/t/p/w500' + path
+      : 'assets/no-image.png'; // รูป fallback
+  }
+
+  addToList(movie: any) {
+
+    this.analytics.log('add_to_playlist', {
+      movie_id: movie.id,
+      title: movie.title
+    });
+
+    this.playlistService.addMyItem(movie).subscribe({
+      next: () => alert('Added to My List'),
+      error: err => {
+        console.error(err);
+        alert('Add failed');
+      }
+    });
+  }
+
+
+  openGenre(id: number) {
+    this.router.navigate(['/genre', id]);
+  }
 
 
 

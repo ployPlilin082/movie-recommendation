@@ -10,8 +10,14 @@
       <img class="hero-poster" [src]="getPoster(m.poster_path)" />
 
       <div class="hero-text">
-        <h1>{{ m.title }}</h1>
-        <p>{{ m.overview }}</p>
+        <h1>{{ m.title || m.name }}</h1>
+
+        <p *ngIf="m.overview; else noOverview">
+          {{ m.overview }}
+        </p>
+        <ng-template #noOverview>
+          <p>No description available.</p>
+        </ng-template>
 
         <div class="hero-stats">
           ⭐ {{ m.vote_average }}

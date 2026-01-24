@@ -274,6 +274,10 @@
   border-radius: 10px;
   margin: 10px 0;
 }
+.title,
+.sub {
+ color: #ffffff;
+}
 
 
 .selected-movie .title{ font-weight: 700; }

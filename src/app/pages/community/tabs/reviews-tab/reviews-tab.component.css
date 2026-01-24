@@ -183,13 +183,184 @@
   margin-top: 2px;
 }
 
-/* COMMENT INPUT */
+
 .comment-input-wrap {
   display: flex;
   gap: 10px;
   margin-top: 12px;
   align-items: center;
 }
+.edit-box {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 16px;
+  padding: 14px;
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.edit-textarea,
+.edit-movie-search{
+   box-sizing: border-box;
+
+}
+
+
+.edit-textarea {
+  width: 100%;
+  min-height: 100px;
+  resize: vertical;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(0,0,0,0.45);
+  color: #e5e7eb;
+  font-size: 14px;
+  line-height: 1.6;
+  outline: none;
+  box-sizing: border-box;
+}
+.edit-textarea::placeholder {
+  color: rgba(255,255,255,0.45);
+}
+
+.edit-textarea:focus {
+  border-color: #6366f1;
+}
+
+
+.edit-footer {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.edit-rating {
+  width: 80px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(0,0,0,0.35);
+  color: #facc15;
+  text-align: center;
+  font-weight: 600;
+}
+.edit-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.edit-actions button {
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: none;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all .2s ease;
+}
+.btn-save {
+  background: linear-gradient(135deg,#22c55e,#16a34a);
+  color: #fff;
+}
+
+.btn-save:hover {
+  opacity: 0.9;
+}
+
+.btn-cancel {
+  background: rgba(255,255,255,0.08);
+  color: #e5e7eb;
+}
+
+.btn-cancel:hover {
+  background: rgba(239,68,68,0.25);
+  color: #fff;
+}
+.post-owner-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.post-owner-actions button {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #e5e7eb;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+.post-owner-actions button:hover {
+  background: rgba(99,102,241,0.25);
+}
+.edit-movie {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.current-movie {
+  font-size: 13px;
+  color: #a5b4fc;
+}
+
+.edit-movie-search {
+  width: 100%;
+  padding: 12px 18px; /* 👈 เพิ่มซ้าย–ขวา */
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(0,0,0,0.4);
+  color: #fff;
+  outline: none;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+
+.edit-movie-search::placeholder {
+  color: rgba(255,255,255,0.45);
+}
+
+.edit-movie-results {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 8px;
+}
+
+.edit-movie-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #e5e7eb;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all .2s ease;
+}
+
+.edit-movie-item img {
+  width: 36px;
+  border-radius: 6px;
+}
+
+.edit-movie-item:hover {
+  background: rgba(99,102,241,0.25);
+  border-color: #6366f1;
+}
+
+
+
+
+
+
 
 .comment-input {
   flex: 1;

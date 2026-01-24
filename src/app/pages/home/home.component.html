@@ -13,7 +13,7 @@
   <!-- ============================= -->
   <section class="section-block">
     <app-carousel title="Trending Movies">
-      <div class="movie-card" *ngFor="let movie of trendingMovies" (click)="openMovie(movie.id)">
+      <div class="movie-card" *ngFor="let movie of trendingMovies" (click)="openMovie(movie.id, movie.media_type)">
         <img [src]="getImage(movie.poster_path)" />
         <h3 class="movie-title">{{ movie.title }}</h3>
         <p>⭐ {{ movie.vote_average }}</p>
@@ -41,7 +41,8 @@
 
     <!-- BIG CARDS (คงไว้แบบ GRID) -->
     <div class="popular-grid">
-      <div class="popular-big-card" *ngFor="let movie of popularWeekLarge" (click)="openMovie(movie.id)">
+      <div class="popular-big-card" *ngFor="let movie of popularWeekLarge"
+        (click)="openMovie(movie.id, movie.media_type)">
         <img [src]="getImage(movie.poster_path)" />
         <div class="big-info">
           <h3 class="movie-title">{{ movie.title }}</h3>
@@ -52,7 +53,8 @@
 
     <!-- SMALL CARDS (คงไว้แบบ GRID) -->
     <div class="small-grid">
-      <div class="popular-small-card" *ngFor="let movie of popularWeekSmall" (click)="openMovie(movie.id)">
+      <div class="popular-small-card" *ngFor="let movie of popularWeekSmall"
+        (click)="openMovie(movie.id, movie.media_type)">
         <img [src]="getImage(movie.poster_path)" />
         <h4>{{ movie.title }}</h4>
       </div>
@@ -76,7 +78,7 @@
   <!-- ============================= -->
   <section class="section-block">
     <app-carousel title="Top Picks for You">
-      <div class="top-pick-card" *ngFor="let m of topPicks" (click)="openMovie(m.id)">
+      <div class="top-pick-card" *ngFor="let m of topPicks" (click)="openMovie(m.id, m.media_type)">
         <img [src]="getImage(m.poster_path)" />
         <h3 class="movie-title">{{ m.title }}</h3>
         <p>⭐ {{ m.vote_average }}</p>
@@ -87,13 +89,27 @@
   <!-- 🤖 AI RECOMMENDED -->
   <section class="section-block" *ngIf="recommendedMovies.length > 0">
     <app-carousel title="Recommended for You 🤖">
-      <div class="top-pick-card ai-card" *ngFor="let m of recommendedMovies" (click)="openMovie(m.tmdbMovieId)">
+      <div class="top-pick-card ai-card" *ngFor="let m of recommendedMovies"
+        (click)="openMovie(m.tmdbMovieId, m.mediaType)">
+
         <img [src]="getImage(m.posterPath)" />
         <h3 class="movie-title">{{ m.title }}</h3>
       </div>
 
     </app-carousel>
   </section>
+
+  <section class="section-block">
+    <app-carousel title="🔥 Popular Series & Anime">
+      <div class="movie-card" *ngFor="let m of popularSeries" (click)="openMovie(m.id, m.media_type)">
+        <img [src]="getImage(m.poster_path)" />
+        <h3>{{ m.title || m.name }}</h3>
+      </div>
+    </app-carousel>
+  </section>
+
+
+
 
 
 

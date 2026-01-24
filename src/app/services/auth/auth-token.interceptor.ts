@@ -4,17 +4,19 @@ import {
 } from '@angular/common/http';
 import { Auth } from '@angular/fire/auth';
 import { from, Observable, switchMap } from 'rxjs';
+import { environment } from '../../../environmemts/environment';
+
 
 
 
 @Injectable()
 export class AuthTokenInterceptor implements HttpInterceptor {
-  constructor(private auth: Auth) {}
+  constructor(private auth: Auth) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    
-    if (!req.url.startsWith('https://movierec-api-2026-bzhbarf8g8gmguej.japaneast-01.azurewebsites.net/')) {
+
+    if (!req.url.startsWith(environment.apiBaseUrl)) {
       return next.handle(req);
     }
 
