@@ -11,6 +11,8 @@ export interface ScheduleItem {
   scheduleId: number;
   dateTimeScheduled: string;
 
+  mediaType?: 'movie' | 'tv';
+
   movieId: number;
   movieTitle?: string;
   posterPath?: string;
@@ -20,6 +22,7 @@ export interface ScheduleItem {
 export interface CreateScheduleRequest {
   movieId: number;
   dateTimeScheduled: string;
+  mediaType?: 'movie' | 'tv';
   status?: string;
 }
 
@@ -27,6 +30,7 @@ export interface UpdateScheduleRequest {
   movieId: number;
   dateTimeScheduled: string;
   status?: string;
+  mediaType?: 'movie' | 'tv';
   updateBy?: string;
 }
 

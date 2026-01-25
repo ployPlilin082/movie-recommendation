@@ -12,13 +12,14 @@ export interface MyListMovie {
   overview?: string;
   vote_average?: number;
   release_date?: string;
-   media_type?: 'movie' | 'tv';
+  media_type?: 'movie' | 'tv';
 }
 export interface MovieItem {
   tmdbMovieId: number;
   title: string;
   posterPath?: string;
   platform?: string;
+  mediaType: 'movie' | 'tv';
 }
 
 export interface ListResponse<T> {
@@ -103,8 +104,8 @@ shareMovie(tmdbId: number) {
     {}
   );
 }
-searchMovies(query: string) {
-  return this.http.get<any[]>(
+searchMovies(query: string): Observable<MyListMovie[]> {
+  return this.http.get<MyListMovie[]>(
     `${this.apiBase}/movies/search?q=${encodeURIComponent(query)}`
   );
 }
