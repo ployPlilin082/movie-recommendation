@@ -8,17 +8,6 @@
   z-index: 2000;
   background-color: #050814;
 }
-.search-overlay-bg {
-  position: fixed;
-  inset: 0;
-  z-index: 998;
-}
-
-.search-dropdown {
-  position: absolute;
-  z-index: 999;
-}
-
 
 /* container = content only */
 .navbar-container {
@@ -79,6 +68,20 @@
   padding-top: 110px;
   color: #f9fafb;
 }
+.search-overlay {
+  position: fixed;
+  top: var(--navbar-height);
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  padding-top: 12px; /* ⭐ ระยะหายใจจาก navbar */
+  background: rgba(0,0,0,.85);
+  backdrop-filter: blur(10px);
+  z-index: 1500;
+}
+
+
 
 /* Title */
 .search-title {
@@ -166,6 +169,24 @@
   max-height: 60vh;
   overflow-y: auto;
 }
+.search-panel {
+  margin: 19px auto 0;
+  width: 92%;
+  max-width: 420px;
+
+  background: linear-gradient(
+    180deg,
+    rgba(30,41,59,0.9),
+    rgba(15,23,42,0.9)
+  );
+
+  border-radius: 20px; /* ⭐ กลมจริง */
+  padding: 14px;
+  box-shadow:
+    0 20px 40px rgba(0,0,0,.55),
+    inset 0 1px 0 rgba(255,255,255,.08);
+}
+
 
 
 .search-item {
@@ -525,9 +546,6 @@
     padding: 12px 6px;
   }
 }
-
-
-
 
 /* RESPONSIVE */
 @media (max-width: 900px) {

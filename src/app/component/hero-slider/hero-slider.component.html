@@ -1,36 +1,44 @@
 <div class="hero-wrapper" *ngIf="movies && movies.length > 0">
 
+  <!-- 🔥 ตัวนี้แหละที่คุณไม่มี -->
+  <div class="hero-track">
 
-  <div class="hero-slide" *ngFor="let m of movies; let i = index" [class.active]="i === currentIndex">
-    <img class="hero-backdrop" [src]="getBackdrop(m.backdrop_path)" />
+    <div
+      class="hero-slide"
+      *ngFor="let m of movies; let i = index"
+      [class.active]="i === currentIndex"
+    >
+      <img class="hero-backdrop" [src]="getBackdrop(m.backdrop_path)" />
+      <div class="hero-overlay"></div>
 
-    <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <img class="hero-poster" [src]="getPoster(m.poster_path)" />
 
-    <div class="hero-content">
-      <img class="hero-poster" [src]="getPoster(m.poster_path)" />
+        <div class="hero-text">
+          <h1>{{ m.title || m.name }}</h1>
 
-      <div class="hero-text">
-        <h1>{{ m.title || m.name }}</h1>
+          <p *ngIf="m.overview; else noOverview">
+            {{ m.overview }}
+          </p>
+          <ng-template #noOverview>
+            <p>No description available.</p>
+          </ng-template>
 
-        <p *ngIf="m.overview; else noOverview">
-          {{ m.overview }}
-        </p>
-        <ng-template #noOverview>
-          <p>No description available.</p>
-        </ng-template>
+          <div class="hero-stats">
+            ⭐ {{ m.vote_average }}
+          </div>
 
-        <div class="hero-stats">
-          ⭐ {{ m.vote_average }}
-          ❤️ {{ m.vote_count }}
+          <app-trailer-button
+            [tmdbId]="m.id"
+            [mediaType]="m.media_type"
+          ></app-trailer-button>
         </div>
-
-        <app-trailer-button [tmdbId]="m.id" [mediaType]="m.media_type"></app-trailer-button>
-
       </div>
     </div>
+
   </div>
 
+  <!-- desktop only -->
   <button class="hero-arrow left" (click)="prev()">‹</button>
   <button class="hero-arrow right" (click)="next()">›</button>
-
 </div>

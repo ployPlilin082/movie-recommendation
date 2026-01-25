@@ -74,41 +74,46 @@
     {{ isSearchOpen ? '✕' : '🔍' }}
   </button>
 
-  <button class="hamburger" [class.hide]="isMenuOpen" (click)="toggleMenu()">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
+ <button class="hamburger" [class.open]="isMenuOpen" (click)="toggleMenu()">
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
+
 </div>
   </div>
 
   <!-- Side Menu Overlay -->
   <div class="side-overlay" [class.open]="isMenuOpen" (click)="closeMenu()">
 
-    <nav class="side-menu" [class.open]="isMenuOpen" (click)="$event.stopPropagation()">
+   <nav class="side-menu" [class.open]="isMenuOpen" (click)="$event.stopPropagation()">
 
-      <div class="side-header">
-        <span>Menu</span>
-        <button class="close-btn" (click)="closeMenu()">✕</button>
-      </div>
+  <div class="side-header">
+    <span>Menu</span>
+    <button class="close-btn" (click)="closeMenu()">✕</button>
+  </div>
 
+  <!-- Common -->
+  <a routerLink="/home" class="side-link" (click)="closeMenu()">Home</a>
+  <a routerLink="/playlist" class="side-link" (click)="closeMenu()">Playlist</a>
+  <a routerLink="/chat" class="side-link" (click)="closeMenu()">Chat</a>
+  <a routerLink="/schedule" class="side-link" (click)="closeMenu()">Schedule</a>
+  <a routerLink="/cost-calculator" class="side-link" (click)="closeMenu()">Cost Calculator</a>
+  <a routerLink="/community" class="side-link" (click)="closeMenu()">Community</a>
 
-      <a routerLink="/home" class="side-link" (click)="closeMenu()">Home</a>
-      <a routerLink="/playlist" class="side-link" (click)="closeMenu()">Playlist</a>
-      <a routerLink="/chat" class="side-link" (click)="closeMenu()">Chat</a>
-      <a routerLink="/schedule" class="side-link" (click)="closeMenu()">Schedule</a>
-      <a routerLink="/cost-calculator" class="side-link" (click)="closeMenu()">Cost Calculator</a>
-      <a routerLink="/community" class="side-link" (click)="closeMenu()">Community</a>
-      <a routerLink="/profile" class="side-link" (click)="closeMenu()">Profile</a>
-      <a routerLink="/sign-in" class="side-link"(click)="closeMenu()">Login</a>
-      <a routerLink="/create-account" class="side-link"(click)="closeMenu()">Sign Up</a>
-      
+  <!-- 🔐 Auth Section -->
+  <ng-container *ngIf="!user; else mobileLoggedIn">
+    <a routerLink="/sign-in" class="side-link" (click)="closeMenu()">Login</a>
+    <a routerLink="/create-account" class="side-link" (click)="closeMenu()">Sign Up</a>
+  </ng-container>
 
-      <button class="side-logout" (click)="logout(); closeMenu()">
-        Logout
-      </button>
+  <ng-template #mobileLoggedIn>
+    <a routerLink="/profile" class="side-link" (click)="closeMenu()">Profile</a>
+    <button class="side-logout" (click)="logout(); closeMenu()">Logout</button>
+  </ng-template>
 
-    </nav>
+</nav>
+
   </div>
   <div class="search-overlay" *ngIf="isSearchOpen" (click)="closeSearch()">
   <div class="search-panel" (click)="$event.stopPropagation()">
@@ -119,7 +124,7 @@
       placeholder="Search movies..."
       style="
         width: 100%;
-        padding: 12px;
+        padding: 8px 6px 5px;
         border-radius: 999px;
         border: none;
         outline: none;
