@@ -11,7 +11,7 @@
   <!-- ============================= -->
   <!-- 🎬 TRENDING MOVIES -->
   <!-- ============================= -->
-  <section class="section-block">
+  <section id="trending" class="section-block">
     <app-carousel title="Trending Movies">
       <div class="movie-card" *ngFor="let movie of trendingMovies" (click)="openMovie(movie.id, movie.media_type)">
         <img [src]="getImage(movie.poster_path)" />
@@ -24,7 +24,7 @@
   <!-- ============================= -->
   <!-- ⭐ POPULAR PEOPLE -->
   <!-- ============================= -->
-  <section class="section-block">
+  <section id="popular-people" class="section-block">
     <app-carousel title="Most Popular Celebrities">
       <div class="actor-card" *ngFor="let actor of popularPeople">
         <img [src]="getImage(actor.profile_path)" />
@@ -36,7 +36,7 @@
   <!-- ============================= -->
   <!-- 🔥 POPULAR MOVIES THIS WEEK -->
   <!-- ============================= -->
-  <section class="section-block">
+  <section id="popular-week" class="section-block">
     <h2 class="section-title">Most Popular Movies This Week</h2>
 
     <!-- BIG CARDS (คงไว้แบบ GRID) -->
@@ -64,7 +64,7 @@
   <!-- ============================= -->
   <!-- 🎭 POPULAR INTERESTS -->
   <!-- ============================= -->
-  <section class="section-block">
+  <section id="popular-interests" class="section-block">
     <app-carousel title="Popular Interests">
       <div class="genre-card" *ngFor="let g of genres" (click)="openGenre(g.id)">
         <p>{{ g.name }}</p>
@@ -76,7 +76,7 @@
   <!-- ============================= -->
   <!-- 🎯 TOP PICKS -->
   <!-- ============================= -->
-  <section class="section-block">
+  <section id="top-picks" class="section-block">
     <app-carousel title="Top Picks for You">
       <div class="top-pick-card" *ngFor="let m of topPicks" (click)="openMovie(m.id, m.media_type)">
         <img [src]="getImage(m.poster_path)" />
@@ -107,11 +107,6 @@
       </div>
     </app-carousel>
   </section>
-
-
-
-
-
 
 
 </div>

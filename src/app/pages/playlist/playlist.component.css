@@ -1,7 +1,10 @@
 /* HEADER */
 .playlist-wrapper{
-    min-height: calc(100vh - 70px);
-
+  min-height: calc(100vh - var(--navbar-height));
+  padding: 50px;
+  padding-top: calc(var(--navbar-height) + 32px); /* <<< สำคัญ: เว้นใต้ navbar */
+  color: #fff;
+  background-color: #121212;
 }
 .playlist-header h2 {
   font-size: 28px;
@@ -100,21 +103,14 @@
   transform: translateX(-10px);
   transition: 0.2s ease;
 }
-.playlist-wrapper {
-  padding: 50px;
-  color: #fff;
-  min-height: 100vh;
-  background-color: #121212;
-}
+
 
 @media (max-width: 600px) {
   .playlist-wrapper {
-    padding-top: calc(var(--nav-h) + 24px);
+     padding: 20px;
+    padding-top: calc(var(--navbar-height) + 20px);
   }
 
-  .playlist-wrapper {
-    padding: 20px;
-  }
 
   .playlist-header h2 {
     font-size: 22px;

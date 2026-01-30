@@ -66,21 +66,38 @@
 .footer-col ul {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 .footer-col li {
   margin-bottom: 12px;
-  opacity: 0.7;
-  cursor: pointer;
-  transition: 0.25s ease;
-  font-size: 15px;
 }
 
-.footer-col li:hover {
+/* ตัวคลิกจริง */
+.footer-col a {
+  display: inline-block;   /* หรือ block ถ้าอยากให้คลิกเต็มบรรทัด */
+  width: 100%;
+  color: #9b6cff;
+  text-decoration: none;
+  font-size: 15px;
+  opacity: 0.7;
+  transition: all 0.25s ease;
+}
+
+/* hover */
+.footer-col a:hover {
   opacity: 1;
-  color: #b08cff; /* purple accent */
+  color: #b08cff;
   transform: translateX(5px);
 }
+
+/* accessibility */
+.footer-col a:focus {
+  outline: none;
+  text-decoration: underline;
+}
+
+
 
 /* ------ Contact Info ------ */
 .footer-location,
