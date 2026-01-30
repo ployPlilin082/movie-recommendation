@@ -4,6 +4,8 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth/auth.service';
 
+
+
 import {
   CommunityService,
   CommunityPost,
@@ -79,7 +81,7 @@ export class CommunityComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private community: CommunityService,
-    private auth: AuthService
+    private auth: AuthService,
 
   ) { }
 
@@ -105,6 +107,7 @@ export class CommunityComponent implements OnInit {
 
       this.loading = false;
     });
+    
   }
   getShareUrl(postId: number) {
     return `${window.location.origin}/community/reviews/${postId}`;
@@ -124,11 +127,11 @@ export class CommunityComponent implements OnInit {
   }
 
 
-loadEvents(force: boolean = false) {
-  this.community.getEvents().subscribe(e => {
-    this.events = [...e];
-  });
-}
+  loadEvents(force: boolean = false) {
+    this.community.getEvents().subscribe(e => {
+      this.events = [...e];
+    });
+  }
 
 
   /* ---------- REVIEW ACTIONS ---------- */

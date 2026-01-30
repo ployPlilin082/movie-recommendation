@@ -107,7 +107,6 @@ export class CommunityService {
     );
 }
 
-
 postReview(body: {
   movieId: number;
   mediaType: 'movie' | 'tv';   
@@ -268,6 +267,10 @@ updateEvent(id: number, body: {
       `${this.baseUrl}/reviews/${reviewId}`
     );
   }
+  getShareUrl(postId: number) {
+  return `${environment.apiBaseUrl}/community/reviews/${postId}`;
+}
+
 
 
 }
