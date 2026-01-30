@@ -110,8 +110,8 @@ export class CommunityComponent implements OnInit {
     
   }
   getShareUrl(postId: number) {
-    return `${window.location.origin}/community/reviews/${postId}`;
-  }
+  return this.community.getShareUrl(postId);
+}
 
 
 
@@ -172,7 +172,7 @@ export class CommunityComponent implements OnInit {
   }
 
   openShare(p: CommunityPost) {
-    const url = this.getShareUrl(p.postId);
+    const url = this.community.getShareUrl(p.postId);
 
     // 1️⃣ บันทึก share ใน backend
     this.community.shareReview(p.postId).subscribe(() => {
@@ -192,7 +192,7 @@ export class CommunityComponent implements OnInit {
 
 
   copyLink() {
-    const url = this.getShareUrl(this.sharePost!.postId);
+  const url = this.community.getShareUrl(this.sharePost!.postId);
     navigator.clipboard.writeText(url);
     alert('คัดลอกลิงก์แล้ว');
   }
