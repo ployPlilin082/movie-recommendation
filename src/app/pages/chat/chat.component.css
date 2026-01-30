@@ -1,11 +1,12 @@
 /* ===== PAGE WRAPPER (แก้ปัญหาหน้าจอไม่เท่ากัน) ===== */
 .chat-page {
-  min-height: calc(100vh - 70px); /* เผื่อ navbar */
+  min-height: calc(100vh - var(--navbar-height));
   display: flex;
   justify-content: center;
   align-items: flex-start;
   padding: 3rem 1rem;
-  padding-top: calc(var(--navbar-height) + 16px);
+  padding-top: calc(var(--navbar-height) + 32px); 
+  color: #fff;
   background: radial-gradient(circle at top, #1e293b, #020617 65%);
 }
 .chat-area {
@@ -257,8 +258,9 @@
 
   /* PAGE */
   .chat-page {
+    padding: 20px;
+    padding-top: calc(var(--navbar-height) + 20px);
     min-height: 100dvh;
-    padding: 0;
     background: #020617;
   }
 
