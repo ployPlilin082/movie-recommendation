@@ -2,11 +2,7 @@
 
   <div class="hero-track">
 
-    <div
-      class="hero-slide"
-      *ngFor="let m of movies; let i = index"
-      [class.active]="i === currentIndex"
-    >
+    <div class="hero-slide" *ngFor="let m of movies; let i = index" [class.active]="i === currentIndex">
       <img class="hero-backdrop" [src]="getBackdrop(m.backdrop_path)" />
       <div class="hero-overlay"></div>
 
@@ -24,13 +20,15 @@
           </ng-template>
 
           <div class="hero-stats">
-            ⭐ {{ m.vote_average }}
+            <span class="rating-badge">
+              <span class="star">⭐</span>
+              <span class="score">{{ m.vote_average }}</span>
+            </span>
           </div>
 
-          <app-trailer-button
-            [tmdbId]="m.id"
-            [mediaType]="m.media_type"
-          ></app-trailer-button>
+
+
+          <app-trailer-button [tmdbId]="m.id" [mediaType]="m.media_type"></app-trailer-button>
         </div>
       </div>
     </div>

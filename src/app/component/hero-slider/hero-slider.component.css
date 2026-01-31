@@ -146,10 +146,10 @@
 .hero-stats {
   display: flex;
   gap: 12px;
-  justify-content: center;
+  justify-content: flex-start; 
   align-items: center;
-  z-index: 3;
 }
+
 
 app-trailer-button {
   display: block;
