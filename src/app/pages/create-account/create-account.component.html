@@ -32,10 +32,10 @@
       <div class="form-field password-group">
         <input [type]="showPassword ? 'text' : 'password'" placeholder="Enter your password"
           formControlName="password" />
-        <!-- <button type="button" class="password-toggle" (click)="togglePassword()">
+        <button type="button" class="password-toggle" (click)="togglePassword()">
           <img *ngIf="!showPassword" src="img/eye-solid.svg">
           <img *ngIf="showPassword" src="img/eye-off.svg">
-        </button> -->
+        </button>
         <p class="error-text" *ngIf="
     accountForm.get('password')?.touched &&
     accountForm.get('password')?.invalid

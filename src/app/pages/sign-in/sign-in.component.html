@@ -44,8 +44,10 @@
           <input [type]="showPassword ? 'text' : 'password'" placeholder="Password" formControlName="password"
             autocomplete="current-password" />
 
-          <i class="fa" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'" (click)="togglePassword()">
-          </i>
+         <button type="button" class="password-toggle" (click)="togglePassword()">
+          <img *ngIf="!showPassword" src="img/eye-solid.svg">
+          <img *ngIf="showPassword" src="img/eye-off.svg">
+        </button>
         </div>
 
         <div class="error" *ngIf="signInForm.get('password')?.touched &&
