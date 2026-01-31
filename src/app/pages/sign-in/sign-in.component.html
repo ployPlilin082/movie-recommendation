@@ -44,11 +44,12 @@
           <input [type]="showPassword ? 'text' : 'password'" placeholder="Password" formControlName="password"
             autocomplete="current-password" />
 
-         <button type="button" class="password-toggle" (click)="togglePassword()">
-          <img *ngIf="!showPassword" src="img/eye-solid.svg">
-          <img *ngIf="showPassword" src="img/eye-off.svg">
-        </button>
+          <button type="button" class="password-toggle" (click)="togglePassword()">
+            <img *ngIf="!showPassword" src="img/eye-solid.svg" alt="show">
+            <img *ngIf="showPassword" src="img/eye-off.svg" alt="hide">
+          </button>
         </div>
+
 
         <div class="error" *ngIf="signInForm.get('password')?.touched &&
                  signInForm.get('password')?.invalid">

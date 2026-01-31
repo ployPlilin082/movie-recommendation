@@ -141,6 +141,7 @@
   margin-bottom: 20px;
 
   border-radius: 6px;
+  
   border: none;
 
   background: rgba(255, 255, 255, 0.18);
@@ -156,29 +157,18 @@
 /* PASSWORD ICON */
 .password-wrapper {
   position: relative;
+  margin-bottom: 20px;
 }
 .password-wrapper input {
   width: 100%;
-  padding: 15px 20px;
-  margin-bottom: 20px;
+  padding: 15px 20px;  
+  margin-bottom: 0;
   padding-right: 30px;
   border-radius: 6px;
   border: none;
+  padding-right: 52px;
 }
-.password-wrapper i {
-  position: absolute;
-  top: 50%;
-  right: 8px;
-  transform: translateY(-50%);
-  cursor: pointer;
-  z-index: 10;
-  color: rgba(255, 255, 255, 0.7);
-  transition: color 0.2s, transform 0.2s;
-}
-.password-wrapper i:hover {
-  color: #fff;
-  transform: translateY(-50%) scale(1.1);
-}
+
 
 
 /* FORGOT PASSWORD */
@@ -286,6 +276,35 @@
 .social-circle img {
   width: 20px;
   height: 20px;
+}
+.password-toggle{
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 8px;
+
+  background: transparent;  
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 10;
+}
+.password-toggle img{
+  width: 18px;
+  height: 18px;
+  opacity: 0.85;
+}
+
+.password-toggle:hover img{
+  opacity: 1;
 }
 
 @media (max-width: 900px) {
