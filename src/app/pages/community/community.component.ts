@@ -49,6 +49,7 @@ export class CommunityComponent implements OnInit {
   /* ---------- COMMON ---------- */
   loading = false;
   error: string | null = null;
+  isLoading = true;
 
   /* ---------- REVIEWS ---------- */
   posts: CommunityPost[] = [];
@@ -92,6 +93,20 @@ export class CommunityComponent implements OnInit {
       comment: ['', Validators.required],
       rating: [5, [Validators.required, Validators.min(1), Validators.max(10)]],
     });
+    this.loadAll();
+  }
+  loadAll(){
+    this.isLoading =true;
+
+    Promise.all([
+      this.loadReviews(),
+      this.loadDiscussions(),
+      this.loadRankings(),
+      this.loadEvents()
+    ]).finally(() => {
+      this.isLoading = false;
+    });
+
   }
 
   /* ---------- LOADERS ---------- */

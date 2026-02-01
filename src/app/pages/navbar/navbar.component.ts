@@ -20,6 +20,7 @@ export class NavbarComponent implements OnInit {
   isDark = true;
   isMenuOpen = false;
   isSearchOpen = false;
+  private searchReqId = 0;
 
   user: User | null = null;
   avatarBlobUrl: string | null = null;
@@ -31,8 +32,11 @@ export class NavbarComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private movieService: MovieService,
-     private analytics: AnalyticsService,
+    private analytics: AnalyticsService,
     private userHistoryService: UserHistoryService
+   
+
+
   ) {}
 
   ngOnInit() {
@@ -81,13 +85,15 @@ export class NavbarComponent implements OnInit {
     this.results = [];
   }
 
-
   this.isMenuOpen = false;
 }
-closeSearchDropdown() {
-  this.results = [];
+closeAllSearch() {
+  this.searchReqId++;
+  this.isSearchOpen = false;
   this.searchText = '';
+  this.results = [];
 }
+
 
 
 
@@ -124,17 +130,25 @@ closeSearch() {
   onSearchInput() {
     const q = this.searchText.trim();
 
+    const reqId = ++this.searchReqId;
+
     if (q.length < 2) {
       this.results = [];
       return;
     }
 
     this.movieService.searchMovies(q).subscribe(res => {
+      if(reqId !== this.searchReqId) return;
+      if (this.searchText.trim() !== q) return;
       this.results = res.slice(0, 6);
     });
   }
 
 openMovie(id: number, mediaType: 'movie' | 'tv' = 'movie') {
+     this.searchReqId++;
+     this.results = [];
+     this.searchText = '';
+     this.isSearchOpen = false;
 
     this.analytics.log('open_movie', { movie_id: id, mediaType });
 

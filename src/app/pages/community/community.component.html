@@ -17,6 +17,9 @@
         <button class="tab" [class.active]="activeTab==='rankings'" (click)="setTab('rankings')">🏆 Rankings</button>
         <button class="tab" [class.active]="activeTab==='events'" (click)="setTab('events')">🎯 Events</button>
       </div>
+      <div class="community-loader" *ngIf="isLoading">
+        Loading community data...
+      </div>
 
       <!-- TAB CONTENT -->
       <app-reviews-tab [hidden]="activeTab !== 'reviews'" [posts]="posts" [comments]="comments"

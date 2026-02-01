@@ -31,6 +31,7 @@ export class ScheduleComponent implements OnInit {
   searchText = '';
   selectedMovie?: MovieItem;
   newDateTime = '';
+  isLoading = true;
 
   constructor(
     private scheduleService: ScheduleService,
@@ -40,6 +41,11 @@ export class ScheduleComponent implements OnInit {
   ngOnInit() {
     this.loadSchedules();
     this.loadMovies();
+    this.loadAll();
+  }
+
+  loadAll() {
+    this.isLoading = true;
   }
 
   /* =======================

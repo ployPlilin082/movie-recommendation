@@ -164,6 +164,11 @@ app-trailer-button {
     min-height: unset;
     overflow: visible;
   }
+  .hero-stats {
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
 
   .hero-slide {
     position: relative;
