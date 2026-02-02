@@ -50,7 +50,7 @@ export class CostCalculatorComponent implements OnInit {
     { id: 1, name: 'Netflix', iconUrl: '/platform/netflix.svg', selected: false, price: 0 },
     { id: 2, name: 'Disney+ Hotstar', iconUrl: '/platform/disneyplus.jpeg', selected: false, price: 0 },
     { id: 3, name: 'HBO Max', iconUrl: '/platform/hbomax.svg', selected: false, price: 0 },
-    { id: 4, name: 'Prime Video', iconUrl: '/platform/primevideo.png', selected: false, price: 0 },
+    { id: 4, name: 'Prime Video', iconUrl: '/platform/primevideo_0.webp', selected: false, price: 0 },
     { id: 5, name: 'Viu', iconUrl: '/platform/viu.svg', selected: false, price: 0 },
     { id: 6, name: 'iQIYI', iconUrl: '/platform/iqiyi.svg', selected: false, price: 0 },
     { id: 7, name: 'WeTV', iconUrl: '/platform/wetv.svg', selected: false, price: 0 },
